@@ -25,7 +25,7 @@ public class RxJavaFirst {
         singleFirst = Flowable.fromArray(IntStream.rangeClosed(0, times).boxed().toArray(Integer[]::new));
     }
 
-    //@Benchmark
+    @Benchmark
     @Measurement(iterations = 5, time = 1)
     public void singleFirst(Blackhole bh) {
         singleFirst
@@ -33,7 +33,7 @@ public class RxJavaFirst {
                 .blockingSubscribe(new PerformanceSubscriber(bh));
     }
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) {
         //RxJavaFirst firstBenchmark = new RxJavaFirst();
         //firstBenchmark.singleFirst();
     }

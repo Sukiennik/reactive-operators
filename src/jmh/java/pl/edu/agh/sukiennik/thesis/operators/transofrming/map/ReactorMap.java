@@ -28,7 +28,7 @@ public class ReactorMap {
         multiMapEachOnIoFlux = Flux.fromArray(IntStream.rangeClosed(0, times).boxed().toArray(Integer[]::new));
     }
     
-    //@Benchmark
+    @Benchmark
     @Measurement(iterations = 5, time = 5)
     public void singleMap() {
         singleMapFlux
@@ -37,7 +37,7 @@ public class ReactorMap {
                 .block();
     }
 
-    //@Benchmark
+    @Benchmark
     @Measurement(iterations = 5, time = 10)
     public void multiMap() {
         Flux<Integer> range = multiMapFlux;
@@ -48,7 +48,7 @@ public class ReactorMap {
         range.then().block();
     }
 
-    //@Benchmark
+    @Benchmark
     @Measurement(iterations = 5, time = 20)
     public void multiMapEachOnIo() {
         Flux<Integer> range = multiMapEachOnIoFlux;

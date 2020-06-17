@@ -8,7 +8,7 @@ import org.reactivestreams.Subscription;
 public final class PerformanceSubscriber implements FlowableSubscriber<Object>, Observer<Object>,
         SingleObserver<Object>, CompletableObserver, MaybeObserver<Object> {
 
-    final Blackhole bh;
+    private final Blackhole bh;
 
     public PerformanceSubscriber(Blackhole bh) {
         this.bh = bh;

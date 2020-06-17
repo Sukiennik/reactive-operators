@@ -29,7 +29,7 @@ public class RxJavaMap {
         multiMapEachOnIoFlowable = Flowable.fromArray(IntStream.rangeClosed(0, times).boxed().toArray(Integer[]::new));
     }
     
-    //@Benchmark
+    @Benchmark
     @Measurement(iterations = 5, time = 5)
     public void singleMap(Blackhole bh) {
         singleMapFlowable
@@ -37,7 +37,7 @@ public class RxJavaMap {
                 .blockingSubscribe(new PerformanceSubscriber(bh));
     }
 
-    //@Benchmark
+    @Benchmark
     @Measurement(iterations = 5, time = 10)
     public void multiMap(Blackhole bh) {
         Flowable<Integer> range = multiMapFlowable;
@@ -48,7 +48,7 @@ public class RxJavaMap {
         range.blockingSubscribe(new PerformanceSubscriber(bh));
     }
 
-    //@Benchmark
+    @Benchmark
     @Measurement(iterations = 5, time = 20)
     public void multiMapEachOnIo(Blackhole bh) {
         Flowable<Integer> range = multiMapEachOnIoFlowable;
@@ -60,7 +60,7 @@ public class RxJavaMap {
     }
 
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) {
         //RxJavaMap mapBenchmark = new RxJavaMap();
         //mapBenchmark.singleMap();
     }

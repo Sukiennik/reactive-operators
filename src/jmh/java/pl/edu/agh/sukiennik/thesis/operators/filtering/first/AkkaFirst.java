@@ -4,10 +4,8 @@ import akka.NotUsed;
 import akka.actor.ActorSystem;
 import akka.stream.javadsl.Sink;
 import akka.stream.javadsl.Source;
-import io.reactivex.rxjava3.core.Flowable;
 import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.infra.Blackhole;
-import pl.edu.agh.sukiennik.thesis.operators.PerformanceSubscriber;
 
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -37,7 +35,7 @@ public class AkkaFirst {
         singleFirstSystem.terminate();
     }
 
-    //@Benchmark
+    @Benchmark
     @Measurement(iterations = 5, time = 1)
     public void singleFirst(Blackhole bh) throws ExecutionException, InterruptedException {
         singleFirst
@@ -46,7 +44,7 @@ public class AkkaFirst {
                 .get();
     }
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) {
         //AkkaFirst firstBenchmark = new AkkaFirst();
         //firstBenchmark.singleFirst();
     }

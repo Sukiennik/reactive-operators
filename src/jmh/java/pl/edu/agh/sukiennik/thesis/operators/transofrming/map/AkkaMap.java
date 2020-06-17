@@ -70,7 +70,7 @@ public class AkkaMap {
         }
     }
 
-    //@Benchmark
+    @Benchmark
     @Measurement(iterations = 5, time = 5)
     public void singleMap(SingleMapState state) throws ExecutionException, InterruptedException {
         state.singleMapSource
@@ -80,7 +80,7 @@ public class AkkaMap {
                 .get();
     }
 
-    //@Benchmark
+    @Benchmark
     @Measurement(iterations = 5, time = 10)
     public void multiMap(MultiMapState state) throws ExecutionException, InterruptedException {
         Source<Integer, NotUsed> range = state.multiMapSource;
@@ -91,7 +91,7 @@ public class AkkaMap {
         range.run(state.multiMapSystem).toCompletableFuture().get();
     }
 
-    //@Benchmark
+    @Benchmark
     @Measurement(iterations = 5, time = 20)
     public void multiMapEachOnIo(MultiMapEachOnIoState state) throws ExecutionException, InterruptedException {
         Source<Integer, NotUsed> range = state.multiMapEachOnIoSource;

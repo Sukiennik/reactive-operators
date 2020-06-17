@@ -30,7 +30,7 @@ public class RxJavaFilter {
         multiFilterEachOnIoFlowable = Flowable.fromArray(IntStream.rangeClosed(0, times).boxed().toArray(Integer[]::new));
     }
 
-    //@Benchmark
+    @Benchmark
     @Measurement(iterations = 5, time = 5)
     public void singleFilter() {
         singleFilterFlowable
@@ -38,7 +38,7 @@ public class RxJavaFilter {
                 .blockingSubscribe();
     }
 
-    //@Benchmark
+    @Benchmark
     @Measurement(iterations = 5, time = 10)
     public void multiFilter(Blackhole bh) {
         Flowable<Integer> range = multiFilterFlowable;
@@ -51,7 +51,7 @@ public class RxJavaFilter {
         range.blockingSubscribe(new PerformanceSubscriber(bh));
     }
 
-    //@Benchmark
+    @Benchmark
     @Measurement(iterations = 5, time = 20)
     public void multiFilterEachOnIo(Blackhole bh) {
         Flowable<Integer> range = multiFilterEachOnIoFlowable;

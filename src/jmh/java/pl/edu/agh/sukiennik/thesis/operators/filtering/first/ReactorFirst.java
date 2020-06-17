@@ -24,7 +24,7 @@ public class ReactorFirst {
         singleFirst = Flux.fromArray(IntStream.rangeClosed(0, times).boxed().toArray(Integer[]::new));
     }
 
-    //@Benchmark
+    @Benchmark
     @Measurement(iterations = 5, time = 1)
     public void singleFirst(Blackhole bh) {
         singleFirst
@@ -32,7 +32,7 @@ public class ReactorFirst {
                 .block();
     }
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) {
         //ReactorFirst firstBenchmark = new ReactorFirst();
         //firstBenchmark.singleFirst();
     }
