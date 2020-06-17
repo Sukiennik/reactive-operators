@@ -7,6 +7,7 @@ import org.openjdk.jmh.annotations.*;
 
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.IntStream;
 
 @BenchmarkMode(Mode.SampleTime)
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
@@ -20,10 +21,12 @@ public class AkkaMap {
 
     @State(Scope.Thread)
     public static class SingleMapState {
+        private Source<Integer, NotUsed> singleMapSource;
         private ActorSystem singleMapSystem;
 
         @Setup
         public void setup() {
+            singleMapSource = Source.fromJavaStream(() -> IntStream.rangeClosed(0, times));
             singleMapSystem = ActorSystem.create("singleMapSystem");
         }
 
@@ -35,10 +38,12 @@ public class AkkaMap {
 
     @State(Scope.Thread)
     public static class MultiMapState {
+        private Source<Integer, NotUsed> multiMapSource;
         private ActorSystem multiMapSystem;
 
         @Setup
         public void setup() {
+            multiMapSource = Source.fromJavaStream(() -> IntStream.rangeClosed(0, times));
             multiMapSystem = ActorSystem.create("multiMapSystem");
         }
 
@@ -50,10 +55,12 @@ public class AkkaMap {
 
     @State(Scope.Thread)
     public static class MultiMapEachOnIoState {
+        private Source<Integer, NotUsed> multiMapEachOnIoSource;
         private ActorSystem multiMapEachOnIoSystem;
 
         @Setup
         public void setup() {
+            multiMapEachOnIoSource = Source.fromJavaStream(() -> IntStream.rangeClosed(0, times));
             multiMapEachOnIoSystem = ActorSystem.create("multiMapEachOnIoSystem");
         }
 
@@ -65,16 +72,18 @@ public class AkkaMap {
 
     //@Benchmark
     @Measurement(iterations = 5, time = 5)
-    public void singleMap(SingleMapState state) {
-        Source.range(1, times)
+    public void singleMap(SingleMapState state) throws ExecutionException, InterruptedException {
+        state.singleMapSource
                 .map(element -> element + 1)
-                .run(state.singleMapSystem);
+                .run(state.singleMapSystem)
+                .toCompletableFuture()
+                .get();
     }
 
     //@Benchmark
     @Measurement(iterations = 5, time = 10)
     public void multiMap(MultiMapState state) throws ExecutionException, InterruptedException {
-        Source<Integer, NotUsed> range = Source.range(1, times);
+        Source<Integer, NotUsed> range = state.multiMapSource;
         for (int i = 0; i < 10; i++) {
             int finalI = i;
             range = range.map(element -> element + finalI);
@@ -84,13 +93,13 @@ public class AkkaMap {
 
     //@Benchmark
     @Measurement(iterations = 5, time = 20)
-    public void multiMapEachOnIo(MultiMapEachOnIoState state) {
-        Source<Integer, NotUsed> range = Source.range(1, times);
+    public void multiMapEachOnIo(MultiMapEachOnIoState state) throws ExecutionException, InterruptedException {
+        Source<Integer, NotUsed> range = state.multiMapEachOnIoSource;
         for (int i = 0; i < 10; i++) {
             int finalI = i;
             range = range.map(element -> element + finalI).async();
         }
-        range.run(state.multiMapEachOnIoSystem);
+        range.run(state.multiMapEachOnIoSystem).toCompletableFuture().get();
     }
 
     public static void main(String[] args) {
