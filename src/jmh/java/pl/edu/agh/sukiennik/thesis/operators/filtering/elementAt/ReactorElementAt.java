@@ -1,4 +1,4 @@
-package pl.edu.agh.sukiennik.thesis.operators.filtering.last;
+package pl.edu.agh.sukiennik.thesis.operators.filtering.elementAt;
 
 import org.openjdk.jmh.annotations.*;
 import reactor.core.publisher.Flux;
@@ -11,29 +11,29 @@ import java.util.stream.IntStream;
 @Warmup(iterations = 5, time = 1)
 @Fork(1)
 @State(Scope.Thread)
-public class ReactorLast {
+public class ReactorElementAt {
 
     @Param({"1", "1000", "1000000", "10000000"})
     private static int times;
 
-    private Flux<Integer> singleLast;
+    private Flux<Integer> singleElementAt;
 
     @Setup
     public void setup() {
-        singleLast = Flux.fromArray(IntStream.rangeClosed(0, times).boxed().toArray(Integer[]::new));
+        singleElementAt = Flux.fromArray(IntStream.rangeClosed(0, times).boxed().toArray(Integer[]::new));
     }
 
     @Benchmark
     @Measurement(iterations = 5, time = 1)
-    public void singleLast() {
-        singleLast
-                .last()
+    public void singleElementAt() {
+        singleElementAt
+                .elementAt(Math.floorDiv(times, 2))
                 .block();
     }
 
     public static void main(String[] args) {
-        //ReactorLast lastBenchmark = new ReactorLast();
-        //lastBenchmark.singleLast();
+        //ReactorElementAt elementAtBenchmark = new ReactorElementAt();
+        //elementAtBenchmark.singleElementAt();
     }
 
 }
