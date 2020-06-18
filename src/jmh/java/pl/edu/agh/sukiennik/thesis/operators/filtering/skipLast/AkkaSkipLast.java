@@ -11,7 +11,7 @@ import java.util.stream.IntStream;
 
 @BenchmarkMode(Mode.SampleTime)
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
-@Warmup(iterations = 5, time = 5)
+@Warmup(iterations = 5, time = 1)
 @Fork(1)
 @State(Scope.Thread)
 public class AkkaSkipLast {
@@ -34,7 +34,7 @@ public class AkkaSkipLast {
     }
 
     //@Benchmark
-    @Measurement(iterations = 5, time = 1)
+    @Measurement(iterations = 5, time = 5)
     public void singleSkipLast() throws ExecutionException, InterruptedException {
         /*
           NO OPERATOR

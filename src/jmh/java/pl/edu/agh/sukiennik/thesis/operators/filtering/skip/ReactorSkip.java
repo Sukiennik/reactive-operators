@@ -29,7 +29,7 @@ public class ReactorSkip {
     }
 
     @Benchmark
-    @Measurement(iterations = 5, time = 1)
+    @Measurement(iterations = 5, time = 5)
     public void singleSkip() {
         singleSkip
                 .skip(times / 2)

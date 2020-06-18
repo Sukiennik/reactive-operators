@@ -31,7 +31,7 @@ public class RxJavaSkip {
     }
 
     @Benchmark
-    @Measurement(iterations = 5, time = 1)
+    @Measurement(iterations = 5, time = 5)
     public void singleSkip(Blackhole bh) {
         singleSkip
                 .skip(times / 2)
@@ -39,7 +39,7 @@ public class RxJavaSkip {
     }
 
     @Benchmark
-    @Measurement(iterations = 5, time = 5)
+    @Measurement(iterations = 5, time = 10)
     public void multiSkip(Blackhole bh) {
         Flowable<Integer> range = multiSkip;
         int elements = times;
@@ -52,7 +52,7 @@ public class RxJavaSkip {
     }
 
     @Benchmark
-    @Measurement(iterations = 5, time = 5)
+    @Measurement(iterations = 5, time = 20)
     public void multiSkipEachOnIo(Blackhole bh) {
         Flowable<Integer> range = multiSkipEachOnIo;
         int elements = times;

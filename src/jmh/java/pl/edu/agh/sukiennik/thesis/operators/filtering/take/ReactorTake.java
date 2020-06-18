@@ -29,7 +29,7 @@ public class ReactorTake {
     }
 
     @Benchmark
-    @Measurement(iterations = 5, time = 1)
+    @Measurement(iterations = 5, time = 5)
     public void singleTake() {
         singleTake
                 .take(times / 2)
