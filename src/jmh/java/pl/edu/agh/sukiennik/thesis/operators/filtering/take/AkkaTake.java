@@ -82,7 +82,7 @@ public class AkkaTake {
 
     @Benchmark
     @Measurement(iterations = 5, time = 10)
-    public void multiFilter(MultiTakeState state) throws ExecutionException, InterruptedException {
+    public void multiTake(MultiTakeState state) throws ExecutionException, InterruptedException {
         Source<Integer, NotUsed> range = state.multiTakeSource;
         int elements = times;
         for (int i = 0; i < 10; i++) {
@@ -95,7 +95,7 @@ public class AkkaTake {
 
     @Benchmark
     @Measurement(iterations = 5, time = 20)
-    public void multiFilterEachOnIo(MultiTakeEachOnIoState state) throws ExecutionException, InterruptedException {
+    public void multiTakeEachOnIo(MultiTakeEachOnIoState state) throws ExecutionException, InterruptedException {
         Source<Integer, NotUsed> range = state.multiTakeEachOnIoSource;
         int elements = times;
         for (int i = 0; i < 10; i++) {

@@ -82,13 +82,12 @@ public class AkkaTakeLast {
 
     @Benchmark
     @Measurement(iterations = 5, time = 10)
-    public void multiFilter(MultiTakeLastState state) throws ExecutionException, InterruptedException {
+    public void multiTakeLast(MultiTakeLastState state) throws ExecutionException, InterruptedException {
         Source<Integer, NotUsed> range = state.multiTakeLastSource;
         int elements = times;
         for (int i = 0; i < 10; i++) {
             elements = elements / 2;
             int takeLastCount = elements;
-            System.out.println(takeLastCount);
             if (takeLastCount > 0) {
                 range = Source
                         .completionStage(range
@@ -101,13 +100,12 @@ public class AkkaTakeLast {
 
     @Benchmark
     @Measurement(iterations = 5, time = 20)
-    public void multiFilterEachOnIo(MultiTakeLastEachOnIoState state) throws ExecutionException, InterruptedException {
+    public void multiTakeEachOnIo(MultiTakeLastEachOnIoState state) throws ExecutionException, InterruptedException {
         Source<Integer, NotUsed> range = state.multiTakeLastEachOnIoSource;
         int elements = times;
         for (int i = 0; i < 10; i++) {
             elements = elements / 2;
             int takeLastCount = elements;
-            System.out.println(takeLastCount);
             if (takeLastCount > 0) {
                 range = Source
                         .completionStage(range

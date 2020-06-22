@@ -14,7 +14,7 @@ import java.util.stream.IntStream;
 @Warmup(iterations = 5, time = 1)
 @Fork(1)
 @State(Scope.Thread)
-public class AkkaSkip {
+public class AkkaDrop {
 
     @Param({"1", "1000", "1000000", "10000000"})
     private static int times;
@@ -82,7 +82,7 @@ public class AkkaSkip {
 
     @Benchmark
     @Measurement(iterations = 5, time = 10)
-    public void multiFilter(MultiSkipState state) throws ExecutionException, InterruptedException {
+    public void multiSkip(MultiSkipState state) throws ExecutionException, InterruptedException {
         Source<Integer, NotUsed> range = state.multiSkipSource;
         int elements = times;
         for (int i = 0; i < 10; i++) {
@@ -95,7 +95,7 @@ public class AkkaSkip {
 
     @Benchmark
     @Measurement(iterations = 5, time = 20)
-    public void multiFilterEachOnIo(MultiSkipEachOnIoState state) throws ExecutionException, InterruptedException {
+    public void multiSkipEachOnIo(MultiSkipEachOnIoState state) throws ExecutionException, InterruptedException {
         Source<Integer, NotUsed> range = state.multiSkipEachOnIoSource;
         int elements = times;
         for (int i = 0; i < 10; i++) {
