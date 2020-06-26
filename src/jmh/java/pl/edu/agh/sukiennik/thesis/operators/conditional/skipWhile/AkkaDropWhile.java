@@ -1,4 +1,4 @@
-package pl.edu.agh.sukiennik.thesis.operators.filtering.skipWhile;
+package pl.edu.agh.sukiennik.thesis.operators.conditional.skipWhile;
 
 import akka.NotUsed;
 import akka.actor.ActorSystem;

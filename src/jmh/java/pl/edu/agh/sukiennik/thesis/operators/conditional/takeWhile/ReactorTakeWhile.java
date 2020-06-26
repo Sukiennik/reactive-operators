@@ -1,4 +1,4 @@
-package pl.edu.agh.sukiennik.thesis.operators.filtering.skipUntil;
+package pl.edu.agh.sukiennik.thesis.operators.conditional.takeWhile;
 
 import org.openjdk.jmh.annotations.*;
 import reactor.core.publisher.Flux;
@@ -12,61 +12,60 @@ import java.util.stream.IntStream;
 @Warmup(iterations = 5, time = 1)
 @Fork(1)
 @State(Scope.Thread)
-public class ReactorSkipUntil {
+public class ReactorTakeWhile {
 
     @Param({"1", "1000", "1000000", "10000000"})
     private static int times;
 
-    private Flux<Integer> singleSkipUntil;
-    private Flux<Integer> multipleSkipUntil;
-    private Flux<Integer> multiSkipUntilEachOnIo;
+    private Flux<Integer> singleTakeWhile;
+    private Flux<Integer> multipleTakeWhile;
+    private Flux<Integer> multiTakeWhileEachOnIo;
 
     @Setup
     public void setup() {
-        singleSkipUntil = Flux.fromArray(IntStream.rangeClosed(0, times).boxed().toArray(Integer[]::new));
-        multipleSkipUntil = Flux.fromArray(IntStream.rangeClosed(0, times).boxed().toArray(Integer[]::new));
-        multiSkipUntilEachOnIo = Flux.fromArray(IntStream.rangeClosed(0, times).boxed().toArray(Integer[]::new));
+        singleTakeWhile = Flux.fromArray(IntStream.rangeClosed(0, times).boxed().toArray(Integer[]::new));
+        multipleTakeWhile = Flux.fromArray(IntStream.rangeClosed(0, times).boxed().toArray(Integer[]::new));
+        multiTakeWhileEachOnIo = Flux.fromArray(IntStream.rangeClosed(0, times).boxed().toArray(Integer[]::new));
     }
 
     @Benchmark
     @Measurement(iterations = 5, time = 5)
-    public void singleSkipUntil() {
-        singleSkipUntil
-                .skipUntil(value -> value > times / 2)
+    public void singleTakeWhile() {
+        singleTakeWhile
+                .takeWhile(value -> value <= times / 2)
                 .then()
                 .block();
     }
 
     @Benchmark
     @Measurement(iterations = 5, time = 10)
-    public void multiSkipUntil() {
-        Flux<Integer> range = multipleSkipUntil;
+    public void multiTakeWhile() {
+        Flux<Integer> range = multipleTakeWhile;
         int condition = times;
         for (int i = 0; i < 10; i++) {
             condition = condition / 2;
             int finalCondition = condition;
-            range = range.skipUntil(value -> value > finalCondition);
+            range = range.takeWhile(value -> value <= finalCondition);
         }
         range.then().block();
     }
 
     @Benchmark
     @Measurement(iterations = 5, time = 20)
-    public void multiSkipUntilEachOnIo() {
-        Flux<Integer> range = multiSkipUntilEachOnIo;
+    public void multiTakeWhileEachOnIo() {
+        Flux<Integer> range = multiTakeWhileEachOnIo;
         int condition = times;
         for (int i = 0; i < 10; i++) {
             condition = condition / 2;
             int finalCondition = condition;
-            range = range.publishOn(Schedulers.elastic()).skipUntil(value -> value > finalCondition);
+            range = range.publishOn(Schedulers.elastic()).takeWhile(value -> value <= finalCondition);
         }
         range.then().block();
     }
 
     public static void main(String[] args) {
-        //ReactorSkipUntil skipUntilBenchmark = new ReactorSkipUntil();
-        //skipUntilBenchmark.singleSkipUntil();
+        //ReactortakeWhile takeWhileBenchmark = new ReactortakeWhile();
+        //takeWhileBenchmark.singletakeWhile();
     }
-
 }
 

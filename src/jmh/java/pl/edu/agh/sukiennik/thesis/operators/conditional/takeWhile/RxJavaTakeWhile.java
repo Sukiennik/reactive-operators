@@ -1,4 +1,4 @@
-package pl.edu.agh.sukiennik.thesis.operators.filtering.takeWhile;
+package pl.edu.agh.sukiennik.thesis.operators.conditional.takeWhile;
 
 import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.schedulers.Schedulers;

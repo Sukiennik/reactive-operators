@@ -1,4 +1,4 @@
-package pl.edu.agh.sukiennik.thesis.operators.filtering.takeWhile;
+package pl.edu.agh.sukiennik.thesis.operators.conditional.takeWhile;
 
 import akka.NotUsed;
 import akka.actor.ActorSystem;

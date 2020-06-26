@@ -1,4 +1,4 @@
-package pl.edu.agh.sukiennik.thesis.operators.filtering.skipWhile;
+package pl.edu.agh.sukiennik.thesis.operators.conditional.skipUntil;
 
 import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
@@ -14,34 +14,34 @@ import java.util.stream.IntStream;
 @Warmup(iterations = 5, time = 1)
 @Fork(1)
 @State(Scope.Thread)
-public class RxJavaSkipWhile {
+public class RxJavaSkipUntil {
 
     @Param({"1", "1000", "1000000", "10000000"})
     private static int times;
 
-    private Flowable<Integer> singleSkipWhileFlowable;
-    private Flowable<Integer> multiSkipWhileFlowable;
-    private Flowable<Integer> multiSkipWhileEachOnIoFlowable;
+    private Flowable<Integer> singleSkipUntilFlowable;
+    private Flowable<Integer> multiSkipUntilFlowable;
+    private Flowable<Integer> multiSkipUntilEachOnIoFlowable;
 
     @Setup
     public void setup() {
-        singleSkipWhileFlowable = Flowable.fromArray(IntStream.rangeClosed(0, times).boxed().toArray(Integer[]::new));
-        multiSkipWhileFlowable = Flowable.fromArray(IntStream.rangeClosed(0, times).boxed().toArray(Integer[]::new));
-        multiSkipWhileEachOnIoFlowable = Flowable.fromArray(IntStream.rangeClosed(0, times).boxed().toArray(Integer[]::new));
+        singleSkipUntilFlowable = Flowable.fromArray(IntStream.rangeClosed(0, times).boxed().toArray(Integer[]::new));
+        multiSkipUntilFlowable = Flowable.fromArray(IntStream.rangeClosed(0, times).boxed().toArray(Integer[]::new));
+        multiSkipUntilEachOnIoFlowable = Flowable.fromArray(IntStream.rangeClosed(0, times).boxed().toArray(Integer[]::new));
     }
 
-    @Benchmark
+    //@Benchmark
     @Measurement(iterations = 5, time = 5)
-    public void singleSkipWhile(Blackhole bh) {
-        singleSkipWhileFlowable
+    public void singleSkipUntil(Blackhole bh) {
+        singleSkipUntilFlowable
                 .skipWhile(value -> value <= times / 2)
                 .blockingSubscribe(new PerformanceSubscriber(bh));
     }
 
-    @Benchmark
+    //@Benchmark
     @Measurement(iterations = 5, time = 10)
-    public void multiSkipWhile(Blackhole bh) {
-        Flowable<Integer> range = multiSkipWhileFlowable;
+    public void multiSkipUntil(Blackhole bh) {
+        Flowable<Integer> range = multiSkipUntilFlowable;
         int condition = times;
         for (int i = 0; i < 10; i++) {
             condition = condition / 2;
@@ -51,10 +51,10 @@ public class RxJavaSkipWhile {
         range.blockingSubscribe(new PerformanceSubscriber(bh));
     }
 
-    @Benchmark
+    //@Benchmark
     @Measurement(iterations = 5, time = 20)
-    public void multiSkipWhileEachOnIo(Blackhole bh) {
-        Flowable<Integer> range = multiSkipWhileEachOnIoFlowable;
+    public void multiSkipUntilEachOnIo(Blackhole bh) {
+        Flowable<Integer> range = multiSkipUntilEachOnIoFlowable;
         int condition = times;
         for (int i = 0; i < 10; i++) {
             condition = condition / 2;
@@ -65,8 +65,13 @@ public class RxJavaSkipWhile {
     }
 
     public static void main(String[] args) {
-        //RxJavaSkipWhile firstBenchmark = new RxJavaSkipWhile();
-        //firstBenchmark.singleSkipWhile();
+        //RxJavaSkipUntil firstBenchmark = new RxJavaSkipUntil();
+        //firstBenchmark.singleSkipUntil();
     }
+
+    /*
+      no skipUntil -> using skipWhile
+     */
+
 }
 
