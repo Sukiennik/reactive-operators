@@ -52,9 +52,10 @@ public class AkkaContains {
     }
 
     public static void main(String[] args) throws ExecutionException, InterruptedException {
-        AkkaContains containsBenchmark = new AkkaContains();
-        containsBenchmark.setup();
-        containsBenchmark.singleContains();
+        //AkkaContains containsBenchmark = new AkkaContains();
+        //containsBenchmark.setup();
+        //containsBenchmark.singleContains();
+        //containsBenchmark.cleanup();
     }
 
 }

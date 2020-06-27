@@ -33,8 +33,12 @@ repositories {
 
 dependencies {
     api 'org.reactivestreams:reactive-streams:1.0.3'
+
     implementation "io.reactivex.rxjava3:rxjava:3.0.3"
+    implementation "com.github.akarnokd:rxjava3-extensions:3.0.0"
+
     implementation "io.projectreactor:reactor-core:3.3.5.RELEASE"
+    implementation group: 'io.projectreactor.addons', name: 'reactor-extra', version: '3.3.3.RELEASE'
 
     implementation group: 'com.typesafe.akka', name: "akka-stream_2.12", version: '2.6.6'
 
