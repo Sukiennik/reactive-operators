@@ -1,4 +1,4 @@
-package pl.edu.agh.sukiennik.thesis.operators.transofrming.map;
+package pl.edu.agh.sukiennik.thesis.operators.transforming.map;
 
 import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.schedulers.Schedulers;

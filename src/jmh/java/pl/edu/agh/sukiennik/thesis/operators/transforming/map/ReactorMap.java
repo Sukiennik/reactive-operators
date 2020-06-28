@@ -1,4 +1,4 @@
-package pl.edu.agh.sukiennik.thesis.operators.transofrming.map;
+package pl.edu.agh.sukiennik.thesis.operators.transforming.map;
 
 import org.openjdk.jmh.annotations.*;
 import reactor.core.publisher.Flux;

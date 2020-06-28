@@ -1,4 +1,4 @@
-package pl.edu.agh.sukiennik.thesis.operators.transofrming.scan;
+package pl.edu.agh.sukiennik.thesis.operators.transforming.scan;
 
 import akka.NotUsed;
 import akka.actor.ActorSystem;
