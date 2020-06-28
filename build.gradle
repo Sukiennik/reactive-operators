@@ -13,6 +13,7 @@ buildscript {
 plugins {
     id 'java'
     id 'java-library'
+    id "io.morethan.jmhreport" version "0.9.0"
 }
 apply plugin: "me.champeau.gradle.jmh"
 
@@ -55,6 +56,7 @@ jmh {
     humanOutputFile = null
     includeTests = false
     duplicateClassesStrategy = DuplicatesStrategy.EXCLUDE
+    resultFormat = 'JSON' //'CSV'
 
     jvmArgs = ["-Djmh.ignoreLock=true"]
     // For Epsilon GC, add: "-Xmx12G", "-XX:+UnlockExperimentalVMOptions", "-XX:+UseEpsilonGC"
@@ -65,9 +67,21 @@ jmh {
     // ---------------------------------------------------------------------------------------
     jvmArgsAppend = ["-XX:+UseParallelGC", "-Djmh.shutdownTimeout=1"]
     // ---------------------------------------------------------------------------------------\
-    //include = ['.*AkkaMap.*']
+    //include = ['.*ReactorFirst.*']
+}
+
+jmhReport {
+    jmhResultPath = project.file('build/reports/jmh/results.json')
+    jmhReportOutput = project.file('build/reports/jmh')
 }
 
 test {
     maxHeapSize = "2g"
 }
+
+task generatePlots(type: Exec) {
+    commandLine 'python', 'plot.py'
+}
+
+tasks.jmh.finalizedBy tasks.jmhReport
+tasks.jmhReport.finalizedBy tasks.generatePlots
