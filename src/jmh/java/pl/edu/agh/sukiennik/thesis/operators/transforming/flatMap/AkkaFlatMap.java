@@ -79,13 +79,10 @@ public class AkkaFlatMap {
 
     @Benchmark
     @Measurement(iterations = 5, time = 5)
-    public void singleFlatMap() throws ExecutionException, InterruptedException {
-        Source<Integer, NotUsed> singleFlatMapSource = Source.fromJavaStream(() -> IntStream.rangeClosed(0, 10));
-        ActorSystem singleFlatMapSystem = ActorSystem.create("singleFlatMapSystem");
-
-        singleFlatMapSource
-                .flatMapMerge(4, param -> Source.from(Arrays.asList("A", "B")).map(param1 -> param1 + param))
-                .run(singleFlatMapSystem)
+    public void singleFlatMap(SingleFlatMapState state) throws ExecutionException, InterruptedException {
+        state.singleFlatMapSource
+                .flatMapMerge(4, param -> state.characters.map(character -> character + param.toString()))
+                .run(state.singleFlatMapSystem)
                 .toCompletableFuture()
                 .get();
     }
@@ -93,7 +90,6 @@ public class AkkaFlatMap {
     @Benchmark
     @Measurement(iterations = 5, time = 10)
     public void multiFlatMap(MultiFlatMapState state) throws ExecutionException, InterruptedException {
-        Source<Integer, NotUsed> range = state.multiFlatMapSource;
         Source<String, NotUsed> results = null;
         for (int i = 0; i < 10; i++) {
             if(results == null) {
@@ -108,7 +104,6 @@ public class AkkaFlatMap {
     @Benchmark
     @Measurement(iterations = 5, time = 20)
     public void multiFlatMapEachOnIo(MultiFlatMapEachOnIoState state) throws ExecutionException, InterruptedException {
-        Source<Integer, NotUsed> range = state.multiFlatMapEachOnIoSource;
         Source<String, NotUsed> results = null;
         for (int i = 0; i < 10; i++) {
             if(results == null) {
@@ -121,8 +116,8 @@ public class AkkaFlatMap {
     }
 
     public static void main(String[] args) throws ExecutionException, InterruptedException {
-        AkkaFlatMap flatMapBenchmark = new AkkaFlatMap();
-        flatMapBenchmark.singleFlatMap();
+        //AkkaFlatMap flatMapBenchmark = new AkkaFlatMap();
+        //flatMapBenchmark.singleFlatMap();
     }
 }
 
