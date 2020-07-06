@@ -81,7 +81,7 @@ public class AkkaConcatMap {
     @Measurement(iterations = 5, time = 5)
     public void singleConcatMap(SingleConcatMapState state) throws ExecutionException, InterruptedException {
         state.singleConcatMapSource
-                .flatMapConcat(param -> state.characters.map(param1 -> param1 + param))
+                .flatMapConcat(param -> state.characters.map(character -> character + param.toString()))
                 .run(state.singleConcatMapSystem)
                 .toCompletableFuture()
                 .get();
