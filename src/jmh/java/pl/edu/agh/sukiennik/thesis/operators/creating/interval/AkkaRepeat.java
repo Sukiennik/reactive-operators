@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit;
 @State(Scope.Thread)
 public class AkkaRepeat {
 
-    @Param({"1", "1000", "1000000", "10000000"})
+    @Param({"1", "10", "50", "100"})
     private static int times;
 
     private ActorSystem singleRepeatSystem;
@@ -33,7 +33,7 @@ public class AkkaRepeat {
     @Benchmark
     @Measurement(iterations = 5, time = 1)
     public void singleRepeat() throws ExecutionException, InterruptedException {
-        Source.tick(Duration.ZERO, Duration.ofMillis(1), 1)
+        Source.tick(Duration.ZERO, Duration.ofMillis(25), 1)
                 .take(times)
                 .run(singleRepeatSystem)
                 .toCompletableFuture()
@@ -41,9 +41,9 @@ public class AkkaRepeat {
     }
 
     public static void main(String[] args) throws ExecutionException, InterruptedException {
-        AkkaRepeat repeatBenchmark = new AkkaRepeat();
-        repeatBenchmark.setup();
-        repeatBenchmark.singleRepeat();
+        //AkkaRepeat repeatBenchmark = new AkkaRepeat();
+        //repeatBenchmark.setup();
+        //repeatBenchmark.singleRepeat();
     }
 
 }

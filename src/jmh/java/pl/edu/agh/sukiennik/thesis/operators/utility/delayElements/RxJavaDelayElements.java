@@ -1,0 +1,43 @@
+package pl.edu.agh.sukiennik.thesis.operators.utility.delayElements;
+
+import io.reactivex.rxjava3.core.Flowable;
+import org.openjdk.jmh.annotations.*;
+import org.openjdk.jmh.infra.Blackhole;
+import pl.edu.agh.sukiennik.thesis.operators.PerformanceSubscriber;
+
+import java.util.concurrent.TimeUnit;
+import java.util.stream.IntStream;
+
+@BenchmarkMode(Mode.SampleTime)
+@OutputTimeUnit(TimeUnit.MILLISECONDS)
+@Warmup(iterations = 5, time = 1)
+@Fork(1)
+@State(Scope.Thread)
+public class RxJavaDelayElements {
+
+    @Param({"1", "10", "50", "100"})
+    private static int times;
+
+    private Flowable<Integer> singleDelayElements;
+
+    @Setup
+    public void setup() {
+        singleDelayElements = Flowable.fromArray(IntStream.rangeClosed(0, times).boxed().toArray(Integer[]::new));
+    }
+
+    @Benchmark
+    @Measurement(iterations = 5, time = 1)
+    public void singleDelayElements(Blackhole bh) {
+        singleDelayElements
+                .zipWith(Flowable.interval(25, TimeUnit.MILLISECONDS), (integer, aLong) -> integer)
+                .blockingSubscribe(new PerformanceSubscriber(bh));
+    }
+
+    public static void main(String[] args) {
+        //RxJavaDelayElements delayElementsBenchmark = new RxJavaDelayElements();
+        //delayElementsBenchmark.setup();
+        //delayElementsBenchmark.singleDelayElements();
+    }
+
+}
+

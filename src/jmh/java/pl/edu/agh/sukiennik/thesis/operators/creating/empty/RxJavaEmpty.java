@@ -1,4 +1,4 @@
-package pl.edu.agh.sukiennik.thesis.operators.creating.interval;
+package pl.edu.agh.sukiennik.thesis.operators.creating.empty;
 
 import io.reactivex.rxjava3.core.Flowable;
 import org.openjdk.jmh.annotations.*;
@@ -12,22 +12,18 @@ import java.util.concurrent.TimeUnit;
 @Warmup(iterations = 5, time = 1)
 @Fork(1)
 @State(Scope.Thread)
-public class RxJavaRepeat {
-
-    @Param({"1", "10", "50", "100"})
-    private static int times;
+public class RxJavaEmpty {
 
     @Benchmark
     @Measurement(iterations = 5, time = 1)
-    public void singleRepeat(Blackhole bh) {
-        Flowable.intervalRange(0, times, 0, 25, TimeUnit.MILLISECONDS)
-                .onBackpressureBuffer()
+    public void singleEmpty(Blackhole bh) {
+        Flowable.empty()
                 .blockingSubscribe(new PerformanceSubscriber(bh));
     }
 
     public static void main(String[] args) {
-        //RxJavaRepeat repeatBenchmark = new RxJavaRepeat();
-        //repeatBenchmark.singleRepeat();
+        //RxJavaEmpty emptyBenchmark = new RxJavaEmpty();
+        //emptyBenchmark.singleEmpty();
     }
 
 }

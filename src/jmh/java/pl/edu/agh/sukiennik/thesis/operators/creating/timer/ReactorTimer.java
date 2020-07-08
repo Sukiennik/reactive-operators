@@ -1,0 +1,30 @@
+package pl.edu.agh.sukiennik.thesis.operators.creating.timer;
+
+import org.openjdk.jmh.annotations.*;
+import reactor.core.publisher.Mono;
+
+import java.time.Duration;
+import java.util.concurrent.TimeUnit;
+
+@BenchmarkMode(Mode.SampleTime)
+@OutputTimeUnit(TimeUnit.MILLISECONDS)
+@Warmup(iterations = 5, time = 1)
+@Fork(1)
+@State(Scope.Thread)
+public class ReactorTimer {
+
+    @Benchmark
+    @Measurement(iterations = 5, time = 1)
+    public void singleTimer() {
+        Mono.delay(Duration.ofMillis(1))
+                .then()
+                .block();
+    }
+
+    public static void main(String[] args) {
+        //ReactorTimer timerBenchmark = new ReactorTimer();
+        //timerBenchmark.singleTimer();
+    }
+
+}
+
