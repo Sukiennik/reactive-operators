@@ -42,7 +42,7 @@ public class AkkaDelayElements {
         singleDelayElements
                 .delay(Duration.ofMillis(25), DelayOverflowStrategy.backpressure())
                 .withAttributes(Attributes.inputBuffer(1, 1))
-                .runForeach(System.out::println, singleDelayElementsSystem)
+                .run(singleDelayElementsSystem)
                 .toCompletableFuture()
                 .get();
     }
