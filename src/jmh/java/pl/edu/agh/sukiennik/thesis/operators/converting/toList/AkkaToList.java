@@ -1,9 +1,8 @@
-package pl.edu.agh.sukiennik.thesis.operators.utility.timeout;
+package pl.edu.agh.sukiennik.thesis.operators.converting.toList;
 
 import akka.NotUsed;
 import akka.actor.ActorSystem;
-import akka.stream.Attributes;
-import akka.stream.DelayOverflowStrategy;
+import akka.stream.javadsl.Sink;
 import akka.stream.javadsl.Source;
 import org.openjdk.jmh.annotations.*;
 
@@ -17,39 +16,38 @@ import java.util.stream.IntStream;
 @Warmup(iterations = 5, time = 1)
 @Fork(1)
 @State(Scope.Thread)
-public class AkkaTimeout {
+public class AkkaToList {
 
     @Param({"1", "1000", "1000000", "10000000"})
     private static int times;
 
-    private Source<Integer, NotUsed> singleTimeout;
-    private ActorSystem singleTimeoutSystem;
+    private Source<Integer, NotUsed> singleToList;
+    private ActorSystem singleToListSystem;
 
     @Setup
     public void setup() {
-        singleTimeout = Source.fromJavaStream(() -> IntStream.rangeClosed(0, times));
-        singleTimeoutSystem = ActorSystem.create("singleTimeoutSystem");
+        singleToList = Source.fromJavaStream(() -> IntStream.rangeClosed(0, times));
+        singleToListSystem = ActorSystem.create("singleToListSystem");
     }
 
     @TearDown
     public void cleanup() {
-        singleTimeoutSystem.terminate();
+        singleToListSystem.terminate();
     }
 
     @Benchmark
     @Measurement(iterations = 5, time = 1)
-    public void singleTimeout() throws ExecutionException, InterruptedException {
-        singleTimeout
-                .idleTimeout(Duration.ofMillis(25))
-                .run(singleTimeoutSystem)
+    public void singleToList() throws ExecutionException, InterruptedException {
+        singleToList
+                .runWith(Sink.seq(), singleToListSystem)
                 .toCompletableFuture()
                 .get();
     }
 
     public static void main(String[] args) throws ExecutionException, InterruptedException {
-        //AkkaTimeout timeoutBenchmark = new AkkaTimeout();
-        //timeoutBenchmark.setup();
-        //timeoutBenchmark.singleTimeout();
+        //AkkaToList toListBenchmark = new AkkaToList();
+        //toListBenchmark.setup();
+        //toListBenchmark.singleToList();
     }
 }
 
