@@ -97,7 +97,7 @@ public class AkkaConcat {
         range.run(state.multiConcatSystem).toCompletableFuture().get();
     }
 
-    @Benchmark
+    //@Benchmark
     @Measurement(iterations = 5, time = 20)
     public void multiConcatEachOnIo(MultiConcatEachOnIoState state) throws ExecutionException, InterruptedException {
         Source<String, NotUsed> range = state.multiConcatEachOnIoSource;

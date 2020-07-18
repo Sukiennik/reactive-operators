@@ -53,7 +53,7 @@ public class ReactorSwitchMap {
         results.then().block();
     }
 
-    @Benchmark
+    //@Benchmark
     @Measurement(iterations = 5, time = 20)
     public void multiSwitchMapEachOnIo() {
         Flux<String> results =  null;
@@ -73,9 +73,9 @@ public class ReactorSwitchMap {
 
 
     public static void main(String[] args) {
-        ReactorSwitchMap flatSwitchMapBenchmark = new ReactorSwitchMap();
-        flatSwitchMapBenchmark.setup();
-        flatSwitchMapBenchmark.multiSwitchMapEachOnIo();
+        //ReactorSwitchMap flatSwitchMapBenchmark = new ReactorSwitchMap();
+        //flatSwitchMapBenchmark.setup();
+        //flatSwitchMapBenchmark.multiSwitchMapEachOnIo();
     }
 
 }

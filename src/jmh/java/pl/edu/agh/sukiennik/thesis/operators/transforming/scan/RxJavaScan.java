@@ -48,7 +48,7 @@ public class RxJavaScan {
         range.blockingSubscribe(new PerformanceSubscriber(bh));
     }
 
-    @Benchmark
+    //@Benchmark
     @Measurement(iterations = 5, time = 20)
     public void multiScanEachOnIo(Blackhole bh) {
         Flowable<Integer> range = multiScanEachOnIoFlowable;

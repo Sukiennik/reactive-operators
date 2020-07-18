@@ -50,7 +50,7 @@ public class ReactorTakeLast {
         range.then().block();
     }
 
-    @Benchmark
+    //@Benchmark
     @Measurement(iterations = 5, time = 20)
     public void multiTakeLastEachOnIo() {
         Flux<Integer> range = multiTakeLastEachOnIo;

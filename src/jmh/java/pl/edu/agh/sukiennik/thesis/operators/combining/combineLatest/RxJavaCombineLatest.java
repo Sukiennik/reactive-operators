@@ -55,15 +55,15 @@ public class RxJavaCombineLatest {
         range.blockingSubscribe(new PerformanceSubscriber(bh));
     }
 
-    @Benchmark
-    @Measurement(iterations = 5, time = 20)
-    public void multiCombineLatestEachOnIo(Blackhole bh) {
-        Flowable<String> range = multiCombineLatestEachOnIoFlowable;
-        for (int i = 0; i < 10; i++) {
-            range = Flowable.combineLatest(range.observeOn(Schedulers.io()), combineLatestFlowable.observeOn(Schedulers.io()), String::concat);
-        }
-        range.blockingSubscribe(new PerformanceSubscriber(bh));
-    }
+//    @Benchmark
+//    @Measurement(iterations = 5, time = 20)
+//    public void multiCombineLatestEachOnIo(Blackhole bh) {
+//        Flowable<String> range = multiCombineLatestEachOnIoFlowable;
+//        for (int i = 0; i < 10; i++) {
+//            range = Flowable.combineLatest(range.observeOn(Schedulers.io()), combineLatestFlowable.observeOn(Schedulers.io()), String::concat);
+//        }
+//        range.blockingSubscribe(new PerformanceSubscriber(bh));
+//    }
 
 
     public static void main(String[] args) {

@@ -101,7 +101,7 @@ public class AkkaFlatMap {
         results.run(state.multiFlatMapSystem).toCompletableFuture().get();
     }
 
-    @Benchmark
+    //@Benchmark
     @Measurement(iterations = 5, time = 20)
     public void multiFlatMapEachOnIo(MultiFlatMapEachOnIoState state) throws ExecutionException, InterruptedException {
         Source<String, NotUsed> results = null;

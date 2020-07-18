@@ -48,7 +48,7 @@ public class RxJavaMap {
         range.blockingSubscribe(new PerformanceSubscriber(bh));
     }
 
-    @Benchmark
+    //@Benchmark
     @Measurement(iterations = 5, time = 20)
     public void multiMapEachOnIo(Blackhole bh) {
         Flowable<Integer> range = multiMapEachOnIoFlowable;

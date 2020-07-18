@@ -54,7 +54,7 @@ public class ReactorConcat {
         range.then().block();
     }
 
-    @Benchmark
+    //@Benchmark
     @Measurement(iterations = 5, time = 20)
     public void multiConcatEachOnIo(Blackhole bh) {
         Flux<String> range = multiConcatEachOnIoFlux;

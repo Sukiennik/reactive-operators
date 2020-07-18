@@ -48,7 +48,7 @@ public class ReactorMap {
         range.then().block();
     }
 
-    @Benchmark
+    //@Benchmark
     @Measurement(iterations = 5, time = 20)
     public void multiMapEachOnIo() {
         Flux<Integer> range = multiMapEachOnIoFlux;

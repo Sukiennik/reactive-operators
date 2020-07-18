@@ -93,7 +93,7 @@ public class AkkaGroupBy {
                 .get();
     }
 
-    @Benchmark
+    //@Benchmark
     @Measurement(iterations = 5, time = 20)
     public void singleGroupByOnIo(SingleGroupByEachOnIoState state) throws ExecutionException, InterruptedException {
         state.singleGroupByEachOnIoSource

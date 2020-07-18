@@ -91,7 +91,7 @@ public class AkkaMap {
         range.run(state.multiMapSystem).toCompletableFuture().get();
     }
 
-    @Benchmark
+    //@Benchmark
     @Measurement(iterations = 5, time = 20)
     public void multiMapEachOnIo(MultiMapEachOnIoState state) throws ExecutionException, InterruptedException {
         Source<Integer, NotUsed> range = state.multiMapEachOnIoSource;

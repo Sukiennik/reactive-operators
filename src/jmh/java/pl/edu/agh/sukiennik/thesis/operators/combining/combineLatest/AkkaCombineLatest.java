@@ -97,7 +97,7 @@ public class AkkaCombineLatest {
         range.run(state.multiCombineLatestSystem).toCompletableFuture().get();
     }
 
-    @Benchmark
+    //@Benchmark
     @Measurement(iterations = 5, time = 20)
     public void multiCombineLatestEachOnIo(MultiCombineLatestEachOnIoState state) throws ExecutionException, InterruptedException {
         Source<String, NotUsed> range = state.multiCombineLatestEachOnIoSource;

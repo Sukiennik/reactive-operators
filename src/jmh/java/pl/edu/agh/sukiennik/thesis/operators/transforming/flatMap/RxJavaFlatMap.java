@@ -54,7 +54,7 @@ public class RxJavaFlatMap {
         results.blockingSubscribe(new PerformanceSubscriber(bh));
     }
 
-    @Benchmark
+    //@Benchmark
     @Measurement(iterations = 5, time = 20)
     public void multiFlatMapEachOnIo(Blackhole bh) {
         Flowable<String> results = null;

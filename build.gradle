@@ -67,7 +67,7 @@ jmh {
     // ---------------------------------------------------------------------------------------
     jvmArgsAppend = ["-XX:+UseParallelGC", "-Djmh.shutdownTimeout=1"]
     // ---------------------------------------------------------------------------------------\
-    include = ['pl.edu.agh.sukiennik.thesis.operators.combining.*OnIo*']
+    include = ['pl.edu.agh.sukiennik.thesis.operators.combining.*']
 }
 
 jmhReport {

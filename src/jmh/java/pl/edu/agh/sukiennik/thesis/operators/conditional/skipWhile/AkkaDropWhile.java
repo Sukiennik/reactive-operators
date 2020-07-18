@@ -93,7 +93,7 @@ public class AkkaDropWhile {
         range.run(state.multiSkipWhileSystem).toCompletableFuture().get();
     }
 
-    @Benchmark
+    //@Benchmark
     @Measurement(iterations = 5, time = 20)
     public void multiSkipWhileEachOnIo(MultiSkipWhileEachOnIoState state) throws ExecutionException, InterruptedException {
         Source<Integer, NotUsed> range = state.multiSkipWhileEachOnIoSource;

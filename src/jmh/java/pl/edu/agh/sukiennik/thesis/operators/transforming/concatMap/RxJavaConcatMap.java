@@ -54,7 +54,7 @@ public class RxJavaConcatMap {
         results.blockingSubscribe(new PerformanceSubscriber(bh));
     }
 
-    @Benchmark
+    //@Benchmark
     @Measurement(iterations = 5, time = 20)
     public void multiConcatMapEachOnIo(Blackhole bh) {
         Flowable<String> results = null;

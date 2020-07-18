@@ -97,7 +97,7 @@ public class AkkaBuffer {
                 .run(state.multiBufferSystem).toCompletableFuture().get();
     }
 
-    @Benchmark
+    //@Benchmark
     @Measurement(iterations = 5, time = 20)
     public void multiBufferEachOnIo(MultiBufferEachOnIoState state) throws ExecutionException, InterruptedException {
         state.multiBufferEachOnIoSource

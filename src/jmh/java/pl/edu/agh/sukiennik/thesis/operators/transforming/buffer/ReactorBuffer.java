@@ -54,7 +54,7 @@ public class ReactorBuffer {
                 .then().block();
     }
 
-    @Benchmark
+    //@Benchmark
     @Measurement(iterations = 5, time = 20)
     public void multiBufferEachOnIo() {
         multiBufferEachOnIoFlux

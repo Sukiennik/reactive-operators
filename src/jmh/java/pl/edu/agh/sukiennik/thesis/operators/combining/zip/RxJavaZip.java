@@ -55,7 +55,7 @@ public class RxJavaZip {
         range.blockingSubscribe(new PerformanceSubscriber(bh));
     }
 
-    @Benchmark
+    //@Benchmark
     @Measurement(iterations = 5, time = 20)
     public void multiZipEachOnIo(Blackhole bh) {
         Flowable<String> range = multiZipEachOnIoFlowable;

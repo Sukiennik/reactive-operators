@@ -66,7 +66,7 @@ public class ReactorWindow {
                 .then().block();
     }
 
-    @Benchmark
+    //@Benchmark
     @Measurement(iterations = 5, time = 20)
     public void multiWindowEachOnIo() {
         multiWindowEachOnIoFlux

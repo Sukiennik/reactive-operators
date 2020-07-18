@@ -74,7 +74,7 @@ public class RxJavaWindow {
                 .blockingSubscribe(new PerformanceSubscriber(bh));
     }
 
-    @Benchmark
+    //@Benchmark
     @Measurement(iterations = 5, time = 20)
     public void multiWindowEachOnIo(Blackhole bh) {
         multiWindowEachOnIoFlowable

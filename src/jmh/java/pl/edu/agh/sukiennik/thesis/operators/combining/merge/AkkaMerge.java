@@ -97,7 +97,7 @@ public class AkkaMerge {
         range.run(state.multiMergeSystem).toCompletableFuture().get();
     }
 
-    @Benchmark
+    //@Benchmark
     @Measurement(iterations = 5, time = 20)
     public void multiMergeEachOnIo(MultiMergeEachOnIoState state) throws ExecutionException, InterruptedException {
         Source<String, NotUsed> range = state.multiMergeEachOnIoSource;

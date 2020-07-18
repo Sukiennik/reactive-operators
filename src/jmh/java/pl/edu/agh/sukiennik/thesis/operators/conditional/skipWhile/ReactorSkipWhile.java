@@ -50,7 +50,7 @@ public class ReactorSkipWhile {
         range.then().block();
     }
 
-    @Benchmark
+    //@Benchmark
     @Measurement(iterations = 5, time = 20)
     public void multiSkipWhileEachOnIo() {
         Flux<Integer> range = multiSkipWhileEachOnIo;

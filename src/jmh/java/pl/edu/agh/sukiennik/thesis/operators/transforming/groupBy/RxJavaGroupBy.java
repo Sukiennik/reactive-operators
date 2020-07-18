@@ -53,7 +53,7 @@ public class RxJavaGroupBy {
                 .blockingSubscribe(new PerformanceSubscriber(bh));
     }
 
-    @Benchmark
+    //@Benchmark
     @Measurement(iterations = 5, time = 20)
     public void singleGroupByOnIo(Blackhole bh) {
         singleGroupByEachOnIoFlowable

@@ -101,7 +101,7 @@ public class AkkaConcatMap {
         state.characters.run(state.multiConcatMapSystem).toCompletableFuture().get();
     }
 
-    @Benchmark
+    //@Benchmark
     @Measurement(iterations = 5, time = 20)
     public void multiConcatMapEachOnIo(MultiConcatMapEachOnIoState state) throws ExecutionException, InterruptedException {
         Source<String, NotUsed> results = null;

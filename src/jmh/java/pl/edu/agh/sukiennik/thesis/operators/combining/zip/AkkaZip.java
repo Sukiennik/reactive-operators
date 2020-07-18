@@ -97,7 +97,7 @@ public class AkkaZip {
         range.run(state.multiZipSystem).toCompletableFuture().get();
     }
 
-    @Benchmark
+    //@Benchmark
     @Measurement(iterations = 5, time = 20)
     public void multiZipEachOnIo(MultiZipEachOnIoState state) throws ExecutionException, InterruptedException {
         Source<String, NotUsed> range = state.multiZipEachOnIoSource;

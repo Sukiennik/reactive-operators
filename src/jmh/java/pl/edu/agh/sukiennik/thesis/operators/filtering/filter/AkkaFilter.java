@@ -94,7 +94,7 @@ public class AkkaFilter {
         range.run(state.multiFilterSystem).toCompletableFuture().get();
     }
 
-    @Benchmark
+    //@Benchmark
     @Measurement(iterations = 5, time = 20)
     public void multiFilterEachOnIo(MultiFilterEachOnIoState state) throws ExecutionException, InterruptedException {
         Source<Integer, NotUsed> range = state.multiFilterEachOnIoSource;

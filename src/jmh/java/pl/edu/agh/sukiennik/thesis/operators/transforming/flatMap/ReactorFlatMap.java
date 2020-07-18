@@ -53,7 +53,7 @@ public class ReactorFlatMap {
         results.then().block();
     }
 
-    @Benchmark
+    //@Benchmark
     @Measurement(iterations = 5, time = 20)
     public void multiFlatMapEachOnIo() {
         Flux<String> results =  null;
@@ -73,9 +73,9 @@ public class ReactorFlatMap {
 
 
     public static void main(String[] args) {
-        ReactorFlatMap flatFlatMapBenchmark = new ReactorFlatMap();
-        flatFlatMapBenchmark.setup();
-        flatFlatMapBenchmark.multiFlatMapEachOnIo();
+        //ReactorFlatMap flatFlatMapBenchmark = new ReactorFlatMap();
+        //flatFlatMapBenchmark.setup();
+        //flatFlatMapBenchmark.multiFlatMapEachOnIo();
     }
 
 }

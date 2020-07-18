@@ -47,7 +47,7 @@ public class ReactorScan {
         range.then().block();
     }
 
-    @Benchmark
+    //@Benchmark
     @Measurement(iterations = 5, time = 20)
     public void multiScanEachOnIo() {
         Flux<Integer> range = multiScanEachOnIoFlux;

@@ -53,7 +53,7 @@ public class ReactorConcatMap {
         results.then().block();
     }
 
-    @Benchmark
+    //@Benchmark
     @Measurement(iterations = 5, time = 20)
     public void multiConcatMapEachOnIo() {
         Flux<String> results =  null;
@@ -73,9 +73,9 @@ public class ReactorConcatMap {
 
 
     public static void main(String[] args) {
-        ReactorConcatMap flatConcatMapBenchmark = new ReactorConcatMap();
-        flatConcatMapBenchmark.setup();
-        flatConcatMapBenchmark.multiConcatMapEachOnIo();
+        //ReactorConcatMap flatConcatMapBenchmark = new ReactorConcatMap();
+        //flatConcatMapBenchmark.setup();
+        //flatConcatMapBenchmark.multiConcatMapEachOnIo();
     }
 
 }

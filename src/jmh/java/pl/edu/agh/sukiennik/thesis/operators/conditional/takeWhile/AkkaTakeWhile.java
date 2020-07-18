@@ -93,7 +93,7 @@ public class AkkaTakeWhile {
         range.run(state.multiTakeWhileSystem).toCompletableFuture().get();
     }
 
-    @Benchmark
+    //@Benchmark
     @Measurement(iterations = 5, time = 20)
     public void multiTakeWhileEachOnIo(MultiTakeWhileEachOnIoState state) throws ExecutionException, InterruptedException {
         Source<Integer, NotUsed> range = state.multiTakeWhileEachOnIoSource;

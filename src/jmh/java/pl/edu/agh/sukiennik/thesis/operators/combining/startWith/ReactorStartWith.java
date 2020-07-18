@@ -54,7 +54,7 @@ public class ReactorStartWith {
         range.then().block();
     }
 
-    @Benchmark
+    //@Benchmark
     @Measurement(iterations = 5, time = 20)
     public void multiStartWithEachOnIo(Blackhole bh) {
         Flux<String> range = multiStartWithEachOnIoFlux;

@@ -140,7 +140,7 @@ public class AkkaWindow {
                 .run(state.multiWindowSystem).toCompletableFuture().get();
     }
 
-    @Benchmark
+    //@Benchmark
     @Measurement(iterations = 5, time = 20)
     public void multiWindowEachOnIo(MultiWindowEachOnIoState state) throws ExecutionException, InterruptedException {
         state.multiWindowEachOnIoSource

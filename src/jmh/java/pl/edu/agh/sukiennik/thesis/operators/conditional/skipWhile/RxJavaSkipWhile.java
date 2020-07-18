@@ -51,7 +51,7 @@ public class RxJavaSkipWhile {
         range.blockingSubscribe(new PerformanceSubscriber(bh));
     }
 
-    @Benchmark
+    //@Benchmark
     @Measurement(iterations = 5, time = 20)
     public void multiSkipWhileEachOnIo(Blackhole bh) {
         Flowable<Integer> range = multiSkipWhileEachOnIoFlowable;

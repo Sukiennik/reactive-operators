@@ -51,7 +51,7 @@ public class RxJavaSkipLast {
         range.blockingSubscribe(new PerformanceSubscriber(bh));
     }
 
-    @Benchmark
+    //@Benchmark
     @Measurement(iterations = 5, time = 20)
     public void multiSkipLastEachOnIo(Blackhole bh) {
         Flowable<Integer> range = multiSkipLastEachOnIoFlowable;

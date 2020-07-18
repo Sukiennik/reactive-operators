@@ -97,7 +97,7 @@ public class AkkaStartWith {
         range.run(state.multiStartWithSystem).toCompletableFuture().get();
     }
 
-    @Benchmark
+    //@Benchmark
     @Measurement(iterations = 5, time = 20)
     public void multiStartWithEachOnIo(MultiStartWithEachOnIoState state) throws ExecutionException, InterruptedException {
         Source<String, NotUsed> range = state.multiStartWithEachOnIoSource;

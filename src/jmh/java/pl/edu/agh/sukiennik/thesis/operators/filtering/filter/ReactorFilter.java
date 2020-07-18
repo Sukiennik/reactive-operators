@@ -50,7 +50,7 @@ public class ReactorFilter {
         range.then().block();
     }
 
-    @Benchmark
+    //@Benchmark
     @Measurement(iterations = 5, time = 20)
     public void multiFilterEachOnIo(Blackhole bh) {
         Flux<Integer> range = multiFilterEachOnIoFlux;

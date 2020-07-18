@@ -1,10 +1,8 @@
 package pl.edu.agh.sukiennik.thesis.operators.combining.combineLatest;
 
 import org.openjdk.jmh.annotations.*;
-import org.openjdk.jmh.infra.Blackhole;
 import reactor.core.publisher.Flux;
 import reactor.core.scheduler.Schedulers;
-import reactor.scheduler.forkjoin.ForkJoinPoolScheduler;
 
 import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
@@ -28,7 +26,7 @@ public class ReactorCombineLatest {
     public void setup() {
         singleCombineLatestFlux = Flux.fromArray(IntStream.rangeClosed(0, times).mapToObj(String::valueOf).toArray(String[]::new));
         multiCombineLatestFlux = Flux.fromArray(IntStream.rangeClosed(0, times).mapToObj(String::valueOf).toArray(String[]::new));
-        multiCombineLatestEachOnIoFlux = Flux.fromArray(IntStream.rangeClosed(0, 1000).mapToObj(String::valueOf).toArray(String[]::new));
+        multiCombineLatestEachOnIoFlux = Flux.fromArray(IntStream.rangeClosed(0, times).mapToObj(String::valueOf).toArray(String[]::new));
         combineLatestFlux = Flux.fromArray(IntStream.rangeClosed(times, times * 3 / 2).mapToObj(String::valueOf).toArray(String[]::new));
     }
 
@@ -54,21 +52,21 @@ public class ReactorCombineLatest {
         range.then().block();
     }
 
-    @Benchmark
-    @Measurement(iterations = 5, time = 20)
-    public void multiCombineLatestEachOnIo() {
-        Flux<String> range = multiCombineLatestEachOnIoFlux;
-        for (int i = 0; i < 10; i++) {
-            range = Flux.combineLatest(range.publishOn(Schedulers.elastic()), combineLatestFlux.publishOn(Schedulers.elastic()), String::concat);
-        }
-        range.then().block();
-    }
+//    @Benchmark
+//    @Measurement(iterations = 5, time = 20)
+//    public void multiCombineLatestEachOnIo() {
+//        Flux<String> range = multiCombineLatestEachOnIoFlux;
+//        for (int i = 0; i < 10; i++) {
+//            range = Flux.combineLatest(range, combineLatestFlux, String::concat).publishOn(Schedulers.single());
+//        }
+//        range.then().block();
+//    }
 
 
     public static void main(String[] args) {
-        ReactorCombineLatest combineLatestBenchmark = new ReactorCombineLatest();
-        combineLatestBenchmark.setup();
-        combineLatestBenchmark.multiCombineLatestEachOnIo();
+        //ReactorCombineLatest combineLatestBenchmark = new ReactorCombineLatest();
+        //combineLatestBenchmark.setup();
+        //combineLatestBenchmark.multiCombineLatestEachOnIo();
     }
 
 }

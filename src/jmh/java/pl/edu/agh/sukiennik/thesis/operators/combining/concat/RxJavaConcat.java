@@ -55,7 +55,7 @@ public class RxJavaConcat {
         range.blockingSubscribe(new PerformanceSubscriber(bh));
     }
 
-    @Benchmark
+    //@Benchmark
     @Measurement(iterations = 5, time = 20)
     public void multiConcatEachOnIo(Blackhole bh) {
         Flowable<String> range = multiConcatEachOnIoFlowable;

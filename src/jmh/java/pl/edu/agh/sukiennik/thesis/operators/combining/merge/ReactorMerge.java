@@ -54,7 +54,7 @@ public class ReactorMerge {
         range.then().block();
     }
 
-    @Benchmark
+    //@Benchmark
     @Measurement(iterations = 5, time = 20)
     public void multiMergeEachOnIo(Blackhole bh) {
         Flux<String> range = multiMergeEachOnIoFlux;

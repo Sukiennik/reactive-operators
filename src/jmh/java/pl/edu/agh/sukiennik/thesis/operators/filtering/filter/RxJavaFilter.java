@@ -51,7 +51,7 @@ public class RxJavaFilter {
         range.blockingSubscribe(new PerformanceSubscriber(bh));
     }
 
-    @Benchmark
+    //@Benchmark
     @Measurement(iterations = 5, time = 20)
     public void multiFilterEachOnIo(Blackhole bh) {
         Flowable<Integer> range = multiFilterEachOnIoFlowable;
