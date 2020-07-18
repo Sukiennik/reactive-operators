@@ -10,9 +10,9 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-@BenchmarkMode(Mode.SampleTime)
+@BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
-@Warmup(iterations = 5, time = 1)
+@Warmup(iterations = 5, time = 5)
 @Fork(1)
 @State(Scope.Thread)
 public class RxJavaCycle {
@@ -28,7 +28,7 @@ public class RxJavaCycle {
     }
 
     @Benchmark
-    @Measurement(iterations = 5, time = 1)
+    @Measurement(iterations = 5, time = 20)
     public void singleCycle(Blackhole bh) {
         Flowable.fromIterable(cycleList).repeat()
                 .take(10 * times)

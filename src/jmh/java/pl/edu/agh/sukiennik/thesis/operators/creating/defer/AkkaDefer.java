@@ -8,9 +8,9 @@ import org.openjdk.jmh.annotations.*;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
-@BenchmarkMode(Mode.SampleTime)
+@BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
-@Warmup(iterations = 5, time = 1)
+@Warmup(iterations = 5, time = 5)
 @Fork(1)
 @State(Scope.Thread)
 public class AkkaDefer {
@@ -31,7 +31,7 @@ public class AkkaDefer {
     }
 
     @Benchmark
-    @Measurement(iterations = 5, time = 1)
+    @Measurement(iterations = 5, time = 20)
     public void singleDefer() throws ExecutionException, InterruptedException {
         Source.lazySource(() -> Source.single(times))
                 .runWith(Sink.head(), singleDeferSystem)

@@ -10,9 +10,9 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-@BenchmarkMode(Mode.SampleTime)
+@BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
-@Warmup(iterations = 5, time = 1)
+@Warmup(iterations = 5, time = 5)
 @Fork(1)
 @State(Scope.Thread)
 public class RxJavaToMultiMap {
@@ -28,7 +28,7 @@ public class RxJavaToMultiMap {
     }
 
     @Benchmark
-    @Measurement(iterations = 5, time = 1)
+    @Measurement(iterations = 5, time = 20)
     public void singleToMultiMap(Blackhole bh) {
         try (Stream<Integer> stream = singleToMultiMap.blockingStream()) {
             long c = stream.count();

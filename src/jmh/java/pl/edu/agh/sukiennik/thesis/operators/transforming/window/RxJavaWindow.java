@@ -13,7 +13,7 @@ import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
-@BenchmarkMode(Mode.SampleTime)
+@BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
 @Warmup(iterations = 5, time = 5)
 @Fork(1)
@@ -37,7 +37,7 @@ public class RxJavaWindow {
     }
 
     @Benchmark
-    @Measurement(iterations = 5, time = 5)
+    @Measurement(iterations = 5, time = 20)
     public void singleWindow(Blackhole bh) {
         singleWindowFlowable
                 .window(5)
@@ -45,7 +45,7 @@ public class RxJavaWindow {
     }
 
     @Benchmark
-    @Measurement(iterations = 5, time = 5)
+    @Measurement(iterations = 5, time = 20)
     public void singleWindowThenFlattenIndexed(Blackhole bh) {
         singleWindowThenFlattenIndexedFlowable
                 .window(5)
@@ -58,7 +58,7 @@ public class RxJavaWindow {
     }
 
     @Benchmark
-    @Measurement(iterations = 5, time = 10)
+    @Measurement(iterations = 5, time = 20)
     public void multiWindow(Blackhole bh) {
         multiWindowFlowable
                 .window(5)

@@ -9,7 +9,7 @@ import pl.edu.agh.sukiennik.thesis.operators.PerformanceSubscriber;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
 
-@BenchmarkMode(Mode.SampleTime)
+@BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
 @Warmup(iterations = 5, time = 5)
 @Fork(1)
@@ -33,7 +33,7 @@ public class RxJavaConcatMap {
     }
     
     @Benchmark
-    @Measurement(iterations = 5, time = 5)
+    @Measurement(iterations = 5, time = 20)
     public void singleConcatMap(Blackhole bh) {
         singleConcatMapFlowable
                 .concatMap(integer -> characters.map(character -> character + integer.toString()))
@@ -41,7 +41,7 @@ public class RxJavaConcatMap {
     }
 
     @Benchmark
-    @Measurement(iterations = 5, time = 10)
+    @Measurement(iterations = 5, time = 20)
     public void multiConcatMap(Blackhole bh) {
         Flowable<String> results = null;
         for (int i = 0; i < 10; i++) {

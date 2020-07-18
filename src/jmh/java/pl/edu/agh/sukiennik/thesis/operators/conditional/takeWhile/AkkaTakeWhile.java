@@ -9,9 +9,9 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
 
-@BenchmarkMode(Mode.SampleTime)
+@BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
-@Warmup(iterations = 5, time = 1)
+@Warmup(iterations = 5, time = 5)
 @Fork(1)
 @State(Scope.Thread)
 public class AkkaTakeWhile {
@@ -71,7 +71,7 @@ public class AkkaTakeWhile {
     }
 
     @Benchmark
-    @Measurement(iterations = 5, time = 5)
+    @Measurement(iterations = 5, time = 20)
     public void singleTakeWhile(SingleTakeWhileState state) throws ExecutionException, InterruptedException {
         state.singleTakeWhile
                 .takeWhile(val -> val <= times / 2)
@@ -81,7 +81,7 @@ public class AkkaTakeWhile {
     }
 
     @Benchmark
-    @Measurement(iterations = 5, time = 10)
+    @Measurement(iterations = 5, time = 20)
     public void multiTakeWhile(MultiTakeWhileState state) throws ExecutionException, InterruptedException {
         Source<Integer, NotUsed> range = state.multiTakeWhileSource;
         int condition = times;

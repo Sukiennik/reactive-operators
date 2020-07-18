@@ -10,7 +10,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
 
-@BenchmarkMode(Mode.SampleTime)
+@BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
 @Warmup(iterations = 5, time = 5)
 @Fork(1)
@@ -89,7 +89,7 @@ public class AkkaWindow {
     }
 
     @Benchmark
-    @Measurement(iterations = 5, time = 5)
+    @Measurement(iterations = 5, time = 20)
     public void singleWindow(SingleWindowState state) throws ExecutionException, InterruptedException {
         state.singleWindowSource
                 .splitWhen(param -> param != 0 && param % 5 == 0)
@@ -100,7 +100,7 @@ public class AkkaWindow {
     }
 
     @Benchmark
-    @Measurement(iterations = 5, time = 5)
+    @Measurement(iterations = 5, time = 20)
     public void singleWindowThenFlattenIndexed(SingleWindowThenFlattenIndexedState state) throws ExecutionException, InterruptedException {
         state.singleWindowThenFlattenIndexedSource
                 .splitWhen(param -> param != 0 && param % 5 == 0)
@@ -112,7 +112,7 @@ public class AkkaWindow {
     }
 
     @Benchmark
-    @Measurement(iterations = 5, time = 10)
+    @Measurement(iterations = 5, time = 20)
     public void multiWindow(MultiWindowState state) throws ExecutionException, InterruptedException {
         state.multiWindowSource
                 .splitWhen(param -> param != 0 && param % 5 == 0)

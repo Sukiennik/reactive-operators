@@ -8,9 +8,9 @@ import pl.edu.agh.sukiennik.thesis.operators.PerformanceSubscriber;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
 
-@BenchmarkMode(Mode.SampleTime)
+@BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
-@Warmup(iterations = 5, time = 1)
+@Warmup(iterations = 5, time = 5)
 @Fork(1)
 @State(Scope.Thread)
 public class RxJavaInitialDelay {
@@ -26,7 +26,7 @@ public class RxJavaInitialDelay {
     }
 
     @Benchmark
-    @Measurement(iterations = 5, time = 1)
+    @Measurement(iterations = 5, time = 20)
     public void singleInitialDelay(Blackhole bh) {
         singleInitialDelay.delay(25, TimeUnit.MILLISECONDS)
                 .blockingSubscribe(new PerformanceSubscriber(bh));

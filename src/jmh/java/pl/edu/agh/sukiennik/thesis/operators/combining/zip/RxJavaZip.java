@@ -9,9 +9,9 @@ import pl.edu.agh.sukiennik.thesis.operators.PerformanceSubscriber;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
 
-@BenchmarkMode(Mode.SampleTime)
+@BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
-@Warmup(iterations = 5, time = 1)
+@Warmup(iterations = 5, time = 5)
 @Fork(1)
 @State(Scope.Thread)
 public class RxJavaZip {
@@ -33,7 +33,7 @@ public class RxJavaZip {
     }
 
     @Benchmark
-    @Measurement(iterations = 5, time = 5)
+    @Measurement(iterations = 5, time = 20)
     public void singleZip(Blackhole bh) {
         singleZipFlowable
                 .zipWith(zipFlowable, String::concat)
@@ -41,7 +41,7 @@ public class RxJavaZip {
     }
 
     @Benchmark
-    @Measurement(iterations = 5, time = 10)
+    @Measurement(iterations = 5, time = 20)
     public void multiZip(Blackhole bh) {
         Flowable<String> range = multiZipFlowable;
         for (int i = 0; i < 10; i++) {

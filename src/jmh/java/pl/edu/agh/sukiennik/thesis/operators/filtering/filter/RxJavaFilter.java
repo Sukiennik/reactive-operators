@@ -9,9 +9,9 @@ import pl.edu.agh.sukiennik.thesis.operators.PerformanceSubscriber;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
 
-@BenchmarkMode(Mode.SampleTime)
+@BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
-@Warmup(iterations = 5, time = 1)
+@Warmup(iterations = 5, time = 5)
 @Fork(1)
 @State(Scope.Thread)
 public class RxJavaFilter {
@@ -31,7 +31,7 @@ public class RxJavaFilter {
     }
 
     @Benchmark
-    @Measurement(iterations = 5, time = 5)
+    @Measurement(iterations = 5, time = 20)
     public void singleFilter() {
         singleFilterFlowable
                 .filter(element -> element < times/2)
@@ -39,7 +39,7 @@ public class RxJavaFilter {
     }
 
     @Benchmark
-    @Measurement(iterations = 5, time = 10)
+    @Measurement(iterations = 5, time = 20)
     public void multiFilter(Blackhole bh) {
         Flowable<Integer> range = multiFilterFlowable;
         int condition = times;

@@ -10,9 +10,9 @@ import pl.edu.agh.sukiennik.thesis.operators.PerformanceSubscriber;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
 
-@BenchmarkMode(Mode.SampleTime)
+@BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
-@Warmup(iterations = 5, time = 1)
+@Warmup(iterations = 5, time = 5)
 @Fork(1)
 @State(Scope.Thread)
 public class RxJavaCombineLatest {
@@ -34,14 +34,14 @@ public class RxJavaCombineLatest {
     }
 
     @Benchmark
-    @Measurement(iterations = 5, time = 5)
+    @Measurement(iterations = 5, time = 20)
     public void singleCombineLatest(Blackhole bh) {
         Flowable.combineLatest(singleCombineLatestFlowable, combineLatestFlowable, String::concat)
                 .blockingSubscribe(new PerformanceSubscriber(bh));
     }
 
     @Benchmark
-    @Measurement(iterations = 5, time = 10)
+    @Measurement(iterations = 5, time = 20)
     public void multiCombineLatest(Blackhole bh) {
         Flowable<String> range = multiCombineLatestFlowable;
         for (int i = 0; i < 10; i++) {

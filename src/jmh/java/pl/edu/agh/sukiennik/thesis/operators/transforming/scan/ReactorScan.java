@@ -7,7 +7,7 @@ import reactor.core.scheduler.Schedulers;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
 
-@BenchmarkMode(Mode.SampleTime)
+@BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
 @Warmup(iterations = 5, time = 5)
 @Fork(1)
@@ -29,7 +29,7 @@ public class ReactorScan {
     }
     
     @Benchmark
-    @Measurement(iterations = 5, time = 5)
+    @Measurement(iterations = 5, time = 20)
     public void singleScan() {
         singleScanFlux
                 .scan(0, Integer::sum)
@@ -38,7 +38,7 @@ public class ReactorScan {
     }
 
     @Benchmark
-    @Measurement(iterations = 5, time = 10)
+    @Measurement(iterations = 5, time = 20)
     public void multiScan() {
         Flux<Integer> range = multiScanFlux;
         for (int i = 0; i < 10; i++) {

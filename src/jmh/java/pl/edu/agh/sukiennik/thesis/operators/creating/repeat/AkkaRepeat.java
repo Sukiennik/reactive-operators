@@ -8,9 +8,9 @@ import org.openjdk.jmh.annotations.*;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
-@BenchmarkMode(Mode.SampleTime)
+@BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
-@Warmup(iterations = 5, time = 1)
+@Warmup(iterations = 5, time = 5)
 @Fork(1)
 @State(Scope.Thread)
 public class AkkaRepeat {
@@ -31,7 +31,7 @@ public class AkkaRepeat {
     }
 
     @Benchmark
-    @Measurement(iterations = 5, time = 1)
+    @Measurement(iterations = 5, time = 20)
     public void singleRepeat() throws ExecutionException, InterruptedException {
         Source.repeat(1).take(times)
                 .run(singleRepeatSystem)

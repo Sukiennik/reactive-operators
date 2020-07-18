@@ -9,9 +9,9 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
 
-@BenchmarkMode(Mode.SampleTime)
+@BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
-@Warmup(iterations = 5, time = 1)
+@Warmup(iterations = 5, time = 5)
 @Fork(1)
 @State(Scope.Thread)
 public class AkkaStartWith {
@@ -78,7 +78,7 @@ public class AkkaStartWith {
     
 
     @Benchmark
-    @Measurement(iterations = 5, time = 5)
+    @Measurement(iterations = 5, time = 20)
     public void singleStartWith(SingleStartWithState state) throws ExecutionException, InterruptedException {
         state.singleStartWithSource
                 .prepend(state.startWithSource)
@@ -88,7 +88,7 @@ public class AkkaStartWith {
     }
 
     @Benchmark
-    @Measurement(iterations = 5, time = 10)
+    @Measurement(iterations = 5, time = 20)
     public void multiStartWith(MultiStartWithState state) throws ExecutionException, InterruptedException {
         Source<String, NotUsed> range = state.multiStartWithSource;
         for (int i = 0; i < 10; i++) {

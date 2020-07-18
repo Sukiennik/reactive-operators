@@ -9,7 +9,7 @@ import pl.edu.agh.sukiennik.thesis.operators.PerformanceSubscriber;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
 
-@BenchmarkMode(Mode.SampleTime)
+@BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
 @Warmup(iterations = 5, time = 5)
 @Fork(1)
@@ -31,7 +31,7 @@ public class RxJavaBuffer {
     }
 
     @Benchmark
-    @Measurement(iterations = 5, time = 5)
+    @Measurement(iterations = 5, time = 20)
     public void singleBuffer(Blackhole bh) {
         singleBufferFlowable
                 .buffer(5)
@@ -39,7 +39,7 @@ public class RxJavaBuffer {
     }
 
     @Benchmark
-    @Measurement(iterations = 5, time = 10)
+    @Measurement(iterations = 5, time = 20)
     public void multiBuffer(Blackhole bh) {
         multiBufferFlowable
                 .buffer(5)

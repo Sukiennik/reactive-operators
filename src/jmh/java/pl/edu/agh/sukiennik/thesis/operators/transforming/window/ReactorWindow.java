@@ -7,7 +7,7 @@ import reactor.core.scheduler.Schedulers;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
 
-@BenchmarkMode(Mode.SampleTime)
+@BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
 @Warmup(iterations = 5, time = 5)
 @Fork(1)
@@ -31,7 +31,7 @@ public class ReactorWindow {
     }
 
     @Benchmark
-    @Measurement(iterations = 5, time = 5)
+    @Measurement(iterations = 5, time = 20)
     public void singleWindow() {
         singleWindowFlux
                 .window(5)
@@ -40,7 +40,7 @@ public class ReactorWindow {
     }
 
     @Benchmark
-    @Measurement(iterations = 5, time = 5)
+    @Measurement(iterations = 5, time = 20)
     public void singleWindowThenFlattenIndexed() {
         singleWindowThenFlattenIndexedFlux
                 .window(5)
@@ -50,7 +50,7 @@ public class ReactorWindow {
     }
 
     @Benchmark
-    @Measurement(iterations = 5, time = 10)
+    @Measurement(iterations = 5, time = 20)
     public void multiWindow() {
         multiWindowFlux
                 .window(5)

@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 
-@BenchmarkMode(Mode.SampleTime)
+@BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
 @Warmup(iterations = 5, time = 5)
 @Fork(1)
@@ -33,7 +33,7 @@ public class RxJavaGroupBy {
     }
 
     @Benchmark
-    @Measurement(iterations = 5, time = 5)
+    @Measurement(iterations = 5, time = 20)
     public void singleGroupBy(Blackhole bh) {
         singleGroupByFlowable
                 .groupBy(integer -> integer % 5)
@@ -41,7 +41,7 @@ public class RxJavaGroupBy {
     }
 
     @Benchmark
-    @Measurement(iterations = 5, time = 5)
+    @Measurement(iterations = 5, time = 20)
     public void singleGroupByThenFlattenIndexed(Blackhole bh) {
         singleGroupByThenFlattenIndexed
                 .groupBy(integer -> integer % 5)
@@ -54,7 +54,7 @@ public class RxJavaGroupBy {
     }
 
     @Benchmark
-    @Measurement(iterations = 5, time = 5)
+    @Measurement(iterations = 5, time = 20)
     public void singleGroupByOnIo(Blackhole bh) {
         singleGroupByEachOnIoFlowable
                 .observeOn(Schedulers.io())

@@ -10,7 +10,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
 
-@BenchmarkMode(Mode.SampleTime)
+@BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
 @Warmup(iterations = 5, time = 5)
 @Fork(1)
@@ -78,7 +78,7 @@ public class AkkaFlatMap {
     }
 
     @Benchmark
-    @Measurement(iterations = 5, time = 5)
+    @Measurement(iterations = 5, time = 20)
     public void singleFlatMap(SingleFlatMapState state) throws ExecutionException, InterruptedException {
         state.singleFlatMapSource
                 .flatMapMerge(4, param -> state.characters.map(character -> character + param.toString()))
@@ -88,7 +88,7 @@ public class AkkaFlatMap {
     }
 
     @Benchmark
-    @Measurement(iterations = 5, time = 10)
+    @Measurement(iterations = 5, time = 20)
     public void multiFlatMap(MultiFlatMapState state) throws ExecutionException, InterruptedException {
         Source<String, NotUsed> results = null;
         for (int i = 0; i < 10; i++) {

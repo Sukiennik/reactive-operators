@@ -9,7 +9,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
 
-@BenchmarkMode(Mode.SampleTime)
+@BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
 @Warmup(iterations = 5, time = 5)
 @Fork(1)
@@ -71,7 +71,7 @@ public class AkkaGroupBy {
     }
 
     @Benchmark
-    @Measurement(iterations = 5, time = 5)
+    @Measurement(iterations = 5, time = 20)
     public void singleGroupBy(SingleGroupByState state) throws ExecutionException, InterruptedException {
         state.singleGroupBySource
                 .groupBy(5, param -> param % 5)
@@ -82,7 +82,7 @@ public class AkkaGroupBy {
     }
 
     @Benchmark
-    @Measurement(iterations = 5, time = 5)
+    @Measurement(iterations = 5, time = 20)
     public void singleGroupByThenFlattenIndexed(SingleGroupByThenFlattenIndexedState state) throws ExecutionException, InterruptedException {
         state.singleGroupByThenFlattenIndexedSource
                 .groupBy(5, param -> param % 5)
@@ -94,7 +94,7 @@ public class AkkaGroupBy {
     }
 
     @Benchmark
-    @Measurement(iterations = 5, time = 5)
+    @Measurement(iterations = 5, time = 20)
     public void singleGroupByOnIo(SingleGroupByEachOnIoState state) throws ExecutionException, InterruptedException {
         state.singleGroupByEachOnIoSource
                 .groupBy(5, param -> param % 5).async()
