@@ -56,7 +56,7 @@ jmh {
     humanOutputFile = null
     includeTests = false
     duplicateClassesStrategy = DuplicatesStrategy.EXCLUDE
-    resultFormat = 'JSON' //'CSV'
+    resultFormat = 'CSV' //'JSON'
 
     jvmArgs = ["-Djmh.ignoreLock=true"]
     // For Epsilon GC, add: "-Xmx12G", "-XX:+UnlockExperimentalVMOptions", "-XX:+UseEpsilonGC"
@@ -67,7 +67,7 @@ jmh {
     // ---------------------------------------------------------------------------------------
     jvmArgsAppend = ["-XX:+UseParallelGC", "-Djmh.shutdownTimeout=1"]
     // ---------------------------------------------------------------------------------------\
-    //include = ['.*ReactorFirst.*']
+    include = ['pl.edu.agh.sukiennik.thesis.operators.combining.*']
 }
 
 jmhReport {
