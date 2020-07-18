@@ -29,7 +29,11 @@ public class ReactorConcat {
         multiConcatFlux = Flux.fromArray(IntStream.rangeClosed(0, times).mapToObj(String::valueOf).toArray(String[]::new));
         multiConcatEachOnIoFlux = Flux.fromArray(IntStream.rangeClosed(0, times).mapToObj(String::valueOf).toArray(String[]::new));
         concatFlux = Flux.fromArray(IntStream.rangeClosed(times, times * 3 / 2).mapToObj(String::valueOf).toArray(String[]::new));
+    }
 
+    @TearDown(Level.Iteration)
+    public void clear() {
+        Schedulers.shutdownNow();
     }
 
     @Benchmark

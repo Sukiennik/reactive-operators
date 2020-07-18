@@ -25,14 +25,14 @@ public class AkkaConcat {
         private Source<String, NotUsed> concatSource;
         private ActorSystem singleConcatSystem;
 
-        @Setup
+        @Setup(Level.Iteration)
         public void setup() {
             singleConcatSource = Source.fromJavaStream(() -> IntStream.rangeClosed(0, times).mapToObj(String::valueOf));
             concatSource = Source.fromJavaStream(() -> IntStream.rangeClosed(times, times * 2 / 3).mapToObj(String::valueOf));
             singleConcatSystem = ActorSystem.create("singleConcatSystem");
         }
 
-        @TearDown
+        @TearDown(Level.Iteration)
         public void cleanup() {
             singleConcatSystem.terminate();
         }
@@ -44,14 +44,14 @@ public class AkkaConcat {
         private Source<String, NotUsed> concatSource;
         private ActorSystem multiConcatSystem;
 
-        @Setup
+        @Setup(Level.Iteration)
         public void setup() {
             multiConcatSource = Source.fromJavaStream(() -> IntStream.rangeClosed(0, times).mapToObj(String::valueOf));
             concatSource = Source.fromJavaStream(() -> IntStream.rangeClosed(times, times * 2 / 3).mapToObj(String::valueOf));
             multiConcatSystem = ActorSystem.create("multiConcatSystem");
         }
 
-        @TearDown
+        @TearDown(Level.Iteration)
         public void cleanup() {
             multiConcatSystem.terminate();
         }
@@ -63,14 +63,14 @@ public class AkkaConcat {
         private Source<String, NotUsed> concatSource;
         private ActorSystem multiConcatEachOnIoSystem;
 
-        @Setup
+        @Setup(Level.Iteration)
         public void setup() {
             multiConcatEachOnIoSource = Source.fromJavaStream(() -> IntStream.rangeClosed(0, times).mapToObj(String::valueOf));
             concatSource = Source.fromJavaStream(() -> IntStream.rangeClosed(times, times * 2 / 3).mapToObj(String::valueOf));
             multiConcatEachOnIoSystem = ActorSystem.create("multiConcatEachOnIoSystem");
         }
 
-        @TearDown
+        @TearDown(Level.Iteration)
         public void cleanup() {
             multiConcatEachOnIoSystem.terminate();
         }

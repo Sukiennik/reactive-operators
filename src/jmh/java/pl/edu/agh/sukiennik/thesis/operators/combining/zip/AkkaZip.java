@@ -25,14 +25,14 @@ public class AkkaZip {
         private Source<String, NotUsed> zipSource;
         private ActorSystem singleZipSystem;
 
-        @Setup
+        @Setup(Level.Iteration)
         public void setup() {
             singleZipSource = Source.fromJavaStream(() -> IntStream.rangeClosed(0, times).mapToObj(String::valueOf));
             zipSource = Source.fromJavaStream(() -> IntStream.rangeClosed(times, times * 2 / 3).mapToObj(String::valueOf));
             singleZipSystem = ActorSystem.create("singleZipSystem");
         }
 
-        @TearDown
+        @TearDown(Level.Iteration)
         public void cleanup() {
             singleZipSystem.terminate();
         }
@@ -44,14 +44,14 @@ public class AkkaZip {
         private Source<String, NotUsed> zipSource;
         private ActorSystem multiZipSystem;
 
-        @Setup
+        @Setup(Level.Iteration)
         public void setup() {
             multiZipSource = Source.fromJavaStream(() -> IntStream.rangeClosed(0, times).mapToObj(String::valueOf));
             zipSource = Source.fromJavaStream(() -> IntStream.rangeClosed(times, times * 2 / 3).mapToObj(String::valueOf));
             multiZipSystem = ActorSystem.create("multiZipSystem");
         }
 
-        @TearDown
+        @TearDown(Level.Iteration)
         public void cleanup() {
             multiZipSystem.terminate();
         }
@@ -63,14 +63,14 @@ public class AkkaZip {
         private Source<String, NotUsed> zipSource;
         private ActorSystem multiZipEachOnIoSystem;
 
-        @Setup
+        @Setup(Level.Iteration)
         public void setup() {
             multiZipEachOnIoSource = Source.fromJavaStream(() -> IntStream.rangeClosed(0, times).mapToObj(String::valueOf));
             zipSource = Source.fromJavaStream(() -> IntStream.rangeClosed(times, times * 2 / 3).mapToObj(String::valueOf));
             multiZipEachOnIoSystem = ActorSystem.create("multiZipEachOnIoSystem");
         }
 
-        @TearDown
+        @TearDown(Level.Iteration)
         public void cleanup() {
             multiZipEachOnIoSystem.terminate();
         }

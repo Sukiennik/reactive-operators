@@ -25,14 +25,14 @@ public class AkkaMerge {
         private Source<String, NotUsed> mergedSource;
         private ActorSystem singleMergeSystem;
 
-        @Setup
+        @Setup(Level.Iteration)
         public void setup() {
             singleMergeSource = Source.fromJavaStream(() -> IntStream.rangeClosed(0, times).mapToObj(String::valueOf));
             mergedSource = Source.fromJavaStream(() -> IntStream.rangeClosed(times, times * 2 / 3).mapToObj(String::valueOf));
             singleMergeSystem = ActorSystem.create("singleMergeSystem");
         }
 
-        @TearDown
+        @TearDown(Level.Iteration)
         public void cleanup() {
             singleMergeSystem.terminate();
         }
@@ -44,14 +44,14 @@ public class AkkaMerge {
         private Source<String, NotUsed> mergedSource;
         private ActorSystem multiMergeSystem;
 
-        @Setup
+        @Setup(Level.Iteration)
         public void setup() {
             multiMergeSource = Source.fromJavaStream(() -> IntStream.rangeClosed(0, times).mapToObj(String::valueOf));
             mergedSource = Source.fromJavaStream(() -> IntStream.rangeClosed(times, times * 2 / 3).mapToObj(String::valueOf));
             multiMergeSystem = ActorSystem.create("multiMergeSystem");
         }
 
-        @TearDown
+        @TearDown(Level.Iteration)
         public void cleanup() {
             multiMergeSystem.terminate();
         }
@@ -63,14 +63,14 @@ public class AkkaMerge {
         private Source<String, NotUsed> mergedSource;
         private ActorSystem multiMergeEachOnIoSystem;
 
-        @Setup
+        @Setup(Level.Iteration)
         public void setup() {
             multiMergeEachOnIoSource = Source.fromJavaStream(() -> IntStream.rangeClosed(0, times).mapToObj(String::valueOf));
             mergedSource = Source.fromJavaStream(() -> IntStream.rangeClosed(times, times * 2 / 3).mapToObj(String::valueOf));
             multiMergeEachOnIoSystem = ActorSystem.create("multiMergeEachOnIoSystem");
         }
 
-        @TearDown
+        @TearDown(Level.Iteration)
         public void cleanup() {
             multiMergeEachOnIoSystem.terminate();
         }

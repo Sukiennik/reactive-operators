@@ -25,14 +25,14 @@ public class AkkaCombineLatest {
         private Source<String, NotUsed> combineLatestSource;
         private ActorSystem singleCombineLatestSystem;
 
-        @Setup
+        @Setup(Level.Iteration)
         public void setup() {
             singleCombineLatestSource = Source.fromJavaStream(() -> IntStream.rangeClosed(0, times).mapToObj(String::valueOf));
             combineLatestSource = Source.fromJavaStream(() -> IntStream.rangeClosed(times, times * 2 / 3).mapToObj(String::valueOf));
             singleCombineLatestSystem = ActorSystem.create("singleCombineLatestSystem");
         }
 
-        @TearDown
+        @TearDown(Level.Iteration)
         public void cleanup() {
             singleCombineLatestSystem.terminate();
         }
@@ -44,14 +44,14 @@ public class AkkaCombineLatest {
         private Source<String, NotUsed> combineLatestSource;
         private ActorSystem multiCombineLatestSystem;
 
-        @Setup
+        @Setup(Level.Iteration)
         public void setup() {
             multiCombineLatestSource = Source.fromJavaStream(() -> IntStream.rangeClosed(0, times).mapToObj(String::valueOf));
             combineLatestSource = Source.fromJavaStream(() -> IntStream.rangeClosed(times, times * 2 / 3).mapToObj(String::valueOf));
             multiCombineLatestSystem = ActorSystem.create("multiCombineLatestSystem");
         }
 
-        @TearDown
+        @TearDown(Level.Iteration)
         public void cleanup() {
             multiCombineLatestSystem.terminate();
         }
@@ -63,14 +63,14 @@ public class AkkaCombineLatest {
         private Source<String, NotUsed> combineLatestSource;
         private ActorSystem multiCombineLatestEachOnIoSystem;
 
-        @Setup
+        @Setup(Level.Iteration)
         public void setup() {
             multiCombineLatestEachOnIoSource = Source.fromJavaStream(() -> IntStream.rangeClosed(0, times).mapToObj(String::valueOf));
             combineLatestSource = Source.fromJavaStream(() -> IntStream.rangeClosed(times, times * 2 / 3).mapToObj(String::valueOf));
             multiCombineLatestEachOnIoSystem = ActorSystem.create("multiCombineLatestEachOnIoSystem");
         }
 
-        @TearDown
+        @TearDown(Level.Iteration)
         public void cleanup() {
             multiCombineLatestEachOnIoSystem.terminate();
         }

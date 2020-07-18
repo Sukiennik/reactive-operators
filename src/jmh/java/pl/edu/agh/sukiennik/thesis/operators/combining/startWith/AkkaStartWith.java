@@ -25,14 +25,14 @@ public class AkkaStartWith {
         private Source<String, NotUsed> startWithSource;
         private ActorSystem singleStartWithSystem;
 
-        @Setup
+        @Setup(Level.Iteration)
         public void setup() {
             singleStartWithSource = Source.fromJavaStream(() -> IntStream.rangeClosed(0, times).mapToObj(String::valueOf));
             startWithSource = Source.fromJavaStream(() -> IntStream.rangeClosed(times, times * 2 / 3).mapToObj(String::valueOf));
             singleStartWithSystem = ActorSystem.create("singleStartWithSystem");
         }
 
-        @TearDown
+        @TearDown(Level.Iteration)
         public void cleanup() {
             singleStartWithSystem.terminate();
         }
@@ -44,14 +44,14 @@ public class AkkaStartWith {
         private Source<String, NotUsed> startWithSource;
         private ActorSystem multiStartWithSystem;
 
-        @Setup
+        @Setup(Level.Iteration)
         public void setup() {
             multiStartWithSource = Source.fromJavaStream(() -> IntStream.rangeClosed(0, times).mapToObj(String::valueOf));
             startWithSource = Source.fromJavaStream(() -> IntStream.rangeClosed(times, times * 2 / 3).mapToObj(String::valueOf));
             multiStartWithSystem = ActorSystem.create("multiStartWithSystem");
         }
 
-        @TearDown
+        @TearDown(Level.Iteration)
         public void cleanup() {
             multiStartWithSystem.terminate();
         }
@@ -63,14 +63,14 @@ public class AkkaStartWith {
         private Source<String, NotUsed> startWithSource;
         private ActorSystem multiStartWithEachOnIoSystem;
 
-        @Setup
+        @Setup(Level.Iteration)
         public void setup() {
             multiStartWithEachOnIoSource = Source.fromJavaStream(() -> IntStream.rangeClosed(0, times).mapToObj(String::valueOf));
             startWithSource = Source.fromJavaStream(() -> IntStream.rangeClosed(times, times * 2 / 3).mapToObj(String::valueOf));
             multiStartWithEachOnIoSystem = ActorSystem.create("multiStartWithEachOnIoSystem");
         }
 
-        @TearDown
+        @TearDown(Level.Iteration)
         public void cleanup() {
             multiStartWithEachOnIoSystem.terminate();
         }

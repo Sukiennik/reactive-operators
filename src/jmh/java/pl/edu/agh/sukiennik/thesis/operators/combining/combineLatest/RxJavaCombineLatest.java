@@ -33,6 +33,11 @@ public class RxJavaCombineLatest {
         combineLatestFlowable = Flowable.fromArray(IntStream.rangeClosed(times, times * 3 / 2).mapToObj(String::valueOf).toArray(String[]::new));
     }
 
+    @TearDown(Level.Iteration)
+    public void clear() {
+        Schedulers.shutdown();
+    }
+
     @Benchmark
     @Measurement(iterations = 5, time = 20)
     public void singleCombineLatest(Blackhole bh) {

@@ -29,7 +29,11 @@ public class ReactorStartWith {
         multiStartWithFlux = Flux.fromArray(IntStream.rangeClosed(0, times).mapToObj(String::valueOf).toArray(String[]::new));
         multiStartWithEachOnIoFlux = Flux.fromArray(IntStream.rangeClosed(0, times).mapToObj(String::valueOf).toArray(String[]::new));
         startWithFlux = Flux.fromArray(IntStream.rangeClosed(times, times * 3 / 2).mapToObj(String::valueOf).toArray(String[]::new));
+    }
 
+    @TearDown(Level.Iteration)
+    public void clear() {
+        Schedulers.shutdownNow();
     }
 
     @Benchmark

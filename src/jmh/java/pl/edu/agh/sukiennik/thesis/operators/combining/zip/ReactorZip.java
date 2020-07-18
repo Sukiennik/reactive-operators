@@ -29,7 +29,11 @@ public class ReactorZip {
         multiZipFlux = Flux.fromArray(IntStream.rangeClosed(0, times).mapToObj(String::valueOf).toArray(String[]::new));
         multiZipEachOnIoFlux = Flux.fromArray(IntStream.rangeClosed(0, times).mapToObj(String::valueOf).toArray(String[]::new));
         zipFlux = Flux.fromArray(IntStream.rangeClosed(times, times * 3 / 2).mapToObj(String::valueOf).toArray(String[]::new));
+    }
 
+    @TearDown(Level.Iteration)
+    public void clear() {
+        Schedulers.shutdownNow();
     }
 
     @Benchmark
