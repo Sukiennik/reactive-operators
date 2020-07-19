@@ -2,6 +2,7 @@ package pl.edu.agh.sukiennik.thesis.operators.combining.merge;
 
 import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.infra.Blackhole;
+import pl.edu.agh.sukiennik.thesis.operators.ForcedGcMemoryProfiler;
 import reactor.core.publisher.Flux;
 import reactor.core.scheduler.Schedulers;
 
@@ -33,6 +34,7 @@ public class ReactorMerge {
 
     @TearDown(Level.Iteration)
     public void clear() {
+        ForcedGcMemoryProfiler.recordUsedMemory();
         Schedulers.shutdownNow();
     }
 

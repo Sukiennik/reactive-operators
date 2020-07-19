@@ -4,6 +4,7 @@ import akka.NotUsed;
 import akka.actor.ActorSystem;
 import org.openjdk.jmh.annotations.*;
 import akka.stream.javadsl.Source;
+import pl.edu.agh.sukiennik.thesis.operators.ForcedGcMemoryProfiler;
 
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -34,6 +35,11 @@ public class AkkaFilter {
         public void cleanup() {
             singleFilterSystem.terminate();
         }
+
+        @TearDown(Level.Iteration)
+        public void cleanup2() {
+            ForcedGcMemoryProfiler.recordUsedMemory();
+        }
     }
 
     @State(Scope.Thread)
@@ -51,6 +57,11 @@ public class AkkaFilter {
         public void cleanup() {
             multiFilterSystem.terminate();
         }
+
+        @TearDown(Level.Iteration)
+        public void cleanup2() {
+            ForcedGcMemoryProfiler.recordUsedMemory();
+        }
     }
 
     @State(Scope.Thread)
@@ -67,6 +78,11 @@ public class AkkaFilter {
         @TearDown
         public void cleanup() {
             multiFilterEachOnIoSystem.terminate();
+        }
+
+        @TearDown(Level.Iteration)
+        public void cleanup2() {
+            ForcedGcMemoryProfiler.recordUsedMemory();
         }
     }
     

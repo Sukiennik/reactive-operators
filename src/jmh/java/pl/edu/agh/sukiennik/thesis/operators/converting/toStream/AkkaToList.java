@@ -6,6 +6,7 @@ import akka.stream.javadsl.Sink;
 import akka.stream.javadsl.Source;
 import akka.stream.javadsl.StreamConverters;
 import org.openjdk.jmh.annotations.*;
+import pl.edu.agh.sukiennik.thesis.operators.ForcedGcMemoryProfiler;
 
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -34,6 +35,11 @@ public class AkkaToList {
     @TearDown
     public void cleanup() {
         singleToListSystem.terminate();
+    }
+
+    @TearDown(Level.Iteration)
+    public void cleanup2() {
+        ForcedGcMemoryProfiler.recordUsedMemory();
     }
 
     @Benchmark

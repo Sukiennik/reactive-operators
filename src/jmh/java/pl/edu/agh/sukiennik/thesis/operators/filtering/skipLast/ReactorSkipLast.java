@@ -1,6 +1,7 @@
 package pl.edu.agh.sukiennik.thesis.operators.filtering.skipLast;
 
 import org.openjdk.jmh.annotations.*;
+import pl.edu.agh.sukiennik.thesis.operators.ForcedGcMemoryProfiler;
 import reactor.core.publisher.Flux;
 import reactor.core.scheduler.Schedulers;
 
@@ -26,6 +27,11 @@ public class ReactorSkipLast {
         singleSkipLast = Flux.fromArray(IntStream.rangeClosed(0, times).boxed().toArray(Integer[]::new));
         multipleSkipLast = Flux.fromArray(IntStream.rangeClosed(0, times).boxed().toArray(Integer[]::new));
         multiSkipLastEachOnIo = Flux.fromArray(IntStream.rangeClosed(0, times).boxed().toArray(Integer[]::new));
+    }
+
+    @TearDown(Level.Iteration)
+    public void cleanup2() {
+        ForcedGcMemoryProfiler.recordUsedMemory();
     }
 
     @Benchmark

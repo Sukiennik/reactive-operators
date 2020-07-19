@@ -1,6 +1,7 @@
 package pl.edu.agh.sukiennik.thesis.operators.transforming.concatMap;
 
 import org.openjdk.jmh.annotations.*;
+import pl.edu.agh.sukiennik.thesis.operators.ForcedGcMemoryProfiler;
 import reactor.core.publisher.Flux;
 import reactor.core.scheduler.Schedulers;
 
@@ -28,6 +29,11 @@ public class ReactorConcatMap {
         singleConcatMapFlux = Flux.fromArray(IntStream.rangeClosed(0, times).boxed().toArray(Integer[]::new));
         multiConcatMapFlux = Flux.fromArray(IntStream.rangeClosed(0, times).boxed().toArray(Integer[]::new));
         multiConcatMapEachOnIoFlux = Flux.fromArray(IntStream.rangeClosed(0, 10000).boxed().toArray(Integer[]::new));
+    }
+
+    @TearDown(Level.Iteration)
+    public void cleanup2() {
+        ForcedGcMemoryProfiler.recordUsedMemory();
     }
     
     @Benchmark

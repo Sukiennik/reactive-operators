@@ -6,6 +6,7 @@ import akka.stream.Attributes;
 import akka.stream.DelayOverflowStrategy;
 import akka.stream.javadsl.Source;
 import org.openjdk.jmh.annotations.*;
+import pl.edu.agh.sukiennik.thesis.operators.ForcedGcMemoryProfiler;
 
 import java.time.Duration;
 import java.util.concurrent.ExecutionException;
@@ -34,6 +35,11 @@ public class AkkaDelayElements {
     @TearDown
     public void cleanup() {
         singleDelayElementsSystem.terminate();
+    }
+
+    @TearDown(Level.Iteration)
+    public void cleanup2() {
+        ForcedGcMemoryProfiler.recordUsedMemory();
     }
 
     @Benchmark

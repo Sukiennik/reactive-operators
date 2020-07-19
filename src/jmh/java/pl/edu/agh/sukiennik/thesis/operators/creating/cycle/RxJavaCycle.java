@@ -3,6 +3,7 @@ package pl.edu.agh.sukiennik.thesis.operators.creating.cycle;
 import io.reactivex.rxjava3.core.Flowable;
 import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.infra.Blackhole;
+import pl.edu.agh.sukiennik.thesis.operators.ForcedGcMemoryProfiler;
 import pl.edu.agh.sukiennik.thesis.operators.PerformanceSubscriber;
 
 import java.util.List;
@@ -25,6 +26,11 @@ public class RxJavaCycle {
     @Setup
     public void setup() {
         cycleList = IntStream.range(0, times).boxed().collect(Collectors.toList());
+    }
+
+    @TearDown(Level.Iteration)
+    public void cleanup2() {
+        ForcedGcMemoryProfiler.recordUsedMemory();
     }
 
     @Benchmark

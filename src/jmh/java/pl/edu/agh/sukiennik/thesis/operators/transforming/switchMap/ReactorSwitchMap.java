@@ -1,6 +1,7 @@
 package pl.edu.agh.sukiennik.thesis.operators.transforming.switchMap;
 
 import org.openjdk.jmh.annotations.*;
+import pl.edu.agh.sukiennik.thesis.operators.ForcedGcMemoryProfiler;
 import reactor.core.publisher.Flux;
 import reactor.core.scheduler.Schedulers;
 
@@ -28,6 +29,11 @@ public class ReactorSwitchMap {
         singleSwitchMapFlux = Flux.fromArray(IntStream.rangeClosed(0, times).boxed().toArray(Integer[]::new));
         multiSwitchMapFlux = Flux.fromArray(IntStream.rangeClosed(0, times).boxed().toArray(Integer[]::new));
         multiSwitchMapEachOnIoFlux = Flux.fromArray(IntStream.rangeClosed(0, 10000).boxed().toArray(Integer[]::new));
+    }
+
+    @TearDown(Level.Iteration)
+    public void cleanup2() {
+        ForcedGcMemoryProfiler.recordUsedMemory();
     }
     
     @Benchmark

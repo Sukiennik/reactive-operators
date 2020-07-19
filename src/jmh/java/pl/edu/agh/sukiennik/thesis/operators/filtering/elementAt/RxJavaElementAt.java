@@ -3,6 +3,7 @@ package pl.edu.agh.sukiennik.thesis.operators.filtering.elementAt;
 import io.reactivex.rxjava3.core.Flowable;
 import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.infra.Blackhole;
+import pl.edu.agh.sukiennik.thesis.operators.ForcedGcMemoryProfiler;
 import pl.edu.agh.sukiennik.thesis.operators.PerformanceSubscriber;
 
 import java.util.concurrent.TimeUnit;
@@ -23,6 +24,11 @@ public class RxJavaElementAt {
     @Setup
     public void setup() {
         singleElementAt = Flowable.fromArray(IntStream.rangeClosed(0, times).boxed().toArray(Integer[]::new));
+    }
+
+    @TearDown(Level.Iteration)
+    public void cleanup2() {
+        ForcedGcMemoryProfiler.recordUsedMemory();
     }
 
     @Benchmark

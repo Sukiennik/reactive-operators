@@ -4,6 +4,7 @@ import akka.NotUsed;
 import akka.actor.ActorSystem;
 import akka.stream.javadsl.Source;
 import org.openjdk.jmh.annotations.*;
+import pl.edu.agh.sukiennik.thesis.operators.ForcedGcMemoryProfiler;
 
 import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
@@ -37,6 +38,11 @@ public class AkkaConcatMap {
         public void cleanup() {
             singleConcatMapSystem.terminate();
         }
+
+        @TearDown(Level.Iteration)
+        public void cleanup2() {
+            ForcedGcMemoryProfiler.recordUsedMemory();
+        }
     }
 
     @State(Scope.Thread)
@@ -56,6 +62,11 @@ public class AkkaConcatMap {
         public void cleanup() {
             multiConcatMapSystem.terminate();
         }
+
+        @TearDown(Level.Iteration)
+        public void cleanup2() {
+            ForcedGcMemoryProfiler.recordUsedMemory();
+        }
     }
 
     @State(Scope.Thread)
@@ -74,6 +85,11 @@ public class AkkaConcatMap {
         @TearDown
         public void cleanup() {
             multiConcatMapEachOnIoSystem.terminate();
+        }
+
+        @TearDown(Level.Iteration)
+        public void cleanup2() {
+            ForcedGcMemoryProfiler.recordUsedMemory();
         }
     }
 

@@ -1,6 +1,7 @@
 package pl.edu.agh.sukiennik.thesis.operators.creating.timer;
 
 import org.openjdk.jmh.annotations.*;
+import pl.edu.agh.sukiennik.thesis.operators.ForcedGcMemoryProfiler;
 import reactor.core.publisher.Mono;
 
 import java.time.Duration;
@@ -12,6 +13,11 @@ import java.util.concurrent.TimeUnit;
 @Fork(1)
 @State(Scope.Thread)
 public class ReactorTimer {
+
+    @TearDown(Level.Iteration)
+    public void cleanup2() {
+        ForcedGcMemoryProfiler.recordUsedMemory();
+    }
 
     @Benchmark
     @Measurement(iterations = 5, time = 20)

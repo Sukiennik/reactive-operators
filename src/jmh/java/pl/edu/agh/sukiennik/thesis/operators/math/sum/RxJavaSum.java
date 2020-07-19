@@ -4,6 +4,7 @@ import hu.akarnokd.rxjava3.math.MathFlowable;
 import io.reactivex.rxjava3.core.Flowable;
 import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.infra.Blackhole;
+import pl.edu.agh.sukiennik.thesis.operators.ForcedGcMemoryProfiler;
 import pl.edu.agh.sukiennik.thesis.operators.PerformanceSubscriber;
 
 import java.util.concurrent.TimeUnit;
@@ -24,6 +25,11 @@ public class RxJavaSum {
     @Setup
     public void setup() {
         singleSumFlowable = Flowable.fromArray(LongStream.rangeClosed(0, times).boxed().toArray(Long[]::new));
+    }
+
+    @TearDown(Level.Iteration)
+    public void cleanup2() {
+        ForcedGcMemoryProfiler.recordUsedMemory();
     }
 
     @Benchmark

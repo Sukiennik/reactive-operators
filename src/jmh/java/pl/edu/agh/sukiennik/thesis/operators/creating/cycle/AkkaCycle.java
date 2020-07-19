@@ -3,6 +3,7 @@ package pl.edu.agh.sukiennik.thesis.operators.creating.cycle;
 import akka.actor.ActorSystem;
 import akka.stream.javadsl.Source;
 import org.openjdk.jmh.annotations.*;
+import pl.edu.agh.sukiennik.thesis.operators.ForcedGcMemoryProfiler;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -32,6 +33,11 @@ public class AkkaCycle {
     @TearDown
     public void cleanup() {
         singleCycleSystem.terminate();
+    }
+
+    @TearDown(Level.Iteration)
+    public void cleanup2() {
+        ForcedGcMemoryProfiler.recordUsedMemory();
     }
 
     @Benchmark

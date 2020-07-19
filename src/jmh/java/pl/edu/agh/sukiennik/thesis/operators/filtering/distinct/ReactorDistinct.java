@@ -1,6 +1,7 @@
 package pl.edu.agh.sukiennik.thesis.operators.filtering.distinct;
 
 import org.openjdk.jmh.annotations.*;
+import pl.edu.agh.sukiennik.thesis.operators.ForcedGcMemoryProfiler;
 import reactor.core.publisher.Flux;
 import reactor.core.scheduler.Schedulers;
 
@@ -20,11 +21,15 @@ public class ReactorDistinct {
 
     private Flux<Integer> singleDistinct;
 
-
     @Setup
     public void setup() {
         singleDistinct = Flux.fromArray(
                 IntStream.concat(IntStream.rangeClosed(0, times), IntStream.rangeClosed(0, times)).boxed().toArray(Integer[]::new));
+    }
+
+    @TearDown(Level.Iteration)
+    public void cleanup2() {
+        ForcedGcMemoryProfiler.recordUsedMemory();
     }
 
     @Benchmark

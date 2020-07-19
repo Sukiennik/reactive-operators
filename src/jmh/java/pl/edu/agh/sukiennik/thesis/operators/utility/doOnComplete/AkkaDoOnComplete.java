@@ -5,6 +5,7 @@ import akka.actor.ActorSystem;
 import akka.stream.javadsl.Sink;
 import akka.stream.javadsl.Source;
 import org.openjdk.jmh.annotations.*;
+import pl.edu.agh.sukiennik.thesis.operators.ForcedGcMemoryProfiler;
 import scala.util.Success;
 import scala.util.Try;
 
@@ -35,6 +36,11 @@ public class AkkaDoOnComplete {
     @TearDown
     public void cleanup() {
         singleDoOnCompleteSystem.terminate();
+    }
+
+    @TearDown(Level.Iteration)
+    public void cleanup2() {
+        ForcedGcMemoryProfiler.recordUsedMemory();
     }
 
     @Benchmark

@@ -5,6 +5,7 @@ import akka.actor.ActorSystem;
 import akka.stream.javadsl.Sink;
 import akka.stream.javadsl.Source;
 import org.openjdk.jmh.annotations.*;
+import pl.edu.agh.sukiennik.thesis.operators.ForcedGcMemoryProfiler;
 
 import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
@@ -36,6 +37,11 @@ public class AkkaOfType {
     @TearDown(Level.Iteration)
     public void cleanup() {
         singleOfTypeSystem.terminate();
+    }
+
+    @TearDown(Level.Iteration)
+    public void cleanup2() {
+        ForcedGcMemoryProfiler.recordUsedMemory();
     }
 
     @Benchmark

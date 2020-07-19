@@ -4,6 +4,7 @@ import akka.NotUsed;
 import akka.actor.ActorSystem;
 import akka.stream.javadsl.Source;
 import org.openjdk.jmh.annotations.*;
+import pl.edu.agh.sukiennik.thesis.operators.ForcedGcMemoryProfiler;
 
 import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
@@ -37,6 +38,11 @@ public class AkkaFlatMap {
         public void cleanup() {
             singleFlatMapSystem.terminate();
         }
+
+        @TearDown(Level.Iteration)
+        public void cleanup2() {
+            ForcedGcMemoryProfiler.recordUsedMemory();
+        }
     }
 
     @State(Scope.Thread)
@@ -56,6 +62,11 @@ public class AkkaFlatMap {
         public void cleanup() {
             multiFlatMapSystem.terminate();
         }
+
+        @TearDown(Level.Iteration)
+        public void cleanup2() {
+            ForcedGcMemoryProfiler.recordUsedMemory();
+        }
     }
 
     @State(Scope.Thread)
@@ -74,6 +85,11 @@ public class AkkaFlatMap {
         @TearDown
         public void cleanup() {
             multiFlatMapEachOnIoSystem.terminate();
+        }
+
+        @TearDown(Level.Iteration)
+        public void cleanup2() {
+            ForcedGcMemoryProfiler.recordUsedMemory();
         }
     }
 

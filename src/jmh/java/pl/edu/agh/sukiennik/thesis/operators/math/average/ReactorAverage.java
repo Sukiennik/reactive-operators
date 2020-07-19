@@ -1,6 +1,7 @@
 package pl.edu.agh.sukiennik.thesis.operators.math.average;
 
 import org.openjdk.jmh.annotations.*;
+import pl.edu.agh.sukiennik.thesis.operators.ForcedGcMemoryProfiler;
 import reactor.core.publisher.Flux;
 import reactor.math.MathFlux;
 
@@ -22,6 +23,11 @@ public class ReactorAverage {
     @Setup
     public void setup() {
         singleAverageFlux = Flux.fromArray(LongStream.rangeClosed(0, times).boxed().toArray(Long[]::new));
+    }
+
+    @TearDown(Level.Iteration)
+    public void cleanup2() {
+        ForcedGcMemoryProfiler.recordUsedMemory();
     }
 
     @Benchmark

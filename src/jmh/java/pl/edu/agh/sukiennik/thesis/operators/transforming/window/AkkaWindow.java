@@ -5,6 +5,7 @@ import akka.actor.ActorSystem;
 import akka.stream.javadsl.Sink;
 import akka.stream.javadsl.Source;
 import org.openjdk.jmh.annotations.*;
+import pl.edu.agh.sukiennik.thesis.operators.ForcedGcMemoryProfiler;
 
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -35,6 +36,11 @@ public class AkkaWindow {
         public void cleanup() {
             singleWindowSystem.terminate();
         }
+
+        @TearDown(Level.Iteration)
+        public void cleanup2() {
+            ForcedGcMemoryProfiler.recordUsedMemory();
+        }
     }
 
     @State(Scope.Thread)
@@ -52,6 +58,11 @@ public class AkkaWindow {
         public void cleanup() {
             singleWindowThenFlattenIndexedSystem.terminate();
         }
+
+        @TearDown(Level.Iteration)
+        public void cleanup2() {
+            ForcedGcMemoryProfiler.recordUsedMemory();
+        }
     }
 
     @State(Scope.Thread)
@@ -68,6 +79,11 @@ public class AkkaWindow {
         @TearDown
         public void cleanup() {
             multiWindowSystem.terminate();
+        }
+
+        @TearDown(Level.Iteration)
+        public void cleanup2() {
+            ForcedGcMemoryProfiler.recordUsedMemory();
         }
     }
 

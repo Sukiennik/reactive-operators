@@ -2,6 +2,7 @@ package pl.edu.agh.sukiennik.thesis.operators.creating.just;
 
 import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.infra.Blackhole;
+import pl.edu.agh.sukiennik.thesis.operators.ForcedGcMemoryProfiler;
 import reactor.core.publisher.Flux;
 
 import java.util.concurrent.TimeUnit;
@@ -16,7 +17,12 @@ public class ReactorJust {
 
     @Param({"1", "1000", "1000000", "10000000"})
     private static int times;
-    
+
+    @TearDown(Level.Iteration)
+    public void cleanup2() {
+        ForcedGcMemoryProfiler.recordUsedMemory();
+    }
+
     @Benchmark
     @Measurement(iterations = 5, time = 20)
     public void singleJust() {

@@ -1,6 +1,7 @@
 package pl.edu.agh.sukiennik.thesis.operators.filtering.ofType;
 
 import org.openjdk.jmh.annotations.*;
+import pl.edu.agh.sukiennik.thesis.operators.ForcedGcMemoryProfiler;
 import reactor.core.publisher.Flux;
 
 import java.util.Arrays;
@@ -26,6 +27,11 @@ public class ReactorOfType {
         Stream<Integer> streamOfInts = Arrays.stream(IntStream.rangeClosed(0, times).boxed().toArray(Integer[]::new));
         Stream<Double> streamOfDoubles = Arrays.stream(IntStream.rangeClosed(0, times).asDoubleStream().boxed().toArray(Double[]::new));
         singleOfType = Flux.fromArray(Stream.concat(streamOfInts, streamOfDoubles).toArray(Number[]::new));
+    }
+
+    @TearDown(Level.Iteration)
+    public void cleanup2() {
+        ForcedGcMemoryProfiler.recordUsedMemory();
     }
 
     @Benchmark

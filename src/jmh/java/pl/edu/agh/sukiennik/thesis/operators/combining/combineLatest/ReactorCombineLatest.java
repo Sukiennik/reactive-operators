@@ -1,6 +1,7 @@
 package pl.edu.agh.sukiennik.thesis.operators.combining.combineLatest;
 
 import org.openjdk.jmh.annotations.*;
+import pl.edu.agh.sukiennik.thesis.operators.ForcedGcMemoryProfiler;
 import reactor.core.publisher.Flux;
 import reactor.core.scheduler.Schedulers;
 
@@ -32,6 +33,7 @@ public class ReactorCombineLatest {
 
     @TearDown(Level.Iteration)
     public void clear() {
+        ForcedGcMemoryProfiler.recordUsedMemory();
         Schedulers.shutdownNow();
     }
 

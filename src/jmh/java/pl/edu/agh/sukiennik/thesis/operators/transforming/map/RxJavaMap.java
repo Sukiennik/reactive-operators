@@ -30,7 +30,7 @@ public class RxJavaMap {
         multiMapEachOnIoFlowable = Flowable.fromArray(IntStream.rangeClosed(0, times).boxed().toArray(Integer[]::new));
     }
 
-    @Setup(Level.Iteration)
+    @TearDown(Level.Iteration)
     public void cleanup() {
         ForcedGcMemoryProfiler.recordUsedMemory();
     }

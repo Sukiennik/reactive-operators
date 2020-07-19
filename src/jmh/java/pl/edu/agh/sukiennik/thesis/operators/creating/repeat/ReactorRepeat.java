@@ -2,6 +2,7 @@ package pl.edu.agh.sukiennik.thesis.operators.creating.repeat;
 
 import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.infra.Blackhole;
+import pl.edu.agh.sukiennik.thesis.operators.ForcedGcMemoryProfiler;
 import reactor.core.publisher.Flux;
 
 import java.util.concurrent.TimeUnit;
@@ -22,6 +23,11 @@ public class ReactorRepeat {
     @Setup
     public void setup() {
         singleRepeat = Flux.just(1);
+    }
+
+    @TearDown(Level.Iteration)
+    public void cleanup2() {
+        ForcedGcMemoryProfiler.recordUsedMemory();
     }
 
     @Benchmark

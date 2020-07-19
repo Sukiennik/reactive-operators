@@ -6,6 +6,7 @@ import akka.stream.javadsl.Sink;
 import akka.stream.javadsl.Source;
 import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.infra.Blackhole;
+import pl.edu.agh.sukiennik.thesis.operators.ForcedGcMemoryProfiler;
 
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -28,6 +29,11 @@ public class AkkaFirst {
     public void setup() {
         singleFirst = Source.fromJavaStream(() -> IntStream.rangeClosed(0, times));
         singleFirstSystem = ActorSystem.create("singleFirstSystem");
+    }
+
+    @TearDown(Level.Iteration)
+    public void cleanup2() {
+        ForcedGcMemoryProfiler.recordUsedMemory();
     }
 
     @TearDown
