@@ -16,7 +16,7 @@ import java.util.stream.IntStream;
 @State(Scope.Thread)
 public class RxJavaConcatMap {
 
-    @Param({"1", "1000", "1000000", "10000000"})
+    @Param({"1", "1000", "100000", "1000000"})
     private static int times;
 
     private Flowable<String> characters;
@@ -75,7 +75,8 @@ public class RxJavaConcatMap {
 
     public static void main(String[] args) {
         //RxJavaConcatMap concatMapBenchmark = new RxJavaConcatMap();
-        //concatMapBenchmark.singleConcatMap();
+        //concatMapBenchmark.setup();
+        //concatMapBenchmark.multiConcatMap();
     }
 
 }

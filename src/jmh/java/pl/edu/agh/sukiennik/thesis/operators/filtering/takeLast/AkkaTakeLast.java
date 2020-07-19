@@ -75,7 +75,7 @@ public class AkkaTakeLast {
     @Measurement(iterations = 5, time = 20)
     public void singleTakeLast(SingleTakeLastState state) throws ExecutionException, InterruptedException {
         state.singleTakeLast
-                .runWith(Sink.takeLast(times / 3), state.singleTakeLastSystem)
+                .runWith(Sink.takeLast(times / 3 == 0 ? 1 : times / 3), state.singleTakeLastSystem)
                 .toCompletableFuture()
                 .get();
     }

@@ -25,15 +25,15 @@ public class AkkaOfType {
     private Source<Number, NotUsed> singleOfType;
     private ActorSystem singleOfTypeSystem;
 
-    @Setup
+    @Setup(Level.Iteration)
     public void setup() {
-        Stream<Integer> streamOfInts = Arrays.stream(IntStream.rangeClosed(0, times).boxed().toArray(Integer[]::new));
-        Stream<Double> streamOfDoubles = Arrays.stream(IntStream.rangeClosed(0, times).asDoubleStream().boxed().toArray(Double[]::new));
-        singleOfType = Source.fromJavaStream(() -> Stream.concat(streamOfInts, streamOfDoubles));
+        singleOfType = Source.fromJavaStream(() -> Stream.concat(
+                Arrays.stream(IntStream.rangeClosed(0, times).boxed().toArray(Integer[]::new)),
+                Arrays.stream(IntStream.rangeClosed(0, times).asDoubleStream().boxed().toArray(Double[]::new))));
         singleOfTypeSystem = ActorSystem.create("singleOfTypeSystem");
     }
 
-    @TearDown
+    @TearDown(Level.Iteration)
     public void cleanup() {
         singleOfTypeSystem.terminate();
     }

@@ -17,7 +17,7 @@ import java.util.stream.IntStream;
 @State(Scope.Thread)
 public class AkkaFlatMap {
 
-    @Param({"1", "1000", "1000000", "10000000"})
+    @Param({"1", "1000", "100000", "1000000"})
     private static int times;
 
     @State(Scope.Thread)
