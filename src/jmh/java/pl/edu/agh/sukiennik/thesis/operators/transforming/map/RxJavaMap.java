@@ -4,6 +4,7 @@ import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.infra.Blackhole;
+import pl.edu.agh.sukiennik.thesis.operators.ForcedGcMemoryProfiler;
 import pl.edu.agh.sukiennik.thesis.operators.PerformanceSubscriber;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
@@ -27,6 +28,11 @@ public class RxJavaMap {
         singleMapFlowable = Flowable.fromArray(IntStream.rangeClosed(0, times).boxed().toArray(Integer[]::new));
         multiMapFlowable = Flowable.fromArray(IntStream.rangeClosed(0, times).boxed().toArray(Integer[]::new));
         multiMapEachOnIoFlowable = Flowable.fromArray(IntStream.rangeClosed(0, times).boxed().toArray(Integer[]::new));
+    }
+
+    @Setup(Level.Iteration)
+    public void cleanup() {
+        ForcedGcMemoryProfiler.recordUsedMemory();
     }
     
     @Benchmark
