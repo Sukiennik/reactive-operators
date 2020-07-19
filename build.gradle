@@ -58,6 +58,7 @@ jmh {
     duplicateClassesStrategy = DuplicatesStrategy.EXCLUDE
     resultFormat = 'CSV' //'JSON'
 
+    profilers=['pl.edu.agh.sukiennik.thesis.operators.ForcedGcMemoryProfiler']
     jvmArgs = ["-Djmh.ignoreLock=true"]
     // For Epsilon GC, add: "-Xmx12G", "-XX:+UnlockExperimentalVMOptions", "-XX:+UseEpsilonGC"
     // For Shenandoah, add: "-XX:+UseShenandoahGC" [optionally "-XX:+UnlockDiagnosticVMOptions", "-XX:ShenandoahGCHeuristics=passive"]
@@ -67,7 +68,7 @@ jmh {
     // ---------------------------------------------------------------------------------------
     jvmArgsAppend = ["-XX:+UseParallelGC", "-Djmh.shutdownTimeout=1"]
     // ---------------------------------------------------------------------------------------\
-    include = ['pl.edu.agh.sukiennik.thesis.operators.combining.*']
+    include = ['pl.edu.agh.sukiennik.thesis.operators.transforming.*.RxJavaMap.singleMap']
 }
 
 jmhReport {
@@ -83,5 +84,5 @@ task generatePlots(type: Exec) {
     commandLine 'python', 'plot.py'
 }
 
-tasks.jmh.finalizedBy tasks.jmhReport
-tasks.jmhReport.finalizedBy tasks.generatePlots
+//tasks.jmh.finalizedBy tasks.jmhReport
+//tasks.jmhReport.finalizedBy tasks.generatePlots

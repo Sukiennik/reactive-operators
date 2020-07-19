@@ -11,7 +11,7 @@ import java.util.stream.IntStream;
 
 @BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
-@Warmup(iterations = 5, time = 5)
+@Warmup(iterations = 5, time = 1)
 @Fork(1)
 @State(Scope.Thread)
 public class RxJavaMap {
@@ -36,7 +36,7 @@ public class RxJavaMap {
     }
     
     @Benchmark
-    @Measurement(iterations = 5, time = 20)
+    @Measurement(iterations = 5, time = 5)
     public void singleMap(Blackhole bh) {
         singleMapFlowable
                 .map(element -> element + 1)
@@ -44,7 +44,7 @@ public class RxJavaMap {
     }
 
     @Benchmark
-    @Measurement(iterations = 5, time = 20)
+    @Measurement(iterations = 5, time = 5)
     public void multiMap(Blackhole bh) {
         Flowable<Integer> range = multiMapFlowable;
         for (int i = 0; i < 10; i++) {
@@ -55,7 +55,7 @@ public class RxJavaMap {
     }
 
     //@Benchmark
-    @Measurement(iterations = 5, time = 20)
+    @Measurement(iterations = 5, time = 5)
     public void multiMapEachOnIo(Blackhole bh) {
         Flowable<Integer> range = multiMapEachOnIoFlowable;
         for (int i = 0; i < 10; i++) {

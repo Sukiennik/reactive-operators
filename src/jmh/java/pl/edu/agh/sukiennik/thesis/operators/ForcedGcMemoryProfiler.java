@@ -129,8 +129,8 @@ public class ForcedGcMemoryProfiler implements InternalProfiler {
                 totalMemory = _heapUsage.getCommitted() + _nonHeapUsage.getCommitted();
                 long _usedHeapMemory = _heapUsage.getUsed();
                 long _usedNonHeap = _nonHeapUsage.getUsed();
-                System.err.println("[getMemoryMXBean] usedHeap=" + _usedHeapMemory + ", usedNonHeap=" + _usedNonHeap + ", totalUsed=" + (_usedHeapMemory + _usedNonHeap) + ", gcCount=" + _gcCount);
-                System.err.println("[Runtime totalMemory-freeMemory] used memory: " + (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()));
+                //System.err.println("[getMemoryMXBean] usedHeap=" + _usedHeapMemory + ", usedNonHeap=" + _usedNonHeap + ", totalUsed=" + (_usedHeapMemory + _usedNonHeap) + ", gcCount=" + _gcCount);
+                //System.err.println("[Runtime totalMemory-freeMemory] used memory: " + (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()));
                 return _usedHeapMemory + _usedNonHeap;
             }
         }
@@ -210,7 +210,7 @@ public class ForcedGcMemoryProfiler implements InternalProfiler {
             ps.write(_histoOuptut);
             ps.println();
             ps.close();
-            out.write(buffer.toByteArray());
+            //out.write(buffer.toByteArray());
         } catch (Exception ex) {
             System.err.println("ForcedGcMemoryProfiler: error attaching / reading histogram");
             ex.printStackTrace();
@@ -257,7 +257,7 @@ public class ForcedGcMemoryProfiler implements InternalProfiler {
         }
         String _javaHome = System.getenv("JAVA_HOME");
         if (_javaHome == null) {
-            System.err.println("ForcedGcMemoryProfiler: tools.jar missing? Add JAVA_HOME.");
+            //System.err.println("ForcedGcMemoryProfiler: tools.jar missing? Add JAVA_HOME.");
             return null;
         }
         File f = new File(new File(_javaHome, "lib"), "tools.jar");
