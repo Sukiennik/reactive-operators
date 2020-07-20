@@ -20,15 +20,15 @@ public class RxJavaTakeLast {
     @Param({"1", "1000", "1000000", "10000000"})
     private static int times;
 
-    private Flowable<Integer> singleTakeLastLastFlowable;
-    private Flowable<Integer> multiTakeLastLastFlowable;
-    private Flowable<Integer> multiTakeLastLastEachOnIoFlowable;
+    private Flowable<Integer> singleTakeLastFlowable;
+    private Flowable<Integer> multiTakeLastFlowable;
+    private Flowable<Integer> multiTakeLastEachOnIoFlowable;
 
     @Setup
     public void setup() {
-        singleTakeLastLastFlowable = Flowable.fromArray(IntStream.rangeClosed(0, times).boxed().toArray(Integer[]::new));
-        multiTakeLastLastFlowable = Flowable.fromArray(IntStream.rangeClosed(0, times).boxed().toArray(Integer[]::new));
-        multiTakeLastLastEachOnIoFlowable = Flowable.fromArray(IntStream.rangeClosed(0, times).boxed().toArray(Integer[]::new));
+        singleTakeLastFlowable = Flowable.fromArray(IntStream.rangeClosed(0, times).boxed().toArray(Integer[]::new));
+        multiTakeLastFlowable = Flowable.fromArray(IntStream.rangeClosed(0, times).boxed().toArray(Integer[]::new));
+        multiTakeLastEachOnIoFlowable = Flowable.fromArray(IntStream.rangeClosed(0, times).boxed().toArray(Integer[]::new));
     }
 
     @TearDown(Level.Iteration)
@@ -38,16 +38,16 @@ public class RxJavaTakeLast {
 
     @Benchmark
     @Measurement(iterations = 5, time = 20)
-    public void singleTakeLastLast(Blackhole bh) {
-        singleTakeLastLastFlowable
+    public void singleTakeLast(Blackhole bh) {
+        singleTakeLastFlowable
                 .takeLast(times / 2)
                 .blockingSubscribe(new PerformanceSubscriber(bh));
     }
 
     @Benchmark
     @Measurement(iterations = 5, time = 20)
-    public void multiTakeLastLast(Blackhole bh) {
-        Flowable<Integer> range = multiTakeLastLastFlowable;
+    public void multiTakeLast(Blackhole bh) {
+        Flowable<Integer> range = multiTakeLastFlowable;
         int elements = times;
         for (int i = 0; i < 10; i++) {
             elements = elements / 2;
@@ -59,8 +59,8 @@ public class RxJavaTakeLast {
 
     //@Benchmark
     @Measurement(iterations = 5, time = 20)
-    public void multiTakeLastLastEachOnIo(Blackhole bh) {
-        Flowable<Integer> range = multiTakeLastLastEachOnIoFlowable;
+    public void multiTakeLastEachOnIo(Blackhole bh) {
+        Flowable<Integer> range = multiTakeLastEachOnIoFlowable;
         int elements = times;
         for (int i = 0; i < 10; i++) {
             elements = elements / 2;
@@ -71,8 +71,8 @@ public class RxJavaTakeLast {
     }
 
     public static void main(String[] args) {
-        //RxJavaTakeLastLast firstBenchmark = new RxJavaTakeLastLast();
-        //firstBenchmark.singleTakeLastLast();
+        //RxJavaTakeLast firstBenchmark = new RxJavaTakeLast();
+        //firstBenchmark.singleTakeLast();
     }
 
 }

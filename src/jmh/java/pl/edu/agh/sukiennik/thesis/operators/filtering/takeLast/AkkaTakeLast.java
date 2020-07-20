@@ -9,6 +9,7 @@ import pl.edu.agh.sukiennik.thesis.operators.ForcedGcMemoryProfiler;
 
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @BenchmarkMode(Mode.AverageTime)
@@ -28,7 +29,7 @@ public class AkkaTakeLast {
 
         @Setup
         public void setup() {
-            singleTakeLast = Source.fromJavaStream(() -> IntStream.rangeClosed(0, times));
+            singleTakeLast = Source.from(IntStream.rangeClosed(0, times).boxed().collect(Collectors.toList()));
             singleTakeLastSystem = ActorSystem.create("singleTakeLastSystem");
         }
 
