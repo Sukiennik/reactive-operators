@@ -1,7 +1,7 @@
 package pl.edu.agh.sukiennik.thesis.operators.creating.cycle;
 
 import org.openjdk.jmh.annotations.*;
-import pl.edu.agh.sukiennik.thesis.operators.ForcedGcMemoryProfiler;
+import pl.edu.agh.sukiennik.thesis.utils.ForcedGcMemoryProfiler;
 import reactor.core.publisher.Flux;
 
 import java.util.List;

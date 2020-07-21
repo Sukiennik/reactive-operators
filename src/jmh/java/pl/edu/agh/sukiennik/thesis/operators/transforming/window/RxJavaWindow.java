@@ -5,14 +5,12 @@ import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.infra.Blackhole;
-import pl.edu.agh.sukiennik.thesis.operators.ForcedGcMemoryProfiler;
-import pl.edu.agh.sukiennik.thesis.operators.PerformanceSubscriber;
+import pl.edu.agh.sukiennik.thesis.utils.ForcedGcMemoryProfiler;
+import pl.edu.agh.sukiennik.thesis.utils.PerformanceSubscriber;
 
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
-import java.util.stream.Stream;
 
 @BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.MILLISECONDS)

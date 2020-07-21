@@ -1,10 +1,9 @@
 package pl.edu.agh.sukiennik.thesis.operators.creating.empty;
 
 import akka.actor.ActorSystem;
-import akka.stream.javadsl.Sink;
 import akka.stream.javadsl.Source;
 import org.openjdk.jmh.annotations.*;
-import pl.edu.agh.sukiennik.thesis.operators.ForcedGcMemoryProfiler;
+import pl.edu.agh.sukiennik.thesis.utils.ForcedGcMemoryProfiler;
 
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;

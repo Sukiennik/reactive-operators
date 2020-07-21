@@ -1,4 +1,4 @@
-package pl.edu.agh.sukiennik.thesis.operators;
+package pl.edu.agh.sukiennik.thesis.utils;
 
 import io.reactivex.rxjava3.core.*;
 import io.reactivex.rxjava3.disposables.Disposable;

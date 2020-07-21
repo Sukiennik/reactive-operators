@@ -1,13 +1,11 @@
 package pl.edu.agh.sukiennik.thesis.operators.filtering.distinct;
 
 import org.openjdk.jmh.annotations.*;
-import pl.edu.agh.sukiennik.thesis.operators.ForcedGcMemoryProfiler;
+import pl.edu.agh.sukiennik.thesis.utils.ForcedGcMemoryProfiler;
 import reactor.core.publisher.Flux;
-import reactor.core.scheduler.Schedulers;
 
 import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 @BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.MILLISECONDS)

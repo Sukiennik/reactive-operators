@@ -3,11 +3,10 @@ package pl.edu.agh.sukiennik.thesis.operators.creating.repeat;
 import io.reactivex.rxjava3.core.Flowable;
 import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.infra.Blackhole;
-import pl.edu.agh.sukiennik.thesis.operators.ForcedGcMemoryProfiler;
-import pl.edu.agh.sukiennik.thesis.operators.PerformanceSubscriber;
+import pl.edu.agh.sukiennik.thesis.utils.ForcedGcMemoryProfiler;
+import pl.edu.agh.sukiennik.thesis.utils.PerformanceSubscriber;
 
 import java.util.concurrent.TimeUnit;
-import java.util.stream.IntStream;
 
 @BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.MILLISECONDS)

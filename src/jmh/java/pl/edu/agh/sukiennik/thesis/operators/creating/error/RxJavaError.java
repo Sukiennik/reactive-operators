@@ -3,8 +3,9 @@ package pl.edu.agh.sukiennik.thesis.operators.creating.error;
 import io.reactivex.rxjava3.core.Flowable;
 import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.infra.Blackhole;
-import pl.edu.agh.sukiennik.thesis.operators.ForcedGcMemoryProfiler;
-import pl.edu.agh.sukiennik.thesis.operators.PerformanceSubscriber;
+import pl.edu.agh.sukiennik.thesis.utils.ErrorPerformanceSubscriber;
+import pl.edu.agh.sukiennik.thesis.utils.ForcedGcMemoryProfiler;
+import pl.edu.agh.sukiennik.thesis.utils.PerformanceSubscriber;
 
 import java.util.concurrent.TimeUnit;
 
@@ -24,7 +25,7 @@ public class RxJavaError {
     @Measurement(iterations = 5, time = 20)
     public void singleError(Blackhole bh) {
         Flowable.error(Exception::new)
-                .blockingSubscribe(new PerformanceSubscriber(bh));
+                .blockingSubscribe(new ErrorPerformanceSubscriber(bh));
     }
 
     public static void main(String[] args) {

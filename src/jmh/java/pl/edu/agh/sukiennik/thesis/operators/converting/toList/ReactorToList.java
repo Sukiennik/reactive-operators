@@ -1,11 +1,9 @@
 package pl.edu.agh.sukiennik.thesis.operators.converting.toList;
 
 import org.openjdk.jmh.annotations.*;
-import pl.edu.agh.sukiennik.thesis.operators.ForcedGcMemoryProfiler;
+import pl.edu.agh.sukiennik.thesis.utils.ForcedGcMemoryProfiler;
 import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 
-import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
 

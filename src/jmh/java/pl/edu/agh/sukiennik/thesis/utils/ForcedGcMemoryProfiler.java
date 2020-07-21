@@ -1,4 +1,4 @@
-package pl.edu.agh.sukiennik.thesis.operators;
+package pl.edu.agh.sukiennik.thesis.utils;
 
 /*
  * #%L

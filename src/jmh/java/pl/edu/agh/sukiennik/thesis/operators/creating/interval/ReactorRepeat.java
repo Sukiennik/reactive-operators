@@ -1,8 +1,7 @@
 package pl.edu.agh.sukiennik.thesis.operators.creating.interval;
 
 import org.openjdk.jmh.annotations.*;
-import org.openjdk.jmh.infra.Blackhole;
-import pl.edu.agh.sukiennik.thesis.operators.ForcedGcMemoryProfiler;
+import pl.edu.agh.sukiennik.thesis.utils.ForcedGcMemoryProfiler;
 import reactor.core.publisher.Flux;
 
 import java.time.Duration;

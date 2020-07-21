@@ -2,10 +2,9 @@ package pl.edu.agh.sukiennik.thesis.operators.filtering.ofType;
 
 import akka.NotUsed;
 import akka.actor.ActorSystem;
-import akka.stream.javadsl.Sink;
 import akka.stream.javadsl.Source;
 import org.openjdk.jmh.annotations.*;
-import pl.edu.agh.sukiennik.thesis.operators.ForcedGcMemoryProfiler;
+import pl.edu.agh.sukiennik.thesis.utils.ForcedGcMemoryProfiler;
 
 import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
