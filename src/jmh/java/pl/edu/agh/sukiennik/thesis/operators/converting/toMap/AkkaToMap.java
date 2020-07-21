@@ -47,7 +47,7 @@ public class AkkaToMap {
     @Measurement(iterations = 5, time = 20)
     public void singleToMap() throws ExecutionException, InterruptedException {
         singleToMap
-                .runWith(StreamConverters.javaCollector(() -> Collectors.toMap(t -> t % 5, Function.identity())), singleToMapSystem)
+                .runWith(StreamConverters.javaCollector(() -> Collectors.toMap(t -> t % 5, Function.identity(), (a, b) -> b)), singleToMapSystem)
                 .toCompletableFuture()
                 .get();
     }

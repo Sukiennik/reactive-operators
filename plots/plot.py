@@ -28,7 +28,7 @@ filterOutMemoryResults = 'Vm|settled|usedHeap'
 #     json.dump(onlyfiles, handle)
 
 # df = pd.read_csv('results\\results_avg.csv', delimiter=',')
-df = pd.read_csv('results\\filtering\\resultsMemory.csv', delimiter=',')
+df = pd.read_csv('results\\combining\\results.csv', delimiter=',')
 df.columns = ['benchmark', 'mode', 'threads', 'samples', 'score', 'error', 'unit', 'times']
 df = df[~df['benchmark'].str.contains(filterOutMemoryResults, regex=True)]
 
@@ -96,5 +96,5 @@ for module in modules:
                 shouldPlotLog and plt.yscale('log')
 
                 name = 'plots\\' + get_directory(module, operator, method)
-                #save_fig(fig, name)
+                save_fig(fig, name)
                 plt.yscale('linear')
