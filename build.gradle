@@ -23,9 +23,12 @@ version '1.0-SNAPSHOT'
 
 sourceCompatibility = 1.8
 
-//sourceSets {
-//    jmh
-//}
+ext {
+    groupModule = 'converting'.toString()
+    buildDirVar = "build_${groupModule}".toString()
+}
+
+project.buildDir = "$rootDir/${buildDirVar}/"
 
 repositories {
     maven { url 'https://repo.spring.io/snapshot' }
@@ -52,8 +55,10 @@ dependencies {
     //jmh configurations.api
 }
 
+
 jmh {
     humanOutputFile = null
+    resultsFile = project.file("${project.buildDir}/reports/jmh/${groupModule}_results.txt".toString())
     includeTests = false
     duplicateClassesStrategy = DuplicatesStrategy.EXCLUDE
     resultFormat = 'CSV' //'JSON'
@@ -68,12 +73,12 @@ jmh {
     // ---------------------------------------------------------------------------------------
     jvmArgsAppend = ["-XX:+UseParallelGC", "-Djmh.shutdownTimeout=1"]
     // ---------------------------------------------------------------------------------------\
-    include = ['pl.edu.agh.sukiennik.thesis.operators.transforming.*.RxJavaMap.singleMap']
+    include = ["pl.edu.agh.sukiennik.thesis.operators.${groupModule}.*".toString()]
 }
 
 jmhReport {
-    jmhResultPath = project.file('build/reports/jmh/results.json')
-    jmhReportOutput = project.file('build/reports/jmh')
+    jmhResultPath = project.file("${buildDirVar}/reports/jmh/results.json")
+    jmhReportOutput = project.file("${buildDirVar}/reports/jmh")
 }
 
 test {
