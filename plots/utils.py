@@ -1,6 +1,6 @@
 import os
 import matplotlib.pyplot as plt
-
+import numpy as np
 
 def get_directory(module, operator, method):
     path = '{}\\{}\\{}'.format(module, operator, method)
@@ -38,6 +38,22 @@ def should_plot_log(values):
         if should_log:
             return True
     return False
+
+
+def vectorized_mean(group):
+    lg = group.tolist()
+    chunked = list(chunks(lg, 4))
+
+    multiple_lists = chunked
+    arrays = [np.array(x) for x in multiple_lists]
+    mean_list = [np.mean(k) for k in zip(*arrays)]
+
+    return mean_list
+
+
+def chunks(lst, n):
+    for i in xrange(0, len(lst), n):
+        yield lst[i:i + n]
 
 
 def map_array_to_mb(array):

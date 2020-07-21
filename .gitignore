@@ -89,4 +89,5 @@ nb-configuration.xml
 ##############################
 results/
 plots/*
+!plot_*
 notes.txt
