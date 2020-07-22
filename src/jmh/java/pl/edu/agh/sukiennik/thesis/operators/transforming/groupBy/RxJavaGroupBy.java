@@ -23,13 +23,11 @@ public class RxJavaGroupBy {
     private static int times;
 
     private Flowable<Integer> singleGroupByFlowable;
-    private Flowable<Integer> singleGroupByThenFlattenIndexed;
     private Flowable<Integer> singleGroupByEachOnIoFlowable;
 
     @Setup
     public void setup() {
         singleGroupByFlowable = Flowable.fromArray(IntStream.rangeClosed(0, times).boxed().toArray(Integer[]::new));
-        singleGroupByThenFlattenIndexed = Flowable.fromArray(IntStream.rangeClosed(0, times).boxed().toArray(Integer[]::new));
         singleGroupByEachOnIoFlowable = Flowable.fromArray(IntStream.rangeClosed(0, times).boxed().toArray(Integer[]::new));
     }
 
@@ -40,23 +38,15 @@ public class RxJavaGroupBy {
 
     @Benchmark
     @Measurement(iterations = 5, time = 20)
-    public void singleGroupBy(Blackhole bh) {
+    public void singleGroupBy(/*Blackhole bh*/) {
         singleGroupByFlowable
-                .groupBy(integer -> integer % 5)
-                .blockingSubscribe(new PerformanceSubscriber(bh));
-    }
-
-    @Benchmark
-    @Measurement(iterations = 5, time = 20)
-    public void singleGroupByThenFlattenIndexed(Blackhole bh) {
-        singleGroupByThenFlattenIndexed
                 .groupBy(integer -> integer % 5)
                 .flatMap(integerFlowable ->
                         integerFlowable.zipWith(
                                 LongStream.iterate(0, t -> t + 1)::iterator,
                                 Pair::create)
                 )
-                .blockingSubscribe(new PerformanceSubscriber(bh));
+                .blockingSubscribe(/*new PerformanceSubscriber(bh)*/);
     }
 
     //@Benchmark
@@ -70,6 +60,7 @@ public class RxJavaGroupBy {
 
     public static void main(String[] args) {
         //RxJavaGroupBy groupByBenchmark = new RxJavaGroupBy();
+        //groupByBenchmark.setup();
         //groupByBenchmark.singleGroupBy();
     }
 

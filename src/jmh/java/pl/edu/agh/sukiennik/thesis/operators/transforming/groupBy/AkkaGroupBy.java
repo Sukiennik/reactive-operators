@@ -43,28 +43,6 @@ public class AkkaGroupBy {
     }
 
     @State(Scope.Thread)
-    public static class SingleGroupByThenFlattenIndexedState {
-        private Source<Integer, NotUsed> singleGroupByThenFlattenIndexedSource;
-        private ActorSystem singleGroupBySystem;
-
-        @Setup
-        public void setup() {
-            singleGroupByThenFlattenIndexedSource = Source.fromJavaStream(() -> IntStream.rangeClosed(0, times));
-            singleGroupBySystem = ActorSystem.create("singleGroupBySystem");
-        }
-
-        @TearDown
-        public void cleanup() {
-            singleGroupBySystem.terminate();
-        }
-
-        @TearDown(Level.Iteration)
-        public void cleanup2() {
-            ForcedGcMemoryProfiler.recordUsedMemory();
-        }
-    }
-
-    @State(Scope.Thread)
     public static class SingleGroupByEachOnIoState {
         private Source<Integer, NotUsed> singleGroupByEachOnIoSource;
         private ActorSystem singleGroupByEachOnIoSystem;
@@ -91,17 +69,6 @@ public class AkkaGroupBy {
     public void singleGroupBy(SingleGroupByState state) throws ExecutionException, InterruptedException {
         state.singleGroupBySource
                 .groupBy(5, param -> param % 5)
-                .mergeSubstreams()
-                .run(state.singleGroupBySystem)
-                .toCompletableFuture()
-                .get();
-    }
-
-    @Benchmark
-    @Measurement(iterations = 5, time = 20)
-    public void singleGroupByThenFlattenIndexed(SingleGroupByThenFlattenIndexedState state) throws ExecutionException, InterruptedException {
-        state.singleGroupByThenFlattenIndexedSource
-                .groupBy(5, param -> param % 5)
                 .zipWithIndex()
                 .mergeSubstreams()
                 .run(state.singleGroupBySystem)
@@ -122,7 +89,9 @@ public class AkkaGroupBy {
 
     public static void main(String[] args) throws ExecutionException, InterruptedException {
         //AkkaGroupBy groupByBenchmark = new AkkaGroupBy();
-        //groupByBenchmark.singleGroupBy();
+        //SingleGroupByState state = new SingleGroupByState();
+        //state.setup();
+        //groupByBenchmark.singleGroupBy(state);
     }
 }
 

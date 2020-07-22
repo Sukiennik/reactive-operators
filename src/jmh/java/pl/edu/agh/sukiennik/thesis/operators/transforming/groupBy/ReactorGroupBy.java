@@ -19,13 +19,11 @@ public class ReactorGroupBy {
     private static int times;
 
     private Flux<Integer> singleGroupByFlux;
-    private Flux<Integer> singleGroupByThenFlattenIndexedFlux;
     private Flux<Integer> singleGroupByEachOnIoFlux;
 
     @Setup
     public void setup() {
         singleGroupByFlux = Flux.fromArray(IntStream.rangeClosed(0, times).boxed().toArray(Integer[]::new));
-        singleGroupByThenFlattenIndexedFlux = Flux.fromArray(IntStream.rangeClosed(0, times).boxed().toArray(Integer[]::new));
         singleGroupByEachOnIoFlux = Flux.fromArray(IntStream.rangeClosed(0, times).boxed().toArray(Integer[]::new));
     }
 
@@ -39,15 +37,6 @@ public class ReactorGroupBy {
     public void singleGroupBy() {
         singleGroupByFlux
                 .groupBy(integer -> integer % 5)
-                .then()
-                .block();
-    }
-
-    @Benchmark
-    @Measurement(iterations = 5, time = 20)
-    public void singleGroupByThenFlattenIndexed() {
-        singleGroupByThenFlattenIndexedFlux
-                .groupBy(integer -> integer % 5)
                 .flatMap(Flux::index)
                 .then()
                 .block();
@@ -59,6 +48,7 @@ public class ReactorGroupBy {
         singleGroupByEachOnIoFlux
                 .publishOn(Schedulers.elastic())
                 .groupBy(integer -> integer % 5)
+                .flatMap(Flux::index)
                 .then()
                 .block();
     }
