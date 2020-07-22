@@ -18,7 +18,7 @@ import java.util.stream.IntStream;
 @State(Scope.Thread)
 public class AkkaFlatMap {
 
-    @Param({"1", "1000", "100000", "1000000"})
+    @Param({"1", "100", "1000", "10000"})
     private static int times;
 
     @State(Scope.Thread)
@@ -133,7 +133,9 @@ public class AkkaFlatMap {
 
     public static void main(String[] args) throws ExecutionException, InterruptedException {
         //AkkaFlatMap flatMapBenchmark = new AkkaFlatMap();
-        //flatMapBenchmark.singleFlatMap();
+        //MultiFlatMapState state = new MultiFlatMapState();
+        //state.setup();
+        //flatMapBenchmark.multiFlatMap(state);
     }
 }
 

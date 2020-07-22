@@ -18,7 +18,7 @@ import java.util.stream.IntStream;
 @State(Scope.Thread)
 public class AkkaConcatMap {
 
-    @Param({"1", "1000", "100000", "1000000"})
+    @Param({"1", "100", "1000", "10000"})
     private static int times;
 
     @State(Scope.Thread)
@@ -97,7 +97,7 @@ public class AkkaConcatMap {
     @Measurement(iterations = 5, time = 20)
     public void singleConcatMap(SingleConcatMapState state) throws ExecutionException, InterruptedException {
         state.singleConcatMapSource
-                .flatMapConcat(param -> state.characters.map(character -> character + param.toString()))
+                .flatMapConcat(integer -> state.characters.map(character -> character.concat(integer.toString())))
                 .run(state.singleConcatMapSystem)
                 .toCompletableFuture()
                 .get();
@@ -109,12 +109,12 @@ public class AkkaConcatMap {
         Source<String, NotUsed> results = null;
         for (int i = 0; i < 10; i++) {
             if(results == null) {
-                results = state.multiConcatMapSource.flatMapConcat(integer -> state.characters.map(character -> character + integer.toString()));
+                results = state.multiConcatMapSource.flatMapConcat(integer -> state.characters.map(character -> character.concat(integer.toString())));
             } else {
-                results = results.flatMapConcat(string -> state.characters.map(character -> character + string));
+                results = results.flatMapConcat(string -> state.characters.map(character -> character.concat(string)));
             }
         }
-        state.characters.run(state.multiConcatMapSystem).toCompletableFuture().get();
+        results.run(state.multiConcatMapSystem).toCompletableFuture().get();
     }
 
     //@Benchmark
@@ -123,9 +123,9 @@ public class AkkaConcatMap {
         Source<String, NotUsed> results = null;
         for (int i = 0; i < 10; i++) {
             if(results == null) {
-                results = state.multiConcatMapEachOnIoSource.flatMapConcat(integer -> state.characters.map(character -> character + integer.toString())).async();
+                results = state.multiConcatMapEachOnIoSource.flatMapConcat(integer -> state.characters.map(character -> character.concat(integer.toString()))).async();
             } else {
-                results = results.flatMapConcat(string -> state.characters.map(character -> character + string)).async();
+                results = results.flatMapConcat(string -> state.characters.map(character -> character.concat(string))).async();
             }
         }
         results.run(state.multiConcatMapEachOnIoSystem).toCompletableFuture().get();
@@ -133,7 +133,9 @@ public class AkkaConcatMap {
 
     public static void main(String[] args) throws ExecutionException, InterruptedException {
         //AkkaConcatMap concatMapBenchmark = new AkkaConcatMap();
-        //concatMapBenchmark.singleConcatMap();
+        //MultiConcatMapState state = new MultiConcatMapState();
+        //state.setup();
+        //concatMapBenchmark.multiConcatMap(state);
     }
 }
 

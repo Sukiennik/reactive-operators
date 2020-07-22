@@ -15,7 +15,7 @@ import java.util.stream.IntStream;
 @State(Scope.Thread)
 public class ReactorFlatMap {
 
-    @Param({"1", "1000", "100000", "1000000"})
+    @Param({"1", "100", "1000", "10000"})
     private static int times;
 
     private Flux<String> characters;
@@ -81,7 +81,7 @@ public class ReactorFlatMap {
     public static void main(String[] args) {
         //ReactorFlatMap flatFlatMapBenchmark = new ReactorFlatMap();
         //flatFlatMapBenchmark.setup();
-        //flatFlatMapBenchmark.multiFlatMapEachOnIo();
+        //flatFlatMapBenchmark.multiFlatMap();
     }
 
 }

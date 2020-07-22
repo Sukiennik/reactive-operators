@@ -17,7 +17,7 @@ import java.util.stream.IntStream;
 @State(Scope.Thread)
 public class RxJavaFlatMap {
 
-    @Param({"1", "1000", "100000", "1000000"})
+    @Param({"1", "100", "1000", "10000"})
     private static int times;
 
     private Flowable<String> characters;
@@ -81,7 +81,8 @@ public class RxJavaFlatMap {
 
     public static void main(String[] args) {
         //RxJavaFlatMap flatMapBenchmark = new RxJavaFlatMap();
-        //flatMapBenchmark.singleFlatMap();
+        //flatMapBenchmark.setup();
+        //flatMapBenchmark.multiFlatMap();
     }
 
 }

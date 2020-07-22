@@ -15,7 +15,7 @@ import java.util.stream.IntStream;
 @State(Scope.Thread)
 public class ReactorConcatMap {
 
-    @Param({"1", "1000", "100000", "1000000"})
+    @Param({"1", "100", "1000", "10000"})
     private static int times;
 
     private Flux<String> characters;
@@ -28,7 +28,7 @@ public class ReactorConcatMap {
         characters = Flux.just("A", "B");
         singleConcatMapFlux = Flux.fromArray(IntStream.rangeClosed(0, times).boxed().toArray(Integer[]::new));
         multiConcatMapFlux = Flux.fromArray(IntStream.rangeClosed(0, times).boxed().toArray(Integer[]::new));
-        multiConcatMapEachOnIoFlux = Flux.fromArray(IntStream.rangeClosed(0, 10000).boxed().toArray(Integer[]::new));
+        multiConcatMapEachOnIoFlux = Flux.fromArray(IntStream.rangeClosed(0, times).boxed().toArray(Integer[]::new));
     }
 
     @TearDown(Level.Iteration)
@@ -40,7 +40,7 @@ public class ReactorConcatMap {
     @Measurement(iterations = 5, time = 20)
     public void singleConcatMap() {
         singleConcatMapFlux
-                .concatMap(integer -> characters.map(character -> character + integer.toString()), 4)
+                .concatMap(integer -> characters.map(character -> character.concat(integer.toString())))
                 .then()
                 .block();
     }
@@ -51,9 +51,9 @@ public class ReactorConcatMap {
         Flux<String> results =  null;
         for (int i = 0; i < 10; i++) {
             if(results == null) {
-                results = multiConcatMapFlux.concatMap(integer -> characters.map(character -> character + integer.toString()), 4);
+                results = multiConcatMapFlux.concatMap(integer -> characters.map(character -> character.concat(integer.toString())));
             } else {
-                results = results.concatMap(string -> characters.map(character -> character + string), 4);
+                results = results.concatMap(string -> characters.map(character -> character.concat(string)));
             }
         }
         results.then().block();
@@ -67,21 +67,20 @@ public class ReactorConcatMap {
             if(results == null) {
                 results = multiConcatMapEachOnIoFlux
                         .publishOn(Schedulers.elastic())
-                        .concatMap(integer -> characters.map(character -> character + integer.toString()), 4);
+                        .concatMap(integer -> characters.map(character -> character.concat(integer.toString())));
             } else {
                 results = results
                         .publishOn(Schedulers.elastic())
-                        .concatMap(string -> characters.map(character -> character + string), 4);
+                        .concatMap(string -> characters.map(character -> character.concat(string)));
             }
         }
         results.then().block();
     }
 
-
     public static void main(String[] args) {
         //ReactorConcatMap flatConcatMapBenchmark = new ReactorConcatMap();
         //flatConcatMapBenchmark.setup();
-        //flatConcatMapBenchmark.multiConcatMapEachOnIo();
+        //flatConcatMapBenchmark.multiConcatMap();
     }
 
 }

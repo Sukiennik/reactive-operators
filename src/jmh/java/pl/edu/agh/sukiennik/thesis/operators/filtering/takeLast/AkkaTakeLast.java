@@ -51,7 +51,7 @@ public class AkkaTakeLast {
 
         @Setup
         public void setup() {
-            multiTakeLastSource = Source.fromJavaStream(() -> IntStream.rangeClosed(0, times));
+            multiTakeLastSource = Source.from(IntStream.rangeClosed(0, times).boxed().collect(Collectors.toList()));;
             multiTakeLastSystem = ActorSystem.create("multiTakeLastSystem");
         }
 
@@ -73,7 +73,7 @@ public class AkkaTakeLast {
 
         @Setup
         public void setup() {
-            multiTakeLastEachOnIoSource = Source.fromJavaStream(() -> IntStream.rangeClosed(0, times));
+            multiTakeLastEachOnIoSource = Source.from(IntStream.rangeClosed(0, times).boxed().collect(Collectors.toList()));;
             multiTakeLastEachOnIoSystem = ActorSystem.create("multiTakeLastEachOnIoSystem");
         }
 

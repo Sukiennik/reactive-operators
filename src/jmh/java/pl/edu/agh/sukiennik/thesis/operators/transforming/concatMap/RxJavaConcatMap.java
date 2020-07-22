@@ -17,7 +17,7 @@ import java.util.stream.IntStream;
 @State(Scope.Thread)
 public class RxJavaConcatMap {
 
-    @Param({"1", "1000", "100000", "1000000"})
+    @Param({"1", "100", "1000", "10000"})
     private static int times;
 
     private Flowable<String> characters;
@@ -42,7 +42,7 @@ public class RxJavaConcatMap {
     @Measurement(iterations = 5, time = 20)
     public void singleConcatMap(Blackhole bh) {
         singleConcatMapFlowable
-                .concatMap(integer -> characters.map(character -> character + integer.toString()))
+                .concatMap(integer -> characters.map(character -> character.concat(integer.toString())))
                 .blockingSubscribe(new PerformanceSubscriber(bh));
     }
 
@@ -52,9 +52,9 @@ public class RxJavaConcatMap {
         Flowable<String> results = null;
         for (int i = 0; i < 10; i++) {
             if(results == null) {
-                results = multiConcatMapFlowable.concatMap(integer -> characters.map(character -> character + integer.toString()));
+                results = multiConcatMapFlowable.concatMap(integer -> characters.map(character -> character.concat(integer.toString())));
             } else {
-                results = results.concatMap(string -> characters.map(character -> character + string));
+                results = results.concatMap(string -> characters.map(character -> character.concat(string)));
             }
         }
         results.blockingSubscribe(new PerformanceSubscriber(bh));
@@ -68,11 +68,11 @@ public class RxJavaConcatMap {
             if(results == null) {
                 results = multiConcatMapEachOnIoFlowable
                         .observeOn(Schedulers.io())
-                        .concatMap(integer -> characters.map(character -> character + integer.toString()));
+                        .concatMap(integer -> characters.map(character -> character.concat(integer.toString())));
             } else {
                 results = results
                         .observeOn(Schedulers.io())
-                        .concatMap(string -> characters.map(character -> character + string));
+                        .concatMap(string -> characters.map(character -> character.concat(string)));
             }
         }
         results.blockingSubscribe(new PerformanceSubscriber(bh));
