@@ -108,20 +108,9 @@ public class AkkaWindow {
     public void singleWindow(SingleWindowState state) throws ExecutionException, InterruptedException {
         state.singleWindowSource
                 .splitWhen(param -> param != 0 && param % 5 == 0)
-                .mergeSubstreams()
-                .run(state.singleWindowSystem)
-                .toCompletableFuture()
-                .get();
-    }
-
-    @Benchmark
-    @Measurement(iterations = 5, time = 20)
-    public void singleWindowThenFlattenIndexed(SingleWindowThenFlattenIndexedState state) throws ExecutionException, InterruptedException {
-        state.singleWindowThenFlattenIndexedSource
-                .splitWhen(param -> param != 0 && param % 5 == 0)
                 .zipWithIndex()
                 .mergeSubstreams()
-                .run(state.singleWindowThenFlattenIndexedSystem)
+                .run(state.singleWindowSystem)
                 .toCompletableFuture()
                 .get();
     }
