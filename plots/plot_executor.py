@@ -69,7 +69,7 @@ def plot_complete_level(solution_level_grouped):
     plot_single(flat_solution_group, solutions)
 
 
-def plot_single(data, solutions, module=None, operator=None, method=None):
+def plot_single(data, solutions, module=None, operator=None, method=None, prefix=''):
     name = data['benchmark'][0]
     params_names = data[['times']].iloc[0][0]
     unit = data['unit'].values[0]
@@ -86,13 +86,17 @@ def plot_single(data, solutions, module=None, operator=None, method=None):
     errors = data[['error']].unstack().apply(pd.Series).rename(index={'error': 'score'})
 
     fig, ax = plt.subplots()
-    results.plot.bar(ax=ax, yerr=errors, rot=0, cmap='RdBu', fontsize=8, width=0.5, figsize=(6.5, 5),
+    # yerr=errors
+    results.plot.bar(ax=ax, rot=0, cmap='RdBu', fontsize=8, width=0.5, figsize=(6.5, 5),
                      capsize=2)
     is_plot_log = should_plot_log(results)
 
+    if prefix:
+        ax.set_ylim([None, 10])
+
     ax.set_xlabel('Solution')
     ax.set_ylabel(unit, rotation=90)
-    ax.legend(params_names, title="Param: times", loc=1, fontsize='small')
+    ax.legend(params_names, title="Param: times", loc=4, fontsize='small')
     ax.set_xticklabels(solutions)
     if method:
         ax.set_title(r"$\bfType$: {}, $\bfGroup$: {}, $\bfOperator$: {}, $\bfMethod$: {}".format(
@@ -109,6 +113,6 @@ def plot_single(data, solutions, module=None, operator=None, method=None):
 
     is_plot_log and plt.yscale('log')
 
-    name = 'plots\\' + get_directory(module, operator, method) + get_filename_suffix(name)
+    name = 'plots\\' + prefix + get_directory(module, operator, method) + get_filename_suffix(name)
     save_fig(fig, name)
     plt.yscale('linear')

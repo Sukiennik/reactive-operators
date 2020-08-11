@@ -108,6 +108,8 @@ def get_benchmark_type(method):
         return 'Memory GC-After'
     elif 'gc-mem.gcTimeMillis' in method:
         return 'Memory GC-Time'
+    elif 'assessments' in method:
+        return 'Learning Curve'
     else:
         return 'Performance'
 

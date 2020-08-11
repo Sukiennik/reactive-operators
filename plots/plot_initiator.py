@@ -1,6 +1,7 @@
 from plot_executor import *
 import pandas as pd
-import glob, os
+import glob
+import os
 
 pd.options.display.width = 999999999
 pd.options.display.max_columns = 50
@@ -85,7 +86,7 @@ complete_level_grouped_gc_after = gc_mem_after_results.groupby(by=[bySolutionGcA
     'benchmark', 'score', 'error', 'times', 'unit'].agg(complete_level_aggregator)
 complete_level_grouped_gc_time = gc_mem_time_results.groupby(by=[bySolutionGcTime])[
     'benchmark', 'score', 'error', 'times', 'unit'].agg(complete_level_aggregator)
-#full_print(complete_level_grouped_perf)
+# full_print(complete_level_grouped_perf)
 
 
 module_level_aggregator = {
@@ -104,7 +105,7 @@ module_level_grouped_gc_after = gc_mem_after_results.groupby(by=[byModuleGcAfter
     'benchmark', 'score', 'error', 'times', 'unit'].agg(module_level_aggregator)
 module_level_grouped_gc_time = gc_mem_time_results.groupby(by=[byModuleGcTime, bySolutionGcTime])[
     'benchmark', 'score', 'error', 'times', 'unit'].agg(module_level_aggregator)
-full_print(module_level_grouped_perf)
+# full_print(module_level_grouped_perf)
 # full_print(module_level_grouped_gc_total)
 # full_print(module_level_grouped_gc_after)
 # full_print(module_level_grouped_gc_time)
@@ -142,15 +143,15 @@ method_level_aggregator = {
 
 method_level_grouped = results.groupby(by=[byModule, byOperator, bySolution, byMethod])[
     'benchmark', 'score', 'error', 'times', 'unit'].agg(method_level_aggregator)
-#full_print(method_level_grouped)
+# full_print(method_level_grouped)
 
 
-#plot_method_level(method_level_grouped)
+# plot_method_level(method_level_grouped)
 
-plot_operator_level(operator_level_grouped_perf)
-plot_operator_level(operator_level_grouped_gc_total)
-plot_operator_level(operator_level_grouped_gc_after)
-plot_operator_level(operator_level_grouped_gc_time)
+# plot_operator_level(operator_level_grouped_perf)
+# plot_operator_level(operator_level_grouped_gc_total)
+# plot_operator_level(operator_level_grouped_gc_after)
+# plot_operator_level(operator_level_grouped_gc_time)
 
 # plot_module_level(module_level_grouped_perf)
 # plot_module_level(module_level_grouped_gc_total)
@@ -161,3 +162,16 @@ plot_operator_level(operator_level_grouped_gc_time)
 # plot_complete_level(complete_level_grouped_gc_total)
 # plot_complete_level(complete_level_grouped_gc_after)
 # plot_complete_level(complete_level_grouped_gc_time)
+
+solutions = ['Reactor', 'RxJava', 'Akka Streams']
+categories = ['Code documentation', 'Reference guide', 'Ease of use',
+              'Accessible syntax', 'Community value', 'Tasks completion']
+reactor = [7.4, 7.9, 6.7, 7, 8, 7.7]
+rxjava = [6.7, 4, 6, 6.8, 8.9, 7.1]
+akka = [5.1, 6.6, 4.8, 5.9, 6.3, 6.5]
+assessments = pd.DataFrame(
+    {'benchmark': 'code_assessments', 'score': [reactor, rxjava, akka], 'error': [reactor, rxjava, akka],
+     'times': [categories, categories, categories],
+     'unit': 'Points'})
+plot_single(assessments, solutions, None, None, None, 'assessments\\')
+print assessments

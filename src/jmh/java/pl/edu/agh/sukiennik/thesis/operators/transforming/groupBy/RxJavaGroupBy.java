@@ -2,6 +2,8 @@ package pl.edu.agh.sukiennik.thesis.operators.transforming.groupBy;
 
 import akka.japi.Pair;
 import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.flowables.GroupedFlowable;
+import io.reactivex.rxjava3.internal.operators.flowable.FlowableGroupBy;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.infra.Blackhole;
@@ -52,10 +54,10 @@ public class RxJavaGroupBy {
     //@Benchmark
     @Measurement(iterations = 5, time = 20)
     public void singleGroupByOnIo(Blackhole bh) {
-        singleGroupByEachOnIoFlowable
+        Flowable<GroupedFlowable<Integer, Integer>> o = singleGroupByEachOnIoFlowable
                 .observeOn(Schedulers.io())
-                .groupBy(integer -> integer % 5)
-                .blockingSubscribe(new PerformanceSubscriber(bh));
+                .groupBy(integer -> integer % 5);
+                //.blockingSubscribe(new PerformanceSubscriber(bh));
     }
 
     public static void main(String[] args) {
