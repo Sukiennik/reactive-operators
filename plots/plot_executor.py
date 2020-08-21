@@ -116,3 +116,47 @@ def plot_single(data, solutions, module=None, operator=None, method=None, prefix
     name = 'plots\\' + prefix + get_directory(module, operator, method) + get_filename_suffix(name)
     save_fig(fig, name)
     plt.yscale('linear')
+
+
+def plot_sync_vs_reactive():
+    df = pd.DataFrame({
+        'x': range(1, 11),
+        'mean': np.random.randn(10),
+        '50th pct': np.random.randn(10) + range(1, 11),
+        '75th pct': np.random.randn(10) + range(11, 21),
+        '95th pct': np.random.randn(10) + range(6, 16),
+        '99th pct': np.random.randn(10) + range(4, 14) + (0, 0, 0, 0, 0, 0, 0, -3, -8, -6)})
+
+    df2 = pd.DataFrame({
+        'x': range(1, 11),
+        'mean': np.random.randn(10),
+        '50th pct': np.random.randn(10) + range(1, 11),
+        '75th pct': np.random.randn(10) + range(11, 21),
+        '95th pct': np.random.randn(10) + range(6, 16),
+        '99th pct': np.random.randn(10) + range(4, 14) + (0, 0, 0, 0, 0, 0, 0, -3, -8, -6)})
+
+
+    plt.figure(figsize=(10.5, 10.5))
+    plt.subplots_adjust(wspace=0.35, hspace=0.35)
+
+    num = 0
+    for column in df.drop('x', axis=1):
+        num += 1
+
+        plt.subplot(3, 2, num)
+
+        plt.plot(df['x'], df[column], marker='s', color='red', linewidth=1.9, alpha=0.9, label=column)
+        plt.plot(df['x'], df[column], marker='s', color='blue', linewidth=1.9, alpha=0.9, label=column)
+
+        plt.xlim(0, 10)
+        plt.ylim(-2, 22)
+
+        plt.legend(['reactive', 'synchronous'])
+        plt.title(column, loc='left', fontsize=12, fontweight=0)
+        plt.xlabel('Concurrent users')
+        plt.ylabel('Response time (s)', rotation=90)
+
+    # general title
+    plt.suptitle('Synchronous vs Reactive', fontsize=13, y=0.95)
+
+    plt.savefig('web_sync_vs_reactive.png', bbox_inches='tight')
