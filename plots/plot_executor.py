@@ -1,5 +1,6 @@
-from utils import *
 import numbers
+
+from utils import *
 
 
 def plot_method_level(method_level_grouped, test_plot=False):
@@ -119,44 +120,164 @@ def plot_single(data, solutions, module=None, operator=None, method=None, prefix
 
 
 def plot_sync_vs_reactive():
-    df = pd.DataFrame({
-        'x': range(1, 11),
-        'mean': np.random.randn(10),
-        '50th pct': np.random.randn(10) + range(1, 11),
-        '75th pct': np.random.randn(10) + range(11, 21),
-        '95th pct': np.random.randn(10) + range(6, 16),
-        '99th pct': np.random.randn(10) + range(4, 14) + (0, 0, 0, 0, 0, 0, 0, -3, -8, -6)})
+    reactive = pd.DataFrame({
+        'x': np.insert(np.arange(start=1000, stop=25001, step=1000), 0, 1),
+        '50th percentile': [304, 302, 302, 303, 303, 303, 304, 304, 305, 305, 305, 306, 306, 306, 311, 309, 319, 399,
+                            409, 476, 558, 759, 776, 844, 948, 1054],
+        '75th percentile': [304, 302, 303, 303, 304, 304, 305, 305, 306, 306, 307, 308, 308, 313, 349, 349, 400, 644,
+                            655, 753, 890, 1188, 1162, 1236, 1314, 1443],
+        '95th percentile': [305, 303, 304, 306, 309, 308, 310, 314, 317, 319, 334, 348, 354, 392, 503, 543, 821, 1189,
+                            1250, 1289, 1459, 1993, 1713, 1833, 1971, 2232],
+        '99th percentile': [306, 304, 307, 317, 326, 328, 335, 343, 353, 367, 417, 398, 398, 730, 909, 859, 1144, 1189,
+                            1606, 1681, 2011, 2577, 2280, 2384, 2545, 2896],
+        'Mean response time': [304, 302, 302, 303, 304, 304, 305, 306, 306, 307, 311, 311, 312, 325, 351, 351, 398, 528,
+                               541, 591, 670, 885, 853, 927, 994, 1097],
+        'Standard deviation of response time': [1, 1, 1, 4, 4, 4, 5, 7, 8, 13, 29, 18, 18, 73, 107, 103, 175, 298, 314,
+                                                350, 416, 629, 575, 745, 795, 844],
+        'success': [30, 30000, 60000, 90000, 120000, 150000, 180000, 210000, 240000, 270000, 300000, 330000, 360000,
+                    390000, 420000, 450000, 480000, 510000, 540000, 570000, 600000, 630000, 660000, 689273, 719664,
+                    749554],
+        'failed': [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 727, 336, 446],
+        'Mean requests/second': [0.5, 340.909, 689.655, 1022.727, 1333.333, 1704.545, 2000, 2359.551, 2727.273,
+                                 3068.182, 3370.787, 3750, 4044.944, 4333.333, 4666.667, 5000, 5274.725, 5312.5,
+                                 5567.01, 5816.327, 5882.353, 5833.333, 6055.046, 6106.195, 6260.87, 6465.517],
+        't<800ms': [30, 30000, 60000, 90000, 120000, 150000, 180000, 210000, 240000, 270000, 299999, 330000, 360000,
+                    387718, 411968, 442964, 454327, 427338, 448238, 444566, 412735, 332059, 340215, 324351, 297925,
+                    282578],
+        '800ms<t<1200ms': [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1855, 7826, 6991, 22609, 58015, 60293, 87126, 126994,
+                           144250, 170565, 178569, 188676, 160642],
+        't>1200ms': [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 427, 206, 45, 3064, 24647, 31469, 38308, 60271, 153691,
+                     149220, 186353, 233063, 306334]
+    })
 
-    df2 = pd.DataFrame({
-        'x': range(1, 11),
-        'mean': np.random.randn(10),
-        '50th pct': np.random.randn(10) + range(1, 11),
-        '75th pct': np.random.randn(10) + range(11, 21),
-        '95th pct': np.random.randn(10) + range(6, 16),
-        '99th pct': np.random.randn(10) + range(4, 14) + (0, 0, 0, 0, 0, 0, 0, -3, -8, -6)})
+    sync = pd.DataFrame({
+        'x': np.insert(np.arange(start=1000, stop=25001, step=1000), 0, 1),
+        '50th percentile': [305, 303, 303, 304, 304, 304, 305, 306, 307, 307, 309, 362, 323, 333, 380, 588, 540, 604,
+                            692, 693, 765, 786, 906, 1002, 851, 437],
+        '75th percentile': [305, 304, 304, 304, 305, 306, 307, 308, 312, 310, 319, 545, 393, 444, 584, 928, 976, 1066,
+                            1246, 1321, 1458, 1443, 1647, 1684, 1645, 1356],
+        '95th percentile': [307, 304, 305, 307, 308, 310, 321, 318, 359, 344, 433, 1447, 801, 1157, 1349, 1889, 1865,
+                            2257, 2608, 2910, 3174, 2753, 3727, 3116, 3883, 3096],
+        '99th percentile': [308, 306, 308, 311, 319, 333, 444, 352, 529, 406, 637, 3862, 1242, 2033, 2377, 4084, 4026,
+                            5015, 5667, 7650, 7463, 5623, 8974, 7576, 15045, 6355],
+        'Mean response time': [305, 303, 303, 304, 305, 306, 310, 308, 317, 313, 329, 570, 425, 495, 570, 826, 829, 927,
+                               1119, 1206, 1291, 1267, 1602, 1513, 1709, 911],
+        'Standard deviation of response time': [1, 1, 2, 2, 4, 5, 25, 8, 38, 22, 74, 879, 687, 867, 961, 1300, 1536,
+                                                1679, 1691, 2005, 2160, 2161, 2873, 2594, 3181, 1617],
+        'success': [30, 30000, 60000, 90000, 120000, 150000, 180000, 210000, 240000, 270000, 300000, 327544, 355057,
+                    381871, 407605, 430726, 456865, 480368, 503183, 527689, 548359, 572689, 579570, 603799, 610682,
+                    444115],
+        'failed': [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2456, 4943, 8129, 12395, 19274, 23135, 29632, 36817, 42311, 51641,
+                   57311, 80430, 86201, 109318, 305885],
+        'Mean requests/second': [0.536, 344.828, 674.157, 1022.727, 1379.31, 1704.545, 2022.472, 2359.551, 2696.629,
+                                 3000, 2752.294, 2752.471, 2903.226, 3362.069, 3529.412, 3435.115, 3428.571, 3566.434,
+                                 3648.649, 3904.11, 3846.154, 4064.516, 3728.814, 4181.818, 3956.044, 1744.186],
+        't<800ms': [30, 30000, 60000, 90000, 120000, 150000, 180000, 210000, 240000, 270000, 300000, 290719, 336933,
+                    347291, 350129, 289367, 297929, 285202, 265535, 277244, 258954, 261963, 218679, 207322, 232994,
+                    154512],
+        '800ms<t<1200ms': [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 17996, 14176, 15968, 32377, 68367, 74780, 89544, 93764,
+                           89676, 92918, 98262, 105100, 95573, 111047, 76927],
+        't>1200ms': [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 18829, 3948, 18612, 25099, 72992, 84156, 105622, 143884, 160769,
+                     196487, 212464, 255791, 300904, 266641, 213306]
 
+    })
 
-    plt.figure(figsize=(10.5, 10.5))
-    plt.subplots_adjust(wspace=0.35, hspace=0.35)
+    plt.figure(figsize=(12.5, 12.5))
+    plt.subplots_adjust(wspace=0.35, hspace=0.5)
 
     num = 0
-    for column in df.drop('x', axis=1):
+    for column in reactive.drop(['x', 'success', 'failed', 't<800ms', '800ms<t<1200ms', 't>1200ms'], axis=1):
         num += 1
 
-        plt.subplot(3, 2, num)
+        plt.subplot(5, 2, num)
+        plt.plot(reactive['x'], reactive[column], marker='s', markersize=3, color='red', linewidth=1.9, alpha=0.9,
+                 label=column)
+        plt.plot(sync['x'], sync[column], marker='s', markersize=3, color='blue', linewidth=1.9, alpha=0.9,
+                 label=column)
 
-        plt.plot(df['x'], df[column], marker='s', color='red', linewidth=1.9, alpha=0.9, label=column)
-        plt.plot(df['x'], df[column], marker='s', color='blue', linewidth=1.9, alpha=0.9, label=column)
-
-        plt.xlim(0, 10)
-        plt.ylim(-2, 22)
-
+        # plt.yscale('log')
         plt.legend(['reactive', 'synchronous'])
         plt.title(column, loc='left', fontsize=12, fontweight=0)
+        # plt.xticks(reactive2['x'])
+        plt.xlim(1, 25000)
         plt.xlabel('Concurrent users')
-        plt.ylabel('Response time (s)', rotation=90)
+        # plt.xscale('log')
+        plt.ylabel('Response time (ms)', rotation=90)
+        if column == 'Mean requests/second':
+            plt.ylabel('Mean requests/second', rotation=90)
+
+    # plt.subplot(5, 2, 8)
+    # plt.stackplot(reactive['x'], [reactive['failed'], reactive['success']],
+    #               labels=['failed requests', 'success requests'], colors=['#F1948A', '#7DCEA0'], alpha=0.4)
+    # plt.title('Reactive OK/KO requests', loc='left', fontsize=12, fontweight=0)
+    # # plt.yscale('log')
+    # plt.legend(loc='upper right')
+    # # plt.xticks(reactive2['x'])
+    # plt.xlim(500, 23000)
+    # plt.xlabel('Concurrent users')
+    # plt.ylabel('Requests count', rotation=90)
+
+    plt.subplot(5, 2, 8)
+    plt.stackplot(sync['x'], [sync['failed'], sync['success']],
+                  labels=['failed requests', 'success requests'], colors=['red', '#7DCEA0'], alpha=0.4)
+    plt.title('Synchronous OK/KO requests', loc='left', fontsize=12, fontweight=0)
+    # plt.yscale('log')
+    plt.legend(loc='upper right')
+    # plt.xticks(reactive2['x'])
+    plt.yticks([30000, 150000, 270000, 390000, 510000, 630000, 750000])
+    plt.xlim(1, 25000)
+    plt.xlabel('Concurrent users')
+    plt.ylabel('Requests count', rotation=90)
+
+    plt.subplot(5, 2, 9)
+    totals = [i + j + k + l for i, j, k, l in
+              zip(sync['t<800ms'], sync['800ms<t<1200ms'], sync['t>1200ms'], sync['failed'])]
+    t_less800 = [i / float(j) * 100 for i, j in zip(sync['t<800ms'], totals)]
+    t_between800and1200 = [i / float(j) * 100 for i, j in zip(sync['800ms<t<1200ms'], totals)]
+    t_greater1200 = [i / float(j) * 100 for i, j in zip(sync['t>1200ms'], totals)]
+    t_failed = [i / float(j) * 100 for i, j in zip(sync['failed'], totals)]
+    bar_width = 0.85
+
+    indicators = np.arange(0, 26)
+    plt.bar(indicators, t_less800, color='green', edgecolor='white', width=bar_width, alpha=0.4)
+    plt.bar(indicators, t_between800and1200, bottom=t_less800, color='yellow', edgecolor='white', width=bar_width,
+            alpha=0.4)
+    plt.bar(indicators, t_greater1200, bottom=[i + j for i, j in zip(t_less800, t_between800and1200)], color='orange',
+            edgecolor='white', width=bar_width, alpha=0.4)
+    plt.bar(indicators, t_failed, bottom=[i + j + k for i, j, k in zip(t_less800, t_between800and1200, t_greater1200)],
+            color='red', edgecolor='white', width=bar_width, alpha=0.4)
+
+    plt.title('Synchronous % time response distribution', loc='left', fontsize=12, fontweight=0)
+    plt.legend(['t < 800 ms', '800 ms < t < 1200 ms', 't > 1200 ms', 'failed (KO)'])
+    plt.xticks(indicators, sync['x'], rotation=90, fontsize=8)
+    plt.xlabel('Concurrent users', y=0.7)
+    plt.ylabel('Percentage', rotation=90)
+
+    plt.subplot(5, 2, 10)
+    totals = [i + j + k + l for i, j, k, l in
+              zip(reactive['t<800ms'], reactive['800ms<t<1200ms'], reactive['t>1200ms'], reactive['failed'])]
+    t_less800 = [i / float(j) * 100 for i, j in zip(reactive['t<800ms'], totals)]
+    t_between800and1200 = [i / float(j) * 100 for i, j in zip(reactive['800ms<t<1200ms'], totals)]
+    t_greater1200 = [i / float(j) * 100 for i, j in zip(reactive['t>1200ms'], totals)]
+    t_failed = [i / float(j) * 100 for i, j in zip(reactive['failed'], totals)]
+    bar_width = 0.85
+
+    indicators = np.arange(0, 26)
+    plt.bar(indicators, t_less800, color='green', edgecolor='white', width=bar_width, alpha=0.4)
+    plt.bar(indicators, t_between800and1200, bottom=t_less800, color='yellow', edgecolor='white', width=bar_width,
+            alpha=0.4)
+    plt.bar(indicators, t_greater1200, bottom=[i + j for i, j in zip(t_less800, t_between800and1200)], color='orange',
+            edgecolor='white', width=bar_width, alpha=0.4)
+    plt.bar(indicators, t_failed, bottom=[i + j + k for i, j, k in zip(t_less800, t_between800and1200, t_greater1200)],
+            color='red', edgecolor='white', width=bar_width, alpha=0.4)
+
+    plt.title('Reactive % time response distribution', loc='left', fontsize=12, fontweight=0)
+    plt.legend(['t < 800 ms', '800 ms < t < 1200 ms', 't > 1200 ms', 'failed (KO)'])
+    plt.xticks(indicators, reactive['x'], rotation=90, fontsize=8)
+    plt.xlabel('Concurrent users', y=0.7)
+    plt.ylabel('Percentage', rotation=90)
 
     # general title
-    plt.suptitle('Synchronous vs Reactive', fontsize=13, y=0.95)
+    plt.suptitle('Synchronous and reactive response time comparison', fontsize=13, y=0.93)
 
-    plt.savefig('web_sync_vs_reactive.png', bbox_inches='tight')
+    plt.savefig('plots/web/web_sync_vs_reactive.png', bbox_inches='tight')
