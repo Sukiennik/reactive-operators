@@ -89,7 +89,8 @@ def chunks(lst, n):
 
 def map_array_to_mb(array):
     if isinstance(array, pd.Series):
-        return array.apply(lambda x: bytes_to(x, 'm') if not isinstance(x, list) else map(lambda x: bytes_to(x, 'm'), x))
+        return array.apply(
+            lambda x: bytes_to(x, 'm') if not isinstance(x, list) else map(lambda x: bytes_to(x, 'm'), x))
     return array.apply(lambda series: map(lambda x: bytes_to(x, 'm'), series))
 
 
@@ -194,9 +195,11 @@ def calculate_penalty_values(solution, reconstructed, based_on, based_on2, penal
             based_on_no_na = based_on.fillna(-1)
             based_on2_no_na = based_on2.fillna(-1)
 
-        from_1 = based_on_no_na[(based_on_no_na.benchmark.str.contains(name, regex=False)) & (based_on_no_na.times == param) & (
+        from_1 = based_on_no_na[
+            (based_on_no_na.benchmark.str.contains(name, regex=False)) & (based_on_no_na.times == param) & (
                     based_on_no_na.original == True)]
-        from_2 = based_on2_no_na[(based_on2_no_na.benchmark.str.contains(name, regex=False)) & (based_on2_no_na.times == param) & (
+        from_2 = based_on2_no_na[
+            (based_on2_no_na.benchmark.str.contains(name, regex=False)) & (based_on2_no_na.times == param) & (
                     based_on2_no_na.original == True)]
 
         if not from_1.empty and not from_2.empty:
@@ -253,3 +256,61 @@ def reconstruct_partial(solution, incomplete, based_on):
             reconstructed = reconstructed.append(copy.to_frame().T)
 
     return reconstructed
+
+
+def plot_clustered_stacked(axe, dfall, labels=None, colors=None, title="multiple stacked bar plot", H="/", **kwargs):
+    """Given a list of dataframes, with identical columns and index, create a clustered stacked bar plot.
+    labels is a list of the names of the dataframe, used for the legend
+    title is a string for the title of the plot
+    H is the hatch used for identification of the different dataframe"""
+
+    n_df = len(dfall)
+    n_col = len(dfall[0].columns)
+    n_ind = len(dfall[0].index)
+
+    for index, df in enumerate(dfall):  # for each data frame
+        axe = df.plot(kind="bar",
+                      linewidth=0,
+                      stacked=True,
+                      ax=axe,
+                      legend=False,
+                      grid=False,
+                      color=colors,
+                      **kwargs)  # make bar plots
+
+    h, l = axe.get_legend_handles_labels()  # get the handles we want to modify
+    for i in range(0, n_df * n_col, n_col):  # len(h) = n_col * n_df
+        for j, pa in enumerate(h[i:i + n_col]):
+            for rect in pa.patches:  # for each index
+                rect.set_x(rect.get_x() + 1 / float(n_df + 1) * i / float(n_col))
+                rect.set_hatch(H * int(i / n_col))  # edited part
+                rect.set_width(1 / float(n_df + 1.4))
+
+    axe.set_xticks((np.arange(0, 2 * n_ind, 2) + 0 / float(n_df + 1)) / 2.)
+    axe.set_xticklabels(df.index, rotation=0)
+    axe.set_title(title, loc='left')
+
+    # Add invisible data to add another legend
+    n = []
+    for i in range(n_df):
+        n.append(axe.bar(0, 0, color="gray", hatch=H * i))
+
+    l1 = axe.legend(h[:n_col], l[:n_col], loc=2, fontsize=7)
+    if labels is not None:
+        l2 = plt.legend(n, labels, loc=3, fontsize=7)
+    axe.add_artist(l1)
+    return axe
+
+
+def create_bar_plot_cluster(df, df_columns, cluster_columns, cluster_indices):
+    totals = [i + j + k + l for i, j, k, l in zip(df[df_columns[0]], df[df_columns[1]], df[df_columns[2]], df[df_columns[3]])]
+    t_less800 = [i / float(j) * 100 for i, j in zip(df[df_columns[0]], totals)]
+    t_between800and1200 = [i / float(j) * 100 for i, j in zip(df[df_columns[1]], totals)]
+    t_greater1200 = [i / float(j) * 100 for i, j in zip(df[df_columns[2]], totals)]
+    t_failed = [i / float(j) * 100 for i, j in zip(df[df_columns[3]], totals)]
+
+    transposed_data = np.array([t_less800, t_between800and1200, t_greater1200, t_failed]).T
+    return pd.DataFrame(
+        transposed_data,
+        index=cluster_indices,
+        columns=cluster_columns)

@@ -119,7 +119,7 @@ def plot_single(data, solutions, module=None, operator=None, method=None, prefix
     plt.yscale('linear')
 
 
-def plot_sync_vs_reactive():
+def plot_sync_reactive_comparison():
     reactive = pd.DataFrame({
         'x': np.insert(np.arange(start=1000, stop=25001, step=1000), 0, 1),
         '50th percentile': [304, 302, 302, 303, 303, 303, 304, 304, 305, 305, 305, 306, 306, 306, 311, 309, 319, 399,
@@ -260,8 +260,8 @@ def plot_sync_vs_reactive():
     t_between800and1200 = [i / float(j) * 100 for i, j in zip(reactive['800ms<t<1200ms'], totals)]
     t_greater1200 = [i / float(j) * 100 for i, j in zip(reactive['t>1200ms'], totals)]
     t_failed = [i / float(j) * 100 for i, j in zip(reactive['failed'], totals)]
-    bar_width = 0.85
 
+    bar_width = 0.85
     indicators = np.arange(0, 26)
     plt.bar(indicators, t_less800, color='green', edgecolor='white', width=bar_width, alpha=0.4)
     plt.bar(indicators, t_between800and1200, bottom=t_less800, color='yellow', edgecolor='white', width=bar_width,
@@ -277,7 +277,138 @@ def plot_sync_vs_reactive():
     plt.xlabel('Concurrent users', y=0.7)
     plt.ylabel('Percentage', rotation=90)
 
-    # general title
     plt.suptitle('Synchronous and reactive response time comparison', fontsize=13, y=0.93)
 
     plt.savefig('plots/web/web_sync_vs_reactive.png', bbox_inches='tight')
+
+
+def plot_reactive_solutions():
+    reactor_1k = pd.DataFrame({
+        'x': [3, 750, 1500, 2250, 3000],
+        '50th percentile': [307, 305, 305, 306, 312],
+        '75th percentile': [308, 307, 307, 309, 323],
+        '95th percentile': [310, 309, 312, 316, 357],
+        '99th percentile': [310, 313, 318, 327, 392],
+        'Mean response time': [306, 305, 306, 307, 318],
+        'Standard deviation of response time': [2, 3, 4, 5, 19],
+        'success': [90, 22500, 45000, 67500, 90000],
+        'failed': [0, 0, 0, 0, 0],
+        'Mean requests/second': [1.607, 255.682, 511.364, 767.045, 1022.727],
+        't<800ms': [90, 22500, 45000, 67500, 90000],
+        '800ms<t<1200ms': [0, 0, 0, 0, 0],
+        't>1200ms': [0, 0, 0, 0, 0]
+    })
+    reactor_5k = pd.DataFrame({
+        '50th percentile': [318, 318, 775, 948, 1971],
+        '75th percentile': [322, 324, 1534, 1471, 3410],
+        '95th percentile': [324, 339, 2783, 2291, 5815],
+        '99th percentile': [327, 356, 3198, 2954, 6867],
+        'Mean response time': [315, 318, 1078, 1067, 2417],
+        'Standard deviation of response time': [8, 12, 817, 652, 1716],
+        'success': [90, 22500, 45000, 67500, 90000],
+        'failed': [0, 0, 0, 0, 0],
+        'Mean requests/second': [1.579, 258.621, 384.615, 597.345, 542.169],
+        't<800ms': [90, 22500, 22951, 27904, 15518],
+        '800ms<t<1200ms': [0, 0, 6829, 14985, 11250],
+        't>1200ms': [0, 0, 15220, 24611, 63232],
+    })
+    reactor_10k = pd.DataFrame({
+        '50th percentile': [328, 353, 1076, 2920, 4884],
+        '75th percentile': [336, 406, 1990, 4613, 9807],
+        '95th percentile': [341, 612, 4354, 6116, 15059],
+        '99th percentile': [347, 872, 6115, 7074, 17724],
+        'Mean response time': [323, 390, 1524, 3152, 6404],
+        'Standard deviation of response time': [15, 113, 1298, 1783, 4590],
+        'success': [90, 22500, 45000, 67500, 90000],
+        'failed': [0, 0, 0, 0, 0],
+        'Mean requests/second': [1.525, 252.809, 314.685, 342.64, 271.903],
+        't<800ms': [90, 22155, 16558, 5803, 3893],
+        '800ms<t<1200ms': [0, 312, 8191, 3227, 2537],
+        't>1200ms': [0, 33, 20251, 58470, 83570],
+    })
+    reactor_25k = pd.DataFrame({
+        '50th percentile': [356, 1507, 2436, 22572, 426],
+        '75th percentile': [377, 3090, 8735, 29784, 3381],
+        '95th percentile': [382, 5087, 24770, 36702, 17108],
+        '99th percentile': [386, 7796, 27815, 41534, 39785],
+        'Mean response time': [346, 2062, 6234, 19063, 3292],
+        'Standard deviation of response time': [32, 1672, 7950, 12617, 7221],
+        'success': [90, 22500, 45000, 67500, 67282],
+        'failed': [0, 0, 0, 0, 22718],
+        'Mean requests/second': [1.607, 138.037, 118.11, 76.271, 68.389],
+        't<800ms': [90, 6602, 8582, 908, 28633],
+        '800ms<t<1200ms': [0, 3469, 4730, 527, 2793],
+        't>1200ms': [0, 12429, 31688, 66065, 35856],
+    })
+
+    reactorAggregated = pd.DataFrame({
+        '50th percentile': [[307, 305, 305, 306, 312], [318, 318, 775, 948, 1971], [328, 353, 1076, 2920, 4884],
+                            [356, 1507, 2436, 22572, 426]],
+        '75th percentile': [[308, 307, 307, 309, 323], [322, 324, 1534, 1471, 3410], [336, 406, 1990, 4613, 9807],
+                            [377, 3090, 8735, 29784, 3381]],
+        '95th percentile': [[310, 309, 312, 316, 357], [324, 339, 2783, 2291, 5815], [341, 612, 4354, 6116, 15059],
+                            [382, 5087, 24770, 36702, 17108]],
+        '99th percentile': [[310, 313, 318, 327, 392], [327, 356, 3198, 2954, 6867], [347, 872, 6115, 7074, 17724],
+                            [386, 7796, 27815, 41534, 39785]],
+        'Mean response time': [[306, 305, 306, 307, 318], [315, 318, 1078, 1067, 2417], [323, 390, 1524, 3152, 6404],
+                               [346, 2062, 6234, 19063, 3292]],
+        'Standard deviation of response time': [[2, 3, 4, 5, 19], [8, 12, 817, 652, 1716], [15, 113, 1298, 1783, 4590],
+                                                [32, 1672, 7950, 12617, 7221]],
+    })
+
+    plt.figure(figsize=(12.5, 12.5))
+    plt.subplots_adjust(wspace=0.35, hspace=0.5)
+
+    num = 0
+    for column in reactor_1k.drop(['x', 'success', 'failed', 't<800ms', '800ms<t<1200ms', 't>1200ms'], axis=1):
+        num += 1
+
+        plt.subplot(4, 2, num)
+        plt.plot(reactor_1k['x'], reactor_1k[column], marker='s', markersize=3, color='#B03A2E', linewidth=1,
+                 label='1000 size')
+        plt.plot(reactor_1k['x'], reactor_5k[column], marker='s', markersize=3, color='#E74C3C', linewidth=1,
+                 label='5000 size')
+        plt.plot(reactor_1k['x'], reactor_10k[column], marker='s', markersize=3, color='#F1948A', linewidth=1,
+                 label='10000 size')
+        plt.plot(reactor_1k['x'], reactor_25k[column], marker='s', markersize=3, color='#FADBD8', linewidth=1,
+                 label='25000 size')
+
+        a = np.array([reactor_1k[column], reactor_5k[column], reactor_10k[column], reactor_25k[column]])
+        mean = np.mean(a, axis=0)
+        plt.plot(reactor_1k['x'], mean, marker='s', markersize=3, color='#78281F', linewidth=2, label='mean')
+        plt.xticks(reactor_1k['x'])
+        plt.legend()
+        plt.xlim(1, 3000)
+
+        # plt.yscale('log')
+        plt.legend()
+        plt.title(column, loc='left', fontsize=12, fontweight=0)
+        plt.xlabel('Concurrent users')
+        plt.ylabel('Response time (ms)', rotation=90)
+        if column == 'Mean requests/second':
+            plt.ylabel('Mean requests/second', rotation=90)
+
+    cluster_1k = create_bar_plot_cluster(reactor_1k, ['t<800ms', '800ms<t<1200ms', 't>1200ms', 'failed'],
+                                         ['t < 800 ms', '800 ms < t < 1200 ms', 't > 1200 ms', 'failed (KO)'],
+                                         reactor_1k['x'])
+    cluster_5k = create_bar_plot_cluster(reactor_1k, ['t<800ms', '800ms<t<1200ms', 't>1200ms', 'failed'],
+                                         ['t < 800 ms', '800 ms < t < 1200 ms', 't > 1200 ms', 'failed (KO)'],
+                                         reactor_1k['x'])
+    cluster_10k = create_bar_plot_cluster(reactor_10k, ['t<800ms', '800ms<t<1200ms', 't>1200ms', 'failed'],
+                                          ['t < 800 ms', '800 ms < t < 1200 ms', 't > 1200 ms', 'failed (KO)'],
+                                          reactor_1k['x'])
+    cluster_25k = create_bar_plot_cluster(reactor_25k, ['t<800ms', '800ms<t<1200ms', 't>1200ms', 'failed'],
+                                          ['t < 800 ms', '800 ms < t < 1200 ms', 't > 1200 ms', 'failed (KO)'],
+                                          reactor_1k['x'])
+    axe = plt.subplot(4, 2, 8)
+    plot_clustered_stacked(axe, [cluster_1k, cluster_5k, cluster_10k, cluster_25k],
+                           ['1000 size', '5000 size', '1000 size', '250000 size'],
+                           ['green', 'yellow', 'orange', 'red'], title='Reactive % time response distribution',
+                           alpha=0.4, edgecolor='white', width=0.85)
+    plt.ylim(0, 100)
+    plt.xlabel('Concurrent users', y=0.7)
+    plt.ylabel('Percentage', rotation=90)
+
+    plt.suptitle('Reactive solutions response time comparison', fontsize=13, y=0.93)
+
+    plt.savefig('plots/web/web_reactive_solutions.png', bbox_inches='tight')

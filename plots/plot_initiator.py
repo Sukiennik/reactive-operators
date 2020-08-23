@@ -176,4 +176,6 @@ perf_methods_categories = ['singleEachOnIo', 'single', 'multiEachOnIo', 'multi']
 # # plot_single(assessments, solutions, None, None, None, 'assessments\\')
 # # print assessments
 
-plot_sync_vs_reactive()
+#plot_sync_reactive_comparison()
+
+plot_reactive_solutions()
